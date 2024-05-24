@@ -5,6 +5,7 @@
     ./hardware-configuration.nix
     ./disk-config.nix
     ../modules/bootloader
+    ../modules/tailscale
     ./jellyfin
     ./deluge
   ];
