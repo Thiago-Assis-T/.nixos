@@ -6,8 +6,8 @@
     ./disk-config.nix
     ../modules/bootloader
     ../modules/tailscale
-    ./jellyfin
-    ./deluge
+    ./modules/jellyfin
+    ./modules/deluge
   ];
 
   nixpkgs.config.allowUnfree = true;
@@ -30,7 +30,11 @@
 
   users.users.thiago = {
     isNormalUser = true;
-    extraGroups = [ "wheel" ]; # Enable ‘sudo’ for the user.
+    extraGroups = [
+      "deluge"
+      "jellyfin"
+      "wheel"
+    ]; # Enable ‘sudo’ for the user.
     packages = with pkgs; [ htop ];
   };
 
