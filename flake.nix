@@ -46,6 +46,24 @@
             }
           ];
         };
+        ThiagoDesktop = nixpkgs.lib.nixosSystem {
+          system = "x86_64-linux";
+          modules = [
+            ./hosts/ThiagoDesktop/configuration.nix
+            disko.nixosModules.disko
+            home-manager.nixosModules.home-manager
+            {
+              home-manager = {
+                useGlobalPkgs = true;
+                useUserPackages = true;
+                extraSpecialArgs = {
+                  inherit inputs;
+                };
+                users.thiago = import ./home/desktop.nix;
+              };
+            }
+          ];
+        };
       };
     };
 }
