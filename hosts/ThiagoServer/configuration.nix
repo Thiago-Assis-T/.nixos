@@ -8,6 +8,7 @@
     ../modules/tailscale
     ./modules/jellyfin
     ./modules/deluge
+    ./modules/radarr
   ];
 
   nixpkgs.config.allowUnfree = true;
@@ -34,6 +35,7 @@
       "deluge"
       "jellyfin"
       "wheel"
+      "radarr"
     ]; # Enable ‘sudo’ for the user.
     packages = with pkgs; [ htop ];
   };
