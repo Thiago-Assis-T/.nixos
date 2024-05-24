@@ -1,4 +1,4 @@
-{ inputs, ... }:
+{ inputs, pkgs, ... }:
 {
 
   imports = [
@@ -16,6 +16,6 @@
     username = "thiago";
     homeDirectory = "/home/thiago";
     stateVersion = "23.11";
-    packages = [ ];
+    packages = with pkgs; [ floorp ];
   };
 }
