@@ -8,6 +8,7 @@
     ../modules/tailscale
     ./modules/jellyfin
     ./modules/deluge
+    ./modules/nzbget
     ./modules/radarr
   ];
 
