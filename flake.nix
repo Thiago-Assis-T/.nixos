@@ -36,7 +36,7 @@
           modules = [
             ./hosts/ThiagoServer/configuration.nix
             disko.nixosModules.disko
-            nixos-hardware.nixosModules.common-cpu-intel
+            #nixos-hardware.nixosModules.common-cpu-intel
             nixos-hardware.nixosModules.common-pc
             nixos-hardware.nixosModules.common-hidpi
             nixos-hardware.nixosModules.common-pc-ssd

@@ -36,7 +36,7 @@
       enable = true;
     };
     deluge = {
-      enable = true;
+      enable = false;
       group = "multimedia";
       web.enable = true;
       declarative = true;
@@ -46,7 +46,7 @@
       authFile = pkgs.writeTextFile {
         name = "deluge-auth";
         text = ''
-          localclient::10
+          localclient:deluge:10
         '';
       };
     };
