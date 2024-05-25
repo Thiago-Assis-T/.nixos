@@ -4,6 +4,8 @@
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable-small";
 
+    nixos-hardware.url = "github:NixOS/nixos-hardware/master";
+
     home-manager = {
       url = "github:nix-community/home-manager/master";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -24,6 +26,7 @@
       nixpkgs,
       disko,
       home-manager,
+      nixos-hardware,
       ...
     }:
     {
@@ -33,6 +36,14 @@
           modules = [
             ./hosts/ThiagoServer/configuration.nix
             disko.nixosModules.disko
+            nixos-hardware.nixosModules.common-cpu-intel
+            nixos-hardware.nixosModules.common-pc
+            nixos-hardware.nixosModules.common-hidpi
+            nixos-hardware.nixosModules.common-pc-ssd
+            nixos-hardware.nixosModules.common-pc-laptop
+            nixos-hardware.nixosModules.common-pc-laptop-acpi_call
+            nixos-hardware.nixosModules.common-gpu-intel
+            nixos-hardware.nixosModules.common-gpu-nvidia-disable
             home-manager.nixosModules.home-manager
             {
               home-manager = {
@@ -51,6 +62,10 @@
           modules = [
             ./hosts/ThiagoDesktop/configuration.nix
             disko.nixosModules.disko
+            nixos-hardware.nixosModules.common-cpu-amd
+            nixos-hardware.nixosModules.common-cpu-amd-pstate
+            nixos-hardware.nixosModules.common-pc
+            nixos-hardware.nixosModules.common-pc-ssd
             home-manager.nixosModules.home-manager
             {
               home-manager = {
