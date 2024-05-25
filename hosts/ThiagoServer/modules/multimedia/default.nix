@@ -1,5 +1,18 @@
 { pkgs, ... }:
 {
+  nixpkgs.config.packageOverrides = pkgs: {
+    vaapiIntel = pkgs.vaapiIntel.override { enableHybridCodec = true; };
+  };
+  hardware.opengl = {
+    enable = true;
+    extraPackages = with pkgs; [
+      intel-media-driver
+      vaapiIntel
+      vaapiVdpau
+      libvdpau-va-gl
+      intel-compute-runtime # OpenCL filter support (hardware tonemapping and subtitle burn-in)
+    ];
+  };
   users.groups.multimedia = { };
   users.users.thiago.extraGroups = [ "multimedia" ];
   services = {
@@ -21,13 +34,11 @@
     };
     prowlarr = {
       enable = true;
-      group = "multimedia";
     };
     deluge = {
       enable = true;
       group = "multimedia";
       web.enable = true;
-      dataDir = "/home/thiago/media/torrent";
       declarative = true;
       config = {
         enabled_plugins = [ "Label" ];
