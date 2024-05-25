@@ -68,7 +68,6 @@
             nixos-hardware.nixosModules.common-gpu-amd
             nixos-hardware.nixosModules.common-pc
             nixos-hardware.nixosModules.common-pc-ssd
-            nixos-hardware.nixosModules.gigabyte/b550
             home-manager.nixosModules.home-manager
             {
               home-manager = {
