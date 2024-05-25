@@ -7,6 +7,7 @@
     ../modules/bootloader
     ../modules/tailscale
     ./modules/multimedia
+    ./modules/homepage-dashboard
   ];
 
   nixpkgs.config.allowUnfree = true;
