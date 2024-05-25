@@ -42,8 +42,9 @@
             nixos-hardware.nixosModules.common-pc-ssd
             nixos-hardware.nixosModules.common-pc-laptop
             nixos-hardware.nixosModules.common-pc-laptop-acpi_call
-            #nixos-hardware.nixosModules.common-gpu-intel
             nixos-hardware.nixosModules.common-gpu-nvidia-disable
+            #nixos-hardware.nixosModules.common-gpu-nvidia
+            #nixos-hardware.nixosModules.common-gpu-nvidia-sync
             home-manager.nixosModules.home-manager
             {
               home-manager = {
@@ -64,9 +65,10 @@
             disko.nixosModules.disko
             nixos-hardware.nixosModules.common-cpu-amd
             nixos-hardware.nixosModules.common-cpu-amd-pstate
+            nixos-hardware.nixosModules.common-gpu-amd
             nixos-hardware.nixosModules.common-pc
             nixos-hardware.nixosModules.common-pc-ssd
-            nixos-hardware.nixosModules.gigabyte-b550
+            nixos-hardware.nixosModules.gigabyte/b550
             home-manager.nixosModules.home-manager
             {
               home-manager = {
