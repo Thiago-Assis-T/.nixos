@@ -6,6 +6,7 @@
     ./disk-config.nix
     ../modules/bootloader
     ../modules/tailscale
+    ./modules/multimedia
   ];
 
   nixpkgs.config.allowUnfree = true;
