@@ -42,7 +42,7 @@
             nixos-hardware.nixosModules.common-pc-ssd
             nixos-hardware.nixosModules.common-pc-laptop
             nixos-hardware.nixosModules.common-pc-laptop-acpi_call
-            nixos-hardware.nixosModules.common-gpu-intel
+            #nixos-hardware.nixosModules.common-gpu-intel
             nixos-hardware.nixosModules.common-gpu-nvidia-disable
             home-manager.nixosModules.home-manager
             {
@@ -66,6 +66,7 @@
             nixos-hardware.nixosModules.common-cpu-amd-pstate
             nixos-hardware.nixosModules.common-pc
             nixos-hardware.nixosModules.common-pc-ssd
+            nixos-hardware.nixosModules.gigabyte-b550
             home-manager.nixosModules.home-manager
             {
               home-manager = {
