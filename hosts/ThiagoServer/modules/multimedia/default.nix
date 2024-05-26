@@ -20,6 +20,10 @@
       enable = true;
       group = "multimedia";
     };
+    jellyseerr = {
+      enable = true;
+      openFirewall = true;
+    };
     sonarr = {
       enable = true;
       group = "multimedia";
