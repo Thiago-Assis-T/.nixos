@@ -42,8 +42,13 @@
     deluge = {
       enable = false;
       group = "multimedia";
-      web.enable = true;
+      web = {
+        enable = true;
+        openFirewall = true;
+      };
       declarative = true;
+      dataDir = "/media/deluge";
+      openFirewall = true;
       config = {
         enabled_plugins = [ "Label" ];
       };

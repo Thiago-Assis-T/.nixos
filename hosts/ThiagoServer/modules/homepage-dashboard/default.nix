@@ -70,7 +70,7 @@
               widget = {
                 type = "sonarr";
                 url = "http://localhost:8989";
-                key = "2533b77fec8e43f9a6fcc317fcf3b341";
+                key = "5d45ca838b4c4fc581f8fbaa05ebe39a";
                 enableQueue = true;
               };
             };
