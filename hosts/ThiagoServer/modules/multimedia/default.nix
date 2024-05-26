@@ -40,7 +40,7 @@
       enable = true;
     };
     deluge = {
-      enable = false;
+      enable = true;
       group = "multimedia";
       web = {
         enable = true;
