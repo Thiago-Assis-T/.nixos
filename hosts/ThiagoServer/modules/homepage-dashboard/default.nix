@@ -14,6 +14,7 @@
       theme = "dark";
       color = "slate";
       layout = {
+        Resources = { };
         Media = {
           style = "row";
           columns = "4";
@@ -28,7 +29,28 @@
           memory = true;
         };
       }
-      #{ datetime = { }; }
+
+      {
+        datetime = {
+          text_size = "x1";
+          locale = "pt-BR";
+          format = {
+            timeStyle = "long";
+            dateStyle = "short";
+            hourCycle = "h23";
+          };
+        };
+      }
+      {
+        openmeteo = {
+          label = "Niteroi - RJ";
+          latitude = "22.9038";
+          longitude = "43.1222";
+          units = "metric";
+          timezone = "America/Sao_Paulo";
+          cache = "5";
+        };
+      }
     ];
     services = [
       {
@@ -43,8 +65,8 @@
                 url = "http://localhost:8096";
                 key = "cbb791d5d30449b2a7d359660edc5b0d";
                 enableBlocks = true;
-                enableNowPlaying = false;
-                enableUser = true;
+                enableNowPlaying = true;
+                enableUser = false;
                 expandOneStreamToTwoRows = false;
               };
             };
