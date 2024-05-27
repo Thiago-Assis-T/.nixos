@@ -38,7 +38,7 @@
             disko.nixosModules.disko
             #nixos-hardware.nixosModules.common-cpu-intel
             nixos-hardware.nixosModules.common-pc
-            nixos-hardware.nixosModules.common-hidpi
+            #nixos-hardware.nixosModules.common-hidpi
             nixos-hardware.nixosModules.common-pc-ssd
             nixos-hardware.nixosModules.common-pc-laptop
             nixos-hardware.nixosModules.common-pc-laptop-acpi_call

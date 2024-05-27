@@ -14,6 +14,7 @@
   networking.hostName = "ThiagoServer"; # Define your hostname.
   networking.networkmanager.enable = true; # Easiest to use and most distros use this by default.
   networking.useDHCP = lib.mkDefault true;
+  networking.firewall.enable = true;
 
   # Set your time zone.
   time.timeZone = "America/Sao_Paulo";
@@ -36,8 +37,6 @@
 
   # Enable the OpenSSH daemon.
   services.openssh.enable = true;
-
-  networking.firewall.enable = true;
 
   system.stateVersion = "23.11"; # Did you read the comment?
 }
