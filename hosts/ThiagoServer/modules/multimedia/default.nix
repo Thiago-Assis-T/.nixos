@@ -51,6 +51,7 @@
     };
     deluge = {
       enable = true;
+      dataDir = "/media/deluge";
       group = "multimedia";
       user = "multimedia";
       web = {
@@ -58,7 +59,6 @@
         openFirewall = true;
       };
       declarative = false;
-      dataDir = "/media/deluge";
       openFirewall = true;
     };
   };

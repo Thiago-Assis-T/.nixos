@@ -58,7 +58,7 @@
                 type = "radarr";
                 url = "http://localhost:7878";
                 key = "5ab0d61d19c64217aa98cca607b9b72b";
-                enableQueue = true;
+                enableQueue = false;
               };
             };
           }
@@ -71,7 +71,7 @@
                 type = "sonarr";
                 url = "http://localhost:8989";
                 key = "5d45ca838b4c4fc581f8fbaa05ebe39a";
-                enableQueue = true;
+                enableQueue = false;
               };
             };
           }

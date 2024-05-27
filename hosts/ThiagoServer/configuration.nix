@@ -15,6 +15,9 @@
   networking.networkmanager.enable = true; # Easiest to use and most distros use this by default.
   networking.useDHCP = lib.mkDefault true;
   networking.firewall.enable = true;
+  networking.networkmanager.wifi.macAddress = "random";
+  networking.networkmanager.wifi.backend = "iwd";
+  networking.networkmanager.wifi.powersave = false;
 
   # Set your time zone.
   time.timeZone = "America/Sao_Paulo";
