@@ -197,7 +197,7 @@ in
         };
         telescope = {
           enable = true;
-          keymapsSilent = true;
+          #keymapsSilent = true;
           extensions.fzf-native.enable = true;
           keymaps = {
             "<leader>?" = {
