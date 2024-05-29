@@ -6,6 +6,7 @@
     ./disk-config.nix
     ../modules/bootloader
     ../modules/tailscale
+    ../modules/powerManagement
     ./modules/multimedia
     ./modules/homepage-dashboard
   ];
