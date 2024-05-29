@@ -13,11 +13,16 @@
       };
       theme = "dark";
       color = "slate";
+      headerStyle = "underlined";
       layout = {
-        Resources = { };
         Media = {
-          style = "row";
-          columns = "4";
+          style = "columns";
+          rows = "4";
+        };
+
+        Downloads = {
+          style = "columns";
+          rows = "3";
         };
       };
     };
@@ -25,11 +30,18 @@
       {
         resources = {
           cpu = true;
-          disk = "/";
           memory = true;
+          disk = "/";
+          uptime = true;
         };
       }
-
+      {
+        search = {
+          provider = "custom";
+          url = "https://searxng.site/searxng/search?q=";
+          target = "_blank";
+        };
+      }
       {
         datetime = {
           text_size = "x1";
@@ -106,6 +118,46 @@
                 type = "jellyseerr";
                 url = "http://localhost:5055";
                 key = "MTcxNjY3NTkyNDEyODJjMzE3MDU1LTkyZTUtNDliNi05YjY0LTJjMWZlMGI4MjE4Yw==";
+              };
+            };
+          }
+        ];
+      }
+      {
+        "Downloads" = [
+          {
+            "Prowlarr" = {
+              icon = "prowlarr.png";
+              href = "http://thiagoserver:9696";
+              description = "Indexers Manager";
+              widget = {
+                type = "prowlarr";
+                url = "http://localhost:9696";
+                key = "421d7908397442a6b56f96c4321ef9ac";
+              };
+            };
+          }
+          {
+            "Bazarr" = {
+              icon = "bazarr.png";
+              href = "http://thiagoserver:6767";
+              description = "Subtitles Manager";
+              widget = {
+                type = "bazarr";
+                url = "http://localhost:6767";
+                key = "fbcd931ef77a9e53faf84c4500e637a6";
+              };
+            };
+          }
+          {
+            "Deluge" = {
+              icon = "deluge.png";
+              href = "http://thiagoserver:8112";
+              description = "Torrent Downloader";
+              widget = {
+                type = "deluge";
+                url = "http://localhost:8112";
+                password = "deluge";
               };
             };
           }
