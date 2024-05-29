@@ -2,7 +2,7 @@
 # your system. Help is available in the configuration.nix(5) man page, on
 # https://search.nixos.org/options and in the NixOS manual (`nixos-help`).
 
-{ pkgs, ... }:
+{ pkgs, lib, ... }:
 
 {
   imports = [
@@ -11,11 +11,21 @@
     ./disk-config.nix
     ../modules/bootloader
     ../modules/tailscale
+    ../modules/powerManagement
   ];
 
   # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
+
+  powerManagement = {
+    enable = true;
+    powertop.enable = lib.mkForce false;
+  };
+
+  services.system76-scheduler = {
+    enable = lib.mkForce true;
+  };
 
   nix.settings.experimental-features = [
     "nix-command"
