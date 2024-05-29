@@ -20,7 +20,7 @@
           rows = "4";
         };
 
-        Downloads = {
+        Download = {
           style = "columns";
           rows = "3";
         };
@@ -124,7 +124,7 @@
         ];
       }
       {
-        "Downloads" = [
+        "Download" = [
           {
             "Prowlarr" = {
               icon = "prowlarr.png";
