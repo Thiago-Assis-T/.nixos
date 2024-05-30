@@ -36,15 +36,10 @@
           modules = [
             ./hosts/ThiagoServer/configuration.nix
             disko.nixosModules.disko
-            #nixos-hardware.nixosModules.common-cpu-intel
             nixos-hardware.nixosModules.common-pc
-            #nixos-hardware.nixosModules.common-hidpi
             nixos-hardware.nixosModules.common-pc-ssd
             nixos-hardware.nixosModules.common-pc-laptop
-            nixos-hardware.nixosModules.common-pc-laptop-acpi_call
             nixos-hardware.nixosModules.common-gpu-nvidia-disable
-            #nixos-hardware.nixosModules.common-gpu-nvidia
-            #nixos-hardware.nixosModules.common-gpu-nvidia-sync
             home-manager.nixosModules.home-manager
             {
               home-manager = {

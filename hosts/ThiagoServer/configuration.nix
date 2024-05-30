@@ -19,6 +19,8 @@
   networking.networkmanager.wifi.macAddress = "random";
   networking.networkmanager.wifi.powersave = false;
 
+  services.fwupd.enable = true;
+
   # Set your time zone.
   time.timeZone = "America/Sao_Paulo";
 

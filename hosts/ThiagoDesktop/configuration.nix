@@ -18,6 +18,8 @@
 
   powerManagement.powertop.enable = lib.mkForce false;
 
+  services.fwupd.enable = true;
+
   nix.settings.experimental-features = [
     "nix-command"
     "flakes"
