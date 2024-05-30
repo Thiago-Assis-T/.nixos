@@ -18,7 +18,7 @@
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
-  programs.powerManagement = {
+  powerManagement = {
     enable = true;
     powertop.enable = lib.mkForce false;
   };
