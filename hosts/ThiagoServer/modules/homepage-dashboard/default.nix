@@ -43,6 +43,16 @@
         };
       }
       {
+        openmeteo = {
+          label = "Niteroi - RJ";
+          latitude = "22.9038";
+          longitude = "43.1222";
+          units = "metric";
+          timezone = "America/Sao_Paulo";
+          cache = "5";
+        };
+      }
+      {
         datetime = {
           text_size = "x1";
           locale = "pt-BR";
@@ -51,16 +61,6 @@
             dateStyle = "short";
             hourCycle = "h23";
           };
-        };
-      }
-      {
-        openmeteo = {
-          label = "Niteroi - RJ";
-          latitude = "22.9038";
-          longitude = "43.1222";
-          units = "metric";
-          timezone = "America/Sao_Paulo";
-          cache = "5";
         };
       }
     ];

@@ -25,6 +25,7 @@
   boot.initrd.kernelModules = [ ];
   boot.kernelModules = [ "kvm-intel" ];
   boot.extraModulePackages = [ ];
+  boot.blacklistedKernelModules = [ ];
 
   hardware.nvidia.prime = {
     intelBusId = "PCI:0:2:0";
