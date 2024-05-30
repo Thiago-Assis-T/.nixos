@@ -18,13 +18,16 @@
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
-  powerManagement = {
+  programs.powerManagement = {
     enable = true;
     powertop.enable = lib.mkForce false;
   };
 
-  services.system76-scheduler = {
-    enable = lib.mkForce true;
+  services = {
+    auto-cpufreq.enable = lib.mkForce false;
+    system76-scheduler = {
+      enable = lib.mkForce true;
+    };
   };
 
   nix.settings.experimental-features = [
