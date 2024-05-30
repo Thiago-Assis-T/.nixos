@@ -27,6 +27,7 @@
   boot.extraModulePackages = [ ];
   boot.blacklistedKernelModules = [ ];
 
+  boot.kernelParams = [ "intel_pstate=active" ];
   hardware.nvidia.prime = {
     intelBusId = "PCI:0:2:0";
     nvidiaBusId = "PCI:01:0:0";

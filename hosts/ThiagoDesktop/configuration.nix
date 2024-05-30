@@ -16,17 +16,7 @@
 
   # Use the systemd-boot EFI boot loader.
 
-  powerManagement = {
-    enable = true;
-    powertop.enable = lib.mkForce false;
-  };
-
-  services = {
-    auto-cpufreq.enable = lib.mkForce false;
-    system76-scheduler = {
-      enable = lib.mkForce true;
-    };
-  };
+  powerManagement.powertop.enable = lib.mkForce false;
 
   nix.settings.experimental-features = [
     "nix-command"
