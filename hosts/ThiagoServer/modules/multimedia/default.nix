@@ -10,7 +10,7 @@
       vaapiIntel
       vaapiVdpau
       libvdpau-va-gl
-      intel-compute-runtime # OpenCL filter support (hardware tonemapping and subtitle burn-in)
+      intel-compute-runtime
     ];
   };
   users.groups.multimedia = { };
