@@ -101,7 +101,12 @@ in
         nix-develop.enable = true;
         treesitter = {
           enable = true;
-          ensureInstalled = "all";
+          ensureInstalled = [
+            "nix"
+            "lua"
+            "C"
+            "bash"
+          ];
           folding = false;
           indent = true;
           nixvimInjections = true;
