@@ -16,17 +16,20 @@
 
   # Use the systemd-boot EFI boot loader.
 
-  hardware.opengl = {
-    enable = true;
-    driSupport = true;
-    driSupport32Bit = true;
-    extraPackages = with pkgs; [
-      amdvlk
-      rocmPackages.clr.icd
-    ];
-    extraPackages32 = with pkgs; [ driversi686Linux.amdvlk ];
-  };
+  hardware = {
+    amdgpu = {
+      amdvlk.enable = true;
+      support32Bit = true;
+      supportExperimental = true;
+    };
+    opengl = {
+      enable = true;
+      driSupport = true;
+      driSupport32Bit = true;
+      extraPackages = with pkgs; [ rocmPackages.clr.icd ];
+    };
 
+  };
   powerManagement.powertop.enable = lib.mkForce false;
 
   services.fwupd.enable = true;
