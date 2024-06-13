@@ -60,7 +60,7 @@
             disko.nixosModules.disko
             nixos-hardware.nixosModules.common-cpu-amd
             nixos-hardware.nixosModules.common-cpu-amd-pstate
-            nixos-hardware.nixosModules.common-gpu-amd
+            #nixos-hardware.nixosModules.common-gpu-amd
             nixos-hardware.nixosModules.common-pc
             nixos-hardware.nixosModules.common-pc-ssd
             home-manager.nixosModules.home-manager
