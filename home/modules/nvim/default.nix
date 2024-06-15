@@ -19,10 +19,6 @@ in
 
     home.packages = with pkgs; [
       fd
-      # Bash Scripting:
-      nodePackages_latest.bash-language-server
-      shellcheck
-      shfmt
 
       # Telescope Dependency for find grep
       ripgrep
@@ -82,9 +78,8 @@ in
         textwidth = 0; # Maximum width of text that is being inserted.  A longer line will be
       };
 
-      colorschemes.base16 = {
+      colorschemes.cyberdream = {
         enable = true;
-        colorscheme = "solarized-dark";
       };
       plugins = {
         nvim-colorizer.enable = true;
@@ -104,8 +99,6 @@ in
           ensureInstalled = [
             "nix"
             "lua"
-            "C"
-            "bash"
           ];
           folding = false;
           indent = true;
@@ -299,7 +292,6 @@ in
             '';
           servers = {
             nixd.enable = true;
-            bashls.enable = true;
           };
         };
         conform-nvim = {
@@ -314,7 +306,6 @@ in
               "nixfmt"
               "nixpkgs-fmt"
             ];
-            bash = [ "shfmt" ];
             "*" = [ "trim_whitespace" ];
           };
         };
@@ -322,7 +313,6 @@ in
           enable = true;
           lintersByFt = {
             nix = [ "nix" ];
-            bash = [ "shellcheck" ];
           };
         };
       };
