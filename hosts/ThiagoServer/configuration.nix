@@ -11,7 +11,19 @@
     ./modules/homepage-dashboard
   ];
 
-  nixpkgs.config.allowUnfree = true;
+  nix.settings.system-features = [
+    "big-parallel"
+    "gccarch-skylake"
+  ];
+  nixpkgs.config = {
+    allowUnfree = true;
+    enableParallelBuildingByDefault = true;
+    localSystem = {
+      system = "x86_64-linux";
+      gcc.arch = "skylake";
+      gcc.tune = "skylake";
+    };
+  };
   networking.hostName = "ThiagoServer"; # Define your hostname.
   networking.networkmanager.enable = true; # Easiest to use and most distros use this by default.
   networking.useDHCP = lib.mkDefault true;

@@ -14,8 +14,19 @@
     ../modules/powerManagement
   ];
 
-  # Use the systemd-boot EFI boot loader.
-
+  nix.settings.system-features = [
+    "big-parallel"
+    "gccarch-znver3"
+  ];
+  nixpkgs.config = {
+    allowUnfree = true;
+    enableParallelBuildingByDefault = true;
+    localSystem = {
+      system = "x86_64-linux";
+      gcc.arch = "znver3";
+      gcc.tune = "znver3";
+    };
+  };
   hardware.opengl = {
     enable = true;
     driSupport = true;
