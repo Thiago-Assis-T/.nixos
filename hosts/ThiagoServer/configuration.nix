@@ -15,7 +15,7 @@
     "big-parallel"
     "gccarch-skylake"
   ];
-  systemd.extraConfig = "DefaultLimitNOFILE=2048";
+  systemd.extraConfig = "DefaultLimitNOFILE=4096";
   nixpkgs.config = {
     allowUnfree = true;
     enableParallelBuildingByDefault = true;

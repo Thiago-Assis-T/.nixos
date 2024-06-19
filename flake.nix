@@ -8,12 +8,12 @@
 
     home-manager = {
       url = "github:nix-community/home-manager/master";
-      #inputs.nixpkgs.follows = "nixpkgs";
+      inputs.nixpkgs.follows = "nixpkgs";
     };
 
     disko = {
       url = "github:nix-community/disko";
-      #inputs.nixpkgs.follows = "nixpkgs";
+      inputs.nixpkgs.follows = "nixpkgs";
     };
 
     nixvim = {
@@ -57,11 +57,6 @@
           modules = [
             ./hosts/ThiagoDesktop/configuration.nix
             disko.nixosModules.disko
-            nixos-hardware.nixosModules.common-cpu-amd
-            nixos-hardware.nixosModules.common-cpu-amd-pstate
-            nixos-hardware.nixosModules.common-gpu-amd
-            nixos-hardware.nixosModules.common-pc
-            nixos-hardware.nixosModules.common-pc-ssd
             home-manager.nixosModules.home-manager
             {
               home-manager = {
