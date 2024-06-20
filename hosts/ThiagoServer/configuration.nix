@@ -1,4 +1,9 @@
-{ pkgs, lib, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}:
 
 {
   imports = [
@@ -21,6 +26,19 @@
       system = "x86_64-linux";
       gcc.arch = "skylake";
       gcc.tune = "skylake";
+    };
+  };
+
+  services.xserver.videoDrivers = [ "nvidia" ];
+  hardware.nvidia = {
+    modesetting.enable = true;
+    powerManagement.enable = true;
+    open = false;
+    package = config.boot.kernelPackages.nvidiaPackages.beta;
+    prime = {
+      sync.enable = true;
+      intelBusId = "PCI:0:2:0";
+      nvidiaBusId = "PCI:01:0:0";
     };
   };
   networking.hostName = "ThiagoServer"; # Define your hostname.

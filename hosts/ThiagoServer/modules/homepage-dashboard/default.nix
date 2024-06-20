@@ -145,7 +145,7 @@
               widget = {
                 type = "bazarr";
                 url = "http://localhost:6767";
-                key = "fbcd931ef77a9e53faf84c4500e637a6";
+                key = "d5549ae1e21ca22884076efcb4458fb9";
               };
             };
           }

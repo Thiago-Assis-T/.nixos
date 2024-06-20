@@ -13,7 +13,6 @@
   imports = [ (modulesPath + "/installer/scan/not-detected.nix") ];
 
   boot.kernelPackages = pkgs.linuxPackages_zen;
-  #boot.kernelPackages = pkgs.linuxPackages_latest;
   boot.initrd.availableKernelModules = [
     "xhci_pci"
     "ahci"
@@ -26,12 +25,6 @@
   boot.kernelModules = [ "kvm-intel" ];
   boot.extraModulePackages = [ ];
   boot.blacklistedKernelModules = [ ];
-
-  #boot.kernelParams = [ "intel_pstate=active" ];
-  hardware.nvidia.prime = {
-    intelBusId = "PCI:0:2:0";
-    nvidiaBusId = "PCI:01:0:0";
-  };
 
   services.logind.lidSwitch = "ignore";
   services.logind.lidSwitchDocked = "ignore";
