@@ -18,10 +18,8 @@
     "big-parallel"
     "gccarch-znver3"
   ];
-  systemd.extraConfig = "DefaultLimitNOFILE=4096";
   nixpkgs.config = {
     allowUnfree = true;
-    enableParallelBuildingByDefault = true;
     localSystem = {
       system = "x86_64-linux";
       gcc.arch = "znver3";
