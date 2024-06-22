@@ -1,12 +1,7 @@
-{ inputs, pkgs, ... }:
+{ pkgs, ... }:
 {
 
-  imports = [
-    inputs.nixvim.homeManagerModules.nixvim
-    ./modules/nvim
-    ./modules/shell
-    ./modules/git
-  ];
+  imports = [ ./modules ];
 
   programs.personal-nvim.enable = true;
   programs.base-shell.enable = true;
