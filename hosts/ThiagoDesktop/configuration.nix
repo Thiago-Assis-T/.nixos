@@ -14,6 +14,13 @@
     ../modules/powerManagement
   ];
 
+  programs.steam = {
+    enable = true;
+    gamescopeSession.enable = true;
+    extraCompatPackages = with pkgs; [ proton-ge-bin ];
+    extest.enable = true;
+  };
+
   nix.settings.system-features = [
     "big-parallel"
     "gccarch-znver3"
