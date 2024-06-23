@@ -3,13 +3,11 @@
 
   imports = [
     inputs.nixvim.homeManagerModules.nixvim
-    ./modules/nvim
-    ./modules/shell
-    ./modules/git
+    ./modules
   ];
 
-  programs.personal-nvim.enable = true;
-  programs.base-shell.enable = true;
+  programs.my-nvim.enable = true;
+  programs.my-shell.enable = true;
   programs.my-git.enable = true;
 
   home = {
