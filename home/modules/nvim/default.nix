@@ -7,13 +7,13 @@
 }:
 
 let
-  cfg = config.programs.personal-nvim;
+  cfg = config.programs.my-nvim;
 in
 
 {
 
-  options.programs.personal-nvim = {
-    enable = lib.mkEnableOption (lib.mdDoc "personal-nvim");
+  options.programs.my-nvim = {
+    enable = lib.mkEnableOption (lib.mdDoc "my-nvim");
   };
   config = lib.mkIf cfg.enable {
 

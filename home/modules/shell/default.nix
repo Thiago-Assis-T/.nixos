@@ -6,13 +6,13 @@
 }:
 
 let
-  cfg = config.programs.base-shell;
+  cfg = config.programs.my-shell;
 in
 
 {
 
-  options.programs.base-shell = {
-    enable = lib.mkEnableOption (lib.mdDoc "base-shell");
+  options.programs.my-shell = {
+    enable = lib.mkEnableOption (lib.mdDoc "my-shell");
   };
   config = lib.mkIf cfg.enable {
     home.packages = with pkgs; [

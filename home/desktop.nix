@@ -3,9 +3,10 @@
 
   imports = [ ./modules ];
 
-  programs.personal-nvim.enable = true;
-  programs.base-shell.enable = true;
+  programs.my-nvim.enable = true;
+  programs.my-shell.enable = true;
   programs.my-git.enable = true;
+  programs.my-hyprland.enable = true;
 
   home = {
     username = "thiago";
@@ -14,6 +15,7 @@
     packages = with pkgs; [
       jellyfin-media-player
       floorp
+      wezterm
     ];
   };
 }
