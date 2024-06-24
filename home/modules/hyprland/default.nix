@@ -10,20 +10,17 @@ let
 in
 {
   imports = [ ../wofi ];
-
   options.programs.my-hyprland = {
     enable = lib.mkEnableOption (lib.mdDoc "my-hyprland");
   };
 
   config = lib.mkIf cfg.enable {
-
     wayland.windowManager.hyprland = {
-
       enable = true;
       xwayland.enable = true;
       systemd.enable = true;
-
       settings = {
+        monitor = ",preferred,auto,1";
         input = {
           kb_layout = "br";
           follow_mouse = 1;
