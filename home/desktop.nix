@@ -8,6 +8,15 @@
   programs.my-git.enable = true;
   programs.my-hyprland.enable = true;
 
+  xdg = {
+    enable = true;
+    mime.enable = true;
+    portal = {
+      xdgOpenUsePortal = true;
+      extraPortals = with pkgs; [ xdg-desktop-portal-hyprland ];
+    };
+  };
+  fonts.fontconfig.enable = true;
   home = {
     username = "thiago";
     homeDirectory = "/home/thiago";
