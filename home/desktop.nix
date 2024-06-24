@@ -15,7 +15,7 @@
     packages = with pkgs; [
       jellyfin-media-player
       floorp
-      wezterm
+      foot
     ];
   };
 }

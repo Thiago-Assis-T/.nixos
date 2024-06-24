@@ -51,7 +51,7 @@ in
         bind = [
           "$mod,W,exec,floorp"
           "$mod,Q,killactive"
-          "$mod,Return,exec,kgx"
+          "$mod,Return,exec,foot"
           "$mod,M,exit"
           "$mod,V,togglefloating"
         ];
