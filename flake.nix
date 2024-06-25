@@ -16,7 +16,6 @@
 
     nixvim = {
       url = "github:nix-community/nixvim";
-      inputs.nixpkgs.follows = "nixpkgs";
     };
 
     stylix = {
@@ -57,7 +56,7 @@
             ./hosts/ThiagoDesktop/configuration.nix
             disko.nixosModules.disko
             home-manager.nixosModules.home-manager
-            inputs.stylix.nixosModule.stylix
+            inputs.stylix.nixosModules.stylix
             {
               home-manager = {
                 useGlobalPkgs = true;

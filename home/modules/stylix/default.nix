@@ -11,7 +11,8 @@ in
   };
   config = lib.mkIf cfg.enable {
     stylix = {
-      image = ../../../wallpapers/spaceBattle.gif;
+      enable = true;
+      image = ../../../wallpapers/spaceBattle.png;
     };
   };
 }
