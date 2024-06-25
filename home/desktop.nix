@@ -25,6 +25,7 @@
     packages = with pkgs; [
       jellyfin-media-player
       floorp
+      pavucontrol
     ];
   };
 }

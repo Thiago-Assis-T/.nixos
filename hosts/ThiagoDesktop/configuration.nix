@@ -47,17 +47,8 @@
       enable = true;
     };
   };
-  nix.settings.system-features = [
-    "big-parallel"
-    "gccarch-znver3"
-  ];
   nixpkgs.config = {
     allowUnfree = true;
-    localSystem = {
-      system = "x86_64-linux";
-      gcc.arch = "znver3";
-      gcc.tune = "znver3";
-    };
   };
   hardware.opengl = {
     enable = true;
@@ -70,27 +61,15 @@
     extraPackages32 = with pkgs; [ driversi686Linux.amdvlk ];
   };
 
+  security.rtkit.enable = true;
   services.pipewire = {
     enable = true;
-    wireplumber.enable = true;
-    audio.enable = true;
     pulse.enable = true;
-    alsa = {
-      enable = true;
-      support32Bit = true;
-    };
+    alsa.enable = true;
   };
   security.polkit.enable = true;
   services.gnome.gnome-keyring.enable = true;
   services.seatd.enable = true;
-  sound = {
-    enable = true;
-    enableOSSEmulation = true;
-    mediaKeys = {
-      enable = true;
-      volumeStep = "1%";
-    };
-  };
 
   powerManagement.powertop.enable = lib.mkForce false;
 
@@ -100,6 +79,7 @@
     "nix-command"
     "flakes"
   ];
+  environment.sessionVariables.NIXOS_OZONE_WL = 1;
   networking.hostName = "ThiagoDesktop"; # Define your hostname.
   networking.networkmanager = {
     enable = true;
