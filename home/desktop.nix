@@ -7,6 +7,7 @@
   programs.my-shell.enable = true;
   programs.my-git.enable = true;
   programs.my-hyprland.enable = true;
+  programs.my-style.enable = true;
 
   xdg = {
     enable = true;

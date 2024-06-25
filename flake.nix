@@ -57,6 +57,7 @@
             ./hosts/ThiagoDesktop/configuration.nix
             disko.nixosModules.disko
             home-manager.nixosModules.home-manager
+            inputs.stylix.nixosModule.stylix
             {
               home-manager = {
                 useGlobalPkgs = true;
