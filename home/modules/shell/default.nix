@@ -15,19 +15,15 @@ in
     enable = lib.mkEnableOption (lib.mdDoc "my-shell");
   };
   config = lib.mkIf cfg.enable {
-    home.packages = with pkgs; [
-      htop
-      bat
-      fd
-      btop
-    ];
     programs = {
+      btop.enable = true;
+      fastfetch.enable = true;
+      bat.enable = true;
+      fd.enable = true;
       bash = {
         enable = true;
         enableCompletion = true;
         shellAliases = {
-          htop = "sudo htop";
-          btop = "sudo btop";
           cat = "bat";
         };
       };

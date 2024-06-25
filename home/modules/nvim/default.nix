@@ -78,9 +78,6 @@ in
         textwidth = 0; # Maximum width of text that is being inserted.  A longer line will be
       };
 
-      #colorschemes.cyberdream = {
-      #  enable = true;
-      #};
       plugins = {
         nvim-colorizer.enable = true;
         transparent.enable = true;

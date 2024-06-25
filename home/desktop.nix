@@ -7,6 +7,7 @@
   programs.my-shell.enable = true;
   programs.my-git.enable = true;
   programs.my-hyprland.enable = true;
+  programs.foot.enable = true;
 
   xdg = {
     enable = true;
@@ -24,7 +25,6 @@
     packages = with pkgs; [
       jellyfin-media-player
       floorp
-      foot
     ];
   };
 }

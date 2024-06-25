@@ -24,7 +24,6 @@
   ];
   boot.initrd.kernelModules = [ ];
   boot.kernelModules = [ "kvm-amd" ];
-  #boot.extraModulePackages = [ config.boot.kernelPackages.rtw88 ];
   hardware.enableAllFirmware = true;
   boot.kernelParams = [
     "amd_pstate=active"
