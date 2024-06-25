@@ -12,6 +12,7 @@
     ../modules/bootloader
     ../modules/tailscale
     ../modules/powerManagement
+    ../modules/stylix
     ./modules/multimedia
     ./modules/homepage-dashboard
   ];

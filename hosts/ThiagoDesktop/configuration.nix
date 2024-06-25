@@ -58,7 +58,6 @@
       gcc.arch = "znver3";
       gcc.tune = "znver3";
     };
-    pkgs = pkgs.musl;
   };
   hardware.opengl = {
     enable = true;
