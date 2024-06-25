@@ -12,6 +12,7 @@
     ../modules/bootloader
     ../modules/tailscale
     ../modules/powerManagement
+    ../modules/stylix
   ];
 
   programs.steam = {
@@ -21,6 +22,7 @@
     extest.enable = true;
   };
 
+  programs.dconf.enable = true;
   xdg = {
     autostart.enable = true;
     sounds.enable = true;

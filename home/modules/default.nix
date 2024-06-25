@@ -6,6 +6,5 @@
     ./git
     ./shell
     ./hyprland
-    ./stylix
   ];
 }
