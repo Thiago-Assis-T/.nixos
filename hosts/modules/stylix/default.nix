@@ -4,7 +4,7 @@
     enable = true;
     autoEnable = true;
     polarity = "dark";
-    image = ../../../wallpapers/spaceBattle.png;
+    image = ../../../wallpapers/tokyo_rainy_road.jpg;
     cursor = {
       name = "BreezeX-RosePine-Linux";
       package = pkgs.rose-pine-cursor;
