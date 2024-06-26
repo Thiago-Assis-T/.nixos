@@ -86,7 +86,7 @@
   networking.networkmanager = {
     enable = true;
     wifi = {
-      macAddress = "random";
+      powersave = false;
     };
   };
   time.timeZone = "America/Sao_Paulo";
