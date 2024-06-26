@@ -22,6 +22,8 @@
     extest.enable = true;
   };
 
+  #nixpkgs.hostPlatform = lib.systems.examples.musl64;
+
   programs.dconf.enable = true;
   xdg = {
     autostart.enable = true;
