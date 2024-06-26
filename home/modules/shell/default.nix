@@ -1,9 +1,4 @@
-{
-  config,
-  lib,
-  pkgs,
-  ...
-}:
+{ config, lib, ... }:
 
 let
   cfg = config.programs.my-shell;
@@ -17,7 +12,12 @@ in
   config = lib.mkIf cfg.enable {
     programs = {
       btop.enable = true;
-      fastfetch.enable = true;
+      fastfetch = {
+        enable = true;
+        settings = {
+
+        };
+      };
       bat.enable = true;
       fd.enable = true;
       bash = {
