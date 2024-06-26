@@ -4,7 +4,7 @@
     enable = true;
     autoEnable = true;
     polarity = "dark";
-    image = ../../../wallpapers/tokyo_rainy_road.jpg;
+    image = ../../../wallpapers/dreamscape.jpg;
     targets = { };
     cursor = {
       name = "BreezeX-RosePine-Linux";
