@@ -15,14 +15,11 @@ in
   };
 
   config = lib.mkIf cfg.enable {
-    home.packages = with pkgs; [ swww ];
     wayland.windowManager.hyprland = {
       enable = true;
       xwayland.enable = true;
       systemd.enable = true;
       settings = {
-        exec-once = "${pkgs.swww}/bin/swww --init";
-        exec = "${pkgs.swww}/bin/swww img ../../../wallpapers/Abandoned-Train-Station.gif";
         monitor = ",preferred,auto,1";
         input = {
           kb_layout = "br";
