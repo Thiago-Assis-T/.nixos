@@ -15,14 +15,37 @@
     ../modules/stylix
   ];
 
+  programs.gamemode = {
+    enable = true;
+    enableRenice = true;
+    settings = {
+      general = {
+        renice = 10;
+        desiredgov = "performance";
+        igpu_desiredgov = "performance";
+        softrealtime = "on";
+      };
+
+      # Warning: GPU optimisations have the potential to damage hardware
+      gpu = {
+        apply_gpu_optimisations = "accept-responsibility";
+        gpu_device = 1;
+        amd_performance_level = "high";
+      };
+
+      custom = {
+        start = "${pkgs.libnotify}/bin/notify-send 'GameMode started'";
+        end = "${pkgs.libnotify}/bin/notify-send 'GameMode ended'";
+      };
+    };
+  };
+
   programs.steam = {
     enable = true;
     gamescopeSession.enable = true;
     extraCompatPackages = with pkgs; [ proton-ge-bin ];
     extest.enable = true;
   };
-
-  #nixpkgs.hostPlatform = lib.systems.examples.musl64;
 
   programs.dconf.enable = true;
   xdg = {
