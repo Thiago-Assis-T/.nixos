@@ -7,6 +7,7 @@
   programs.my-shell.enable = true;
   programs.my-git.enable = true;
   programs.my-hyprland.enable = true;
+  programs.my-waybar.enable = true;
   programs.foot.enable = true;
 
   xdg = {

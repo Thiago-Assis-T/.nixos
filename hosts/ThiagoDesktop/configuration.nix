@@ -14,7 +14,7 @@
     ../modules/powerManagement
     ../modules/stylix
   ];
-
+  programs.nm-applet.enable = true;
   programs.gamemode = {
     enable = true;
     enableRenice = true;

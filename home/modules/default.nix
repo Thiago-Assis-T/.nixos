@@ -6,5 +6,6 @@
     ./git
     ./shell
     ./hyprland
+    ./waybar
   ];
 }
