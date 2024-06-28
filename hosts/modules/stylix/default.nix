@@ -4,7 +4,7 @@
     enable = true;
     autoEnable = true;
     polarity = "dark";
-    image = ../../../wallpapers/dreamscape.jpg;
+    image = ../../../wallpapers/i_am_the_almight.png;
     targets = { };
     cursor = {
       name = "BreezeX-RosePine-Linux";
