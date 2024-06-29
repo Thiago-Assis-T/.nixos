@@ -20,6 +20,7 @@ in
       xwayland.enable = true;
       systemd.enable = true;
       settings = {
+        exec-once = [ "${pkgs.foot}/bin/foot --server" ];
         monitor = ",preferred,auto,1";
         input = {
           kb_layout = "br";
@@ -64,15 +65,16 @@ in
         bind = [
           "$mod,W,exec,${pkgs.floorp}/bin/floorp"
           "$mod,Q,killactive"
-          "$mod,Return,exec,${pkgs.foot}/bin/foot"
-          "$mod, R, exec, ${pkgs.wofi}/bin/wofi -I -m -b -a --term=foot --show drun"
+          "$mod,Return,exec,${pkgs.foot}/bin/footclient"
+          "$mod, R, exec, ${pkgs.wofi}/bin/wofi -I -m -b -a --show drun"
+          "$mod SHIFT, N, exec, ${pkgs.swaynotificationcenter}/bin/swaync-client -t -sw"
           "$mod,M,exit"
           "$mod,V,togglefloating"
           # Move focus with mod + arrow keys
-          "$mod, left, movefocus, l"
-          "$mod, right, movefocus, r"
-          "$mod, up, movefocus, u"
-          "$mod, down, movefocus, d"
+          "$mod, h, movefocus, l"
+          "$mod, l, movefocus, r"
+          "$mod, k, movefocus, u"
+          "$mod, j, movefocus, d"
           # Switch workspaces mod + number
           "$mod,1,workspace,1"
           "$mod,2,workspace,2"

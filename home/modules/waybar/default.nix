@@ -6,7 +6,7 @@
 }:
 
 let
-  cfg = config.programs.my-hyprland;
+  cfg = config.programs.my-waybar;
 in
 {
   options.programs.my-waybar = {
@@ -75,14 +75,14 @@ in
             tooltip = false;
             format = "{icon}";
             format-icons = {
-              notification = "<span foreground='red'><sup></sup></span>";
-              none = "";
-              dnd-notification = "<span foreground='red'><sup></sup></span>";
-              dnd-none = "";
-              inhibited-notification = "<span foreground='red'><sup></sup></span>";
-              inhibited-none = "";
-              dnd-inhibited-notification = "<span foreground='red'><sup></sup></span>";
-              dnd-inhibited-none = "";
+              notification = "  <span foreground='red'><sup></sup></span>";
+              none = "  ";
+              dnd-notification = "   <span foreground='red'><sup></sup></span>";
+              dnd-none = "   ";
+              inhibited-notification = "  <span foreground='red'><sup></sup></span>";
+              inhibited-none = "  ";
+              dnd-inhibited-notification = "   <span foreground='red'><sup></sup></span>";
+              dnd-inhibited-none = "  ";
             };
             return-type = "json";
             exec-if = "which swaync-client";

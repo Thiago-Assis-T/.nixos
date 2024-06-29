@@ -1,12 +1,7 @@
-{
-  config,
-  lib,
-  pkgs,
-  ...
-}:
+{ config, lib, ... }:
 
 let
-  cfg = config.programs.my-hyprland;
+  cfg = config.programs.my-swaync;
 in
 {
   options.programs.my-swaync = {
