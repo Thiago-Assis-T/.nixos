@@ -7,5 +7,6 @@
     ./shell
     ./hyprland
     ./waybar
+    ./swaync
   ];
 }

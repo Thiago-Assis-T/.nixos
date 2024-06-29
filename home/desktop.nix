@@ -8,6 +8,7 @@
   programs.my-git.enable = true;
   programs.my-hyprland.enable = true;
   programs.my-waybar.enable = true;
+  programs.my-swaync.enable = true;
   programs.foot.enable = true;
 
   gtk.iconTheme = {
