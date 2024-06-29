@@ -10,6 +10,11 @@
   programs.my-waybar.enable = true;
   programs.foot.enable = true;
 
+  gtk.iconTheme = {
+    name = "Papirus-Dark";
+    package = pkgs.papirus-icon-theme;
+  };
+
   xdg = {
     enable = true;
     mime.enable = true;
