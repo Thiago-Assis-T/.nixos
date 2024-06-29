@@ -56,7 +56,10 @@
       wlr.enable = true;
       xdgOpenUsePortal = true;
       configPackages = with pkgs; [ xdg-desktop-portal-hyprland ];
-      extraPortals = with pkgs; [ xdg-desktop-portal-hyprland ];
+      extraPortals = with pkgs; [
+        xdg-desktop-portal-hyprland
+        xdg-desktop-portal-wlr
+      ];
     };
   };
 
@@ -89,8 +92,13 @@
   security.rtkit.enable = true;
   services.pipewire = {
     enable = true;
+    audio.enable = true;
     pulse.enable = true;
-    alsa.enable = true;
+    wireplumber.enable = true;
+    alsa = {
+      enable = true;
+      support32Bit = true;
+    };
   };
   security.polkit.enable = true;
   services.gnome.gnome-keyring.enable = true;
