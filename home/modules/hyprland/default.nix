@@ -18,7 +18,10 @@ in
     wayland.windowManager.hyprland = {
       enable = true;
       xwayland.enable = true;
-      systemd.enable = true;
+      systemd = {
+        enable = true;
+        variables = [ "--all" ];
+      };
       settings = {
         exec-once = [ "${pkgs.foot}/bin/foot --server" ];
         monitor = ",preferred,auto,1";

@@ -33,7 +33,6 @@
     {
       nixosConfigurations = {
         ThiagoServer = nixpkgs.lib.nixosSystem {
-          system = "x86_64-linux";
           modules = [
             ./hosts/ThiagoServer/configuration.nix
             disko.nixosModules.disko
@@ -52,7 +51,6 @@
           ];
         };
         ThiagoDesktop = nixpkgs.lib.nixosSystem {
-          #system = "x86_64-linux";
           modules = [
             ./hosts/ThiagoDesktop/configuration.nix
             disko.nixosModules.disko

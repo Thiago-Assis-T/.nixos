@@ -33,6 +33,8 @@
       jellyfin-media-player
       floorp
       pavucontrol
+      freecad
+      logseq
     ];
   };
 }

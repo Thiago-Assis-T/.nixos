@@ -8,5 +8,6 @@
     ./hyprland
     ./waybar
     ./swaync
+    ./foot
   ];
 }
