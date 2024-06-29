@@ -65,7 +65,7 @@ in
           "$mod,W,exec,${pkgs.floorp}/bin/floorp"
           "$mod,Q,killactive"
           "$mod,Return,exec,${pkgs.foot}/bin/foot"
-          "$mod, R, exec, ${pkgs.wofi}/bin/wofi -I -m -b -a --show drun"
+          "$mod, R, exec, ${pkgs.wofi}/bin/wofi -I -m -b -a --term=foot --show drun"
           "$mod,M,exit"
           "$mod,V,togglefloating"
           # Move focus with mod + arrow keys

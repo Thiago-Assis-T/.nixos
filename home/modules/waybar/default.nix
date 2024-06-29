@@ -28,15 +28,25 @@ in
           position = "top";
           spacing = 5;
           output = [ "HDMI-A-1" ];
-          modules-left = [ "hyprland/workspaces" ];
-          modules-center = [ "hyprland/window" ];
+          modules-left = [
+            "hyprland/workspaces"
+            "hyprland/window"
+          ];
+          modules-center = [ "clock" ];
+          clock = {
+            interval = 1;
+            format = "  {:%H:%M:%S}";
+            timezone = "America/Sao_Paulo";
+          };
           modules-right = [
+            "tray"
             "cpu"
             "temperature"
-            #"pulseaudio/slider"
             "pulseaudio"
-            "tray"
           ];
+          tray = {
+            spacing = 8;
+          };
           cpu = {
             interval = 1;
             format = "{usage}% ";
@@ -48,12 +58,8 @@ in
             format = "{temperatureC} °C ";
             format-critical = "{temperatureC} °C ";
           };
-          "pulseaudio/slider" = {
-            on-click = "${pkgs.pavucontrol}/bin/pavucontrol";
-            orientation = "horizontal";
-          };
           "pulseaudio" = {
-            format = "{volume}% {icon}";
+            format = "{volume}% {icon}   ";
             format-muted = "";
             on-click = "${pkgs.pavucontrol}/bin/pavucontrol";
             format-icons = {
