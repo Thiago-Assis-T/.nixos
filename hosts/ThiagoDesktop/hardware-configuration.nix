@@ -38,10 +38,12 @@
   # networking.interfaces.enp4s0.useDHCP = lib.mkDefault true;
   # networking.interfaces.wlp3s0.useDHCP = lib.mkDefault true;
 
-  nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
-  #nixpkgs.hostPlatform = {
-  #  system = "x86_64-linux";
-  #  config = "x86_64-unknown-linux-musl";
-  #};
+  #nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
+  nixpkgs.hostPlatform = {
+    system = "x86_64-linux";
+    #  config = "x86_64-unknown-linux-musl";
+    gcc.arch = "znver3";
+    gcc.tune = "znver3";
+  };
   hardware.cpu.amd.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
 }

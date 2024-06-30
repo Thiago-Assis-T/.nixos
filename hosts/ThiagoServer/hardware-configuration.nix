@@ -29,10 +29,12 @@
   services.logind.lidSwitch = "ignore";
   services.logind.lidSwitchDocked = "ignore";
   services.logind.extraConfig = "HandleLidSwitch=ignore";
-  nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
-  #nixpkgs.hostPlatform = {
-  #  system = "x86_64-linux";
-  #  config = "x86_64-unknown-linux-musl";
-  #};
+  #nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
+  nixpkgs.hostPlatform = {
+    system = "x86_64-linux";
+    #config = "x86_64-unknown-linux-musl";
+    gcc.arch = "skylake";
+    gcc.tune = "skylake";
+  };
   hardware.cpu.intel.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
 }

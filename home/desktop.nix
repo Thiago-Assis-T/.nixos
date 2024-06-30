@@ -35,6 +35,7 @@
       pavucontrol
       freecad
       logseq
+      webcord-vencord
     ];
   };
 }
