@@ -27,7 +27,7 @@ in
           layer = "top";
           position = "top";
           spacing = 5;
-          output = [ "HDMI-A-1" ];
+          #output = [ "HDMI-A-1" ];
           modules-left = [
             "hyprland/workspaces"
             "hyprland/window"
