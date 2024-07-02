@@ -27,7 +27,6 @@ in
           layer = "top";
           position = "top";
           spacing = 5;
-          #output = [ "HDMI-A-1" ];
           modules-left = [
             "hyprland/workspaces"
             "hyprland/window"
@@ -40,6 +39,7 @@ in
           };
           modules-right = [
             "tray"
+            "battery"
             "cpu"
             "memory"
             "temperature"
@@ -60,7 +60,9 @@ in
           };
           temperature = {
             interval = 1;
-            hwmon-path = "/sys/class/hwmon/hwmon1/temp1_input";
+            #hwmon-path = "/sys/class/hwmon/hwmon1/temp1_input";
+            #hwmon-path = "/sys/class/hwmon/hwmon4/temp1_input";
+            thermal-zone = 2;
             critical-threshold = 80;
             format = "{temperatureC} °C ";
             format-critical = "{temperatureC} °C ";
@@ -76,6 +78,23 @@ in
                 ""
               ];
             };
+          };
+          battery = {
+            bat = "BAT0";
+            interval = 60;
+            states = {
+              warning = 30;
+              critical = 15;
+            };
+            format = "{capacity}% {icon}";
+            format-icons = [
+              ""
+              ""
+              ""
+              ""
+              ""
+            ];
+            max-length = 25;
           };
           "custom/notification" = {
             tooltip = false;
