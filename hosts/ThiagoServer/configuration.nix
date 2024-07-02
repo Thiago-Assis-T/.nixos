@@ -17,10 +17,6 @@
     ./modules/homepage-dashboard
   ];
 
-  nix.settings.system-features = [
-    "big-parallel"
-    "gccarch-skylake"
-  ];
   nixpkgs.config = {
     allowUnfree = true;
     localSystem = {
