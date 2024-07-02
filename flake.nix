@@ -20,7 +20,7 @@
     };
 
     stylix = {
-      url = "github:danth/stylix/release-24.05";
+      url = "github:danth/stylix"; # release-24.05";
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };
@@ -69,7 +69,7 @@
             }
           ];
         };
-        ThiagoLaptop= nixpkgs.lib.nixosSystem {
+        ThiagoLaptop = nixpkgs.lib.nixosSystem {
           modules = [
             ./hosts/ThiagoLaptop/configuration.nix
             disko.nixosModules.disko

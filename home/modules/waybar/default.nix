@@ -41,6 +41,7 @@ in
           modules-right = [
             "tray"
             "cpu"
+            "memory"
             "temperature"
             "pulseaudio"
             "custom/notification"
@@ -51,6 +52,11 @@ in
           cpu = {
             interval = 1;
             format = "{usage}% ";
+          };
+          "memory" = {
+            interval = 1;
+            format = "{}% ";
+            max-length = 10;
           };
           temperature = {
             interval = 1;
