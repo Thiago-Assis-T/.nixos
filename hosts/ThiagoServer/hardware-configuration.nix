@@ -38,8 +38,8 @@
   nixpkgs.hostPlatform = {
     system = "x86_64-linux";
     #config = "x86_64-unknown-linux-musl";
-    #gcc.arch = "skylake";
-    #gcc.tune = "skylake";
+    gcc.arch = "skylake";
+    gcc.tune = "skylake";
   };
   hardware.cpu.intel.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
 }
