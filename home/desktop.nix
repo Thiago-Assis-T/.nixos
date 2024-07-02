@@ -12,10 +12,11 @@
   programs.my-foot.enable = true;
 
   gtk = {
-    enable =true;
-  iconTheme = {
-    name = "Papirus-Dark";
-    package = pkgs.papirus-icon-theme;
+    enable = true;
+    iconTheme = {
+      name = "Papirus-Dark";
+      package = pkgs.papirus-icon-theme;
+    };
   };
 
   xdg = {
