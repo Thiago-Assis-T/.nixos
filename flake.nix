@@ -68,6 +68,24 @@
             }
           ];
         };
+        ThiagoLaptop= nixpkgs.lib.nixosSystem {
+          modules = [
+            ./hosts/ThiagoLaptop/configuration.nix
+            disko.nixosModules.disko
+            home-manager.nixosModules.home-manager
+            inputs.stylix.nixosModules.stylix
+            {
+              home-manager = {
+                useGlobalPkgs = true;
+                useUserPackages = true;
+                extraSpecialArgs = {
+                  inherit inputs;
+                };
+                users.thiago = import ./home/laptop.nix;
+              };
+            }
+          ];
+        };
       };
     };
 }
