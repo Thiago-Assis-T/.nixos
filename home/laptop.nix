@@ -11,10 +11,12 @@
   programs.my-swaync.enable = true;
   programs.my-foot.enable = true;
 
-  gtk.iconTheme = {
+  gtk = {
   enable =true;
+  iconTheme = {
     name = "Papirus-Dark";
     package = pkgs.papirus-icon-theme;
+    };
   };
 
   xdg = {

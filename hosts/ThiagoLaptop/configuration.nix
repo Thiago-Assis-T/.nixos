@@ -19,7 +19,6 @@
   networking.hostName = "ThiagoLaptop"; # Define your hostname.
   # Pick only one of the below networking options.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
-  networking.networkmanager.enable = true;  # Easiest to use and most distros use this by default.
   programs.nm-applet.enable = true;
 
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
@@ -74,22 +73,12 @@
   };
 
   environment.sessionVariables.NIXOS_OZONE_WL = 1;
-  networking.hostName = "ThiagoDesktop"; # Define your hostname.
   networking.networkmanager = {
     enable = true;
     wifi = {
       powersave = true;
     };
   };
-  time.timeZone = "America/Sao_Paulo";
-  i18n.defaultLocale = "en_CA.UTF-8";
-  console = {
-    font = "Lat2-Terminus16";
-    keyMap = "br-abnt2";
-  };
-  services.xserver.enable = true;
-  services.xserver.xkb.layout = "br";
-
 
   security.rtkit.enable = true;
   services.pipewire = {
@@ -106,10 +95,9 @@
   services.gnome.gnome-keyring.enable = true;
   services.seatd.enable = true;
 
-  environment.sessionVariables.NIXOS_OZONE_WL = 1;
 
   # Select internationalisation properties.
-  # i18n.defaultLocale = "en_US.UTF-8";
+  i18n.defaultLocale = "en_CA.UTF-8";
   console = {
    font = "Lat2-Terminus16";
    keyMap = "br-abnt2";

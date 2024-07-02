@@ -1,32 +1,24 @@
 {
-
   config,
   pkgs,
   lib,
   ...
 }:
-
 let
   cfg = config.programs.my-nvim;
 in
-
 {
-
   options.programs.my-nvim = {
     enable = lib.mkEnableOption (lib.mdDoc "my-nvim");
   };
   config = lib.mkIf cfg.enable {
-
     home.packages = with pkgs; [
       fd
-
       # Telescope Dependency for find grep
       ripgrep
-
       # For nix formatting
       nixfmt-rfc-style
       nixpkgs-fmt
-
       # For treesitter
       gcc
     ];
