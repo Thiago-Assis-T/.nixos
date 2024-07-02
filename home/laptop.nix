@@ -12,10 +12,10 @@
   programs.my-foot.enable = true;
 
   gtk = {
-  enable =true;
-  iconTheme = {
-    name = "Papirus-Dark";
-    package = pkgs.papirus-icon-theme;
+    enable = true;
+    iconTheme = {
+      name = "Papirus-Dark";
+      package = pkgs.papirus-icon-theme;
     };
   };
 
@@ -33,11 +33,10 @@
     homeDirectory = "/home/thiago";
     stateVersion = "23.11";
     packages = with pkgs; [
-      #jellyfin-media-player
+      jellyfin-media-player
       floorp
       pavucontrol
-      #freecad
-      #logseq
+      logseq
       webcord-vencord
     ];
   };

@@ -2,26 +2,28 @@
 # your system. Help is available in the configuration.nix(5) man page, on
 # https://search.nixos.org/options and in the NixOS manual (`nixos-help`).
 
-{ config, pkgs, ... }:
+{ pkgs, ... }:
 
 {
-  imports =
-    [ # Include the results of the hardware scan.
-      ./hardware-configuration.nix
-      ./disk-config.nix
-      ../modules/bootloader
-      ../modules/tailscale
-      ../modules/powerManagement
-      ../modules/stylix
-    ];
+  imports = [
+    # Include the results of the hardware scan.
+    ./hardware-configuration.nix
+    ./disk-config.nix
+    ../modules/bootloader
+    ../modules/tailscale
+    ../modules/powerManagement
+    ../modules/stylix
+  ];
 
+  zramSwap.enable = true;
 
   networking.hostName = "ThiagoLaptop"; # Define your hostname.
-  # Pick only one of the below networking options.
-  # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
   programs.nm-applet.enable = true;
 
-  nix.settings.experimental-features = [ "nix-command" "flakes" ];
+  nix.settings.experimental-features = [
+    "nix-command"
+    "flakes"
+  ];
 
   # Set your time zone.
   time.timeZone = "America/Sao_Paulo";
@@ -95,13 +97,12 @@
   services.gnome.gnome-keyring.enable = true;
   services.seatd.enable = true;
 
-
   # Select internationalisation properties.
   i18n.defaultLocale = "en_CA.UTF-8";
   console = {
-   font = "Lat2-Terminus16";
-   keyMap = "br-abnt2";
-   #useXkbConfig = true; # use xkb.options in tty.
+    font = "Lat2-Terminus16";
+    keyMap = "br-abnt2";
+    #useXkbConfig = true; # use xkb.options in tty.
   };
   # Enable CUPS to print documents.
   # services.printing.enable = true;
@@ -113,10 +114,8 @@
   users.users.thiago = {
     isNormalUser = true;
     extraGroups = [ "wheel" ]; # Enable ‘sudo’ for the user.
-     packages = with pkgs; [
-    ];
+    packages = with pkgs; [ ];
   };
-  
 
   # Enable the OpenSSH daemon.
   services.openssh.enable = true;
@@ -124,6 +123,4 @@
   networking.firewall.enable = true;
 
   system.stateVersion = "24.05"; # Did you read the comment?
-
 }
-
