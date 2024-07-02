@@ -34,6 +34,7 @@
   nix.settings.system-features = [
     "big-parallel"
     "gccarch-skylake"
+    "gcctune-skylake"
   ];
   nixpkgs.hostPlatform = {
     system = "x86_64-linux";

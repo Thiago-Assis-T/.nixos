@@ -36,7 +36,7 @@
       jellyfin-media-player
       floorp
       pavucontrol
-      freecad
+      #freecad
       logseq
       webcord-vencord
     ];

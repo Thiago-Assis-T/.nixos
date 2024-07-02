@@ -42,6 +42,7 @@
   nix.settings.system-features = [
     "big-parallel"
     "gccarch-znver3"
+    "gcctune-znver3"
   ];
   nixpkgs.hostPlatform = {
     system = "x86_64-linux";
