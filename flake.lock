@@ -143,11 +143,19 @@
         ]
       },
       "locked": {
+<<<<<<< HEAD
         "lastModified": 1719864345,
         "narHash": "sha256-e4Pw+30vFAxuvkSTaTypd9zYemB/QlWcH186dsGT+Ms=",
         "owner": "nix-community",
         "repo": "disko",
         "rev": "544a80a69d6e2da04e4df7ec8210a858de8c7533",
+=======
+        "lastModified": 1719733833,
+        "narHash": "sha256-6h2EqZU9bL9rHlXE+2LCBgnDImejzbS+4dYsNDDFlkY=",
+        "owner": "nix-community",
+        "repo": "disko",
+        "rev": "d185770ea261fb5cf81aa5ad1791b93a7834d12c",
+>>>>>>> 54fde24 (aaaa)
         "type": "github"
       },
       "original": {
@@ -438,11 +446,19 @@
         "treefmt-nix": "treefmt-nix"
       },
       "locked": {
+<<<<<<< HEAD
         "lastModified": 1719835146,
         "narHash": "sha256-Ve2S/XA6HIedTBsRFyGp6btV76Ro5ntGEGEblBqs534=",
         "owner": "nix-community",
         "repo": "nixvim",
         "rev": "c9419c2d9ef669ea6c7849775d60284e3b35c56f",
+=======
+        "lastModified": 1719734064,
+        "narHash": "sha256-rWpdTWtU+F3soSy3vaskgX57Xj4w+zyX9y2qIb4OAgQ=",
+        "owner": "nix-community",
+        "repo": "nixvim",
+        "rev": "662a0e1bdbd529823f0c19cc1c8b4c346406d16d",
+>>>>>>> 54fde24 (aaaa)
         "type": "github"
       },
       "original": {

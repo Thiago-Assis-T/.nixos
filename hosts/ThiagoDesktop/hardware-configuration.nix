@@ -39,6 +39,10 @@
   # networking.interfaces.wlp3s0.useDHCP = lib.mkDefault true;
 
   #nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
+  nix.settings.system-features = [
+    "big-parallel"
+    "gccarch-znver3"
+  ];
   nixpkgs.hostPlatform = {
     system = "x86_64-linux";
     #  config = "x86_64-unknown-linux-musl";
