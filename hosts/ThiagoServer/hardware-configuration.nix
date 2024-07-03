@@ -32,6 +32,8 @@
   #nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
 
   nix.settings.system-features = [
+    "nixos-test"
+    "benchmark"
     "big-parallel"
     "gccarch-skylake"
     "gcctune-skylake"

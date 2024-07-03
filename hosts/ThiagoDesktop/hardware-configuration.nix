@@ -48,7 +48,7 @@
   ];
   nixpkgs = {
     hostPlatform = {
-      config = "x86_64-unknown-linux-gnu";
+      #config = "x86_64-unknown-linux-gnu";
       system = "x86_64-linux";
       gcc.arch = "znver3";
       gcc.tune = "znver3";
