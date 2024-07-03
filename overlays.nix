@@ -10,9 +10,6 @@
               rm numpy/core/tests/test_umath_accuracy.py
               rm numpy/core/tests/test_*.py
 
-
-              rm numpy/core/tests/test_cython.py
-
               patchShebangs numpy/_build_utils/*.py
 
               substituteInPlace numpy/meson.build \
