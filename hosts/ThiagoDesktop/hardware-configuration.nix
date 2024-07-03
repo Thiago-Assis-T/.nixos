@@ -40,15 +40,19 @@
 
   #nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
   nix.settings.system-features = [
+    "nixos-test"
+    "benchmark"
     "big-parallel"
     "gccarch-znver3"
     "gcctune-znver3"
   ];
-  nixpkgs.hostPlatform = {
-    system = "x86_64-linux";
-    #  config = "x86_64-unknown-linux-musl";
-    gcc.arch = "znver3";
-    gcc.tune = "znver3";
+  nixpkgs = {
+    hostPlatform = {
+      config = "x86_64-unknown-linux-gnu";
+      system = "x86_64-linux";
+      gcc.arch = "znver3";
+      gcc.tune = "znver3";
+    };
   };
   hardware.cpu.amd.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
 }
