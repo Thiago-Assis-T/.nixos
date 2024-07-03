@@ -1,6 +1,6 @@
-{ inputs, ... }:
+{ ... }:
 {
-  inputs.nixpkgs.overlays = [
+  nixpkgs.overlays = [
     (final: prev: {
       pythonPackagesExtensions = prev.pythonPackagesExtensions ++ [
         (pyfinal: pyprev: {
@@ -9,6 +9,17 @@
               rm numpy/core/tests/test_cython.py
               rm numpy/core/tests/test_umath_accuracy.py
               rm numpy/core/tests/test_*.py
+
+
+              rm numpy/core/tests/test_cython.py
+
+              patchShebangs numpy/_build_utils/*.py
+
+              substituteInPlace numpy/meson.build \
+                --replace 'py.full_path()' "'python'"
+
+              substituteInPlace pyproject.toml \
+                --replace-fail "meson-python>=0.15.0,<0.16.0" "meson-python"
             '';
             doCheck = false;
             doInstallCheck = false;
