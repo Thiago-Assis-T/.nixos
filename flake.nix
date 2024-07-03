@@ -39,6 +39,7 @@
             disko.nixosModules.disko
             home-manager.nixosModules.home-manager
             inputs.stylix.nixosModules.stylix
+            (import ./overlays.nix)
             {
               home-manager = {
                 useGlobalPkgs = true;
@@ -76,6 +77,7 @@
             disko.nixosModules.disko
             home-manager.nixosModules.home-manager
             inputs.stylix.nixosModules.stylix
+            (import ./overlays.nix)
             {
               home-manager = {
                 useGlobalPkgs = true;
