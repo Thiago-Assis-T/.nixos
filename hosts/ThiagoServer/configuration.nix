@@ -1,7 +1,9 @@
 {
+  inputs,
   config,
   pkgs,
   lib,
+
   ...
 }:
 
@@ -67,6 +69,18 @@
 
   # Enable the OpenSSH daemon.
   services.openssh.enable = true;
+
+  system.autoUpgrade = {
+    enable = true;
+    dates = "02:00";
+    flake = inputs.self.outPath;
+    randomizedDelaySec = "45min";
+    flags = [
+      "--update-input"
+      "nixpkgs"
+      "-L"
+    ];
+  };
 
   system.stateVersion = "23.11"; # Did you read the comment?
 }

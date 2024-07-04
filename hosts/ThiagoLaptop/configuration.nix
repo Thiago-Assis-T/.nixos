@@ -2,7 +2,7 @@
 # your system. Help is available in the configuration.nix(5) man page, on
 # https://search.nixos.org/options and in the NixOS manual (`nixos-help`).
 
-{ pkgs, ... }:
+{ inputs, pkgs, ... }:
 
 {
   imports = [
@@ -114,13 +114,25 @@
   users.users.thiago = {
     isNormalUser = true;
     extraGroups = [ "wheel" ]; # Enable ‘sudo’ for the user.
-    packages = with pkgs; [ ];
+    packages = [ ];
   };
 
   # Enable the OpenSSH daemon.
   services.openssh.enable = true;
 
   networking.firewall.enable = true;
+
+  system.autoUpgrade = {
+    enable = true;
+    dates = "02:00";
+    flake = inputs.self.outPath;
+    randomizedDelaySec = "45min";
+    flags = [
+      "--update-input"
+      "nixpkgs"
+      "-L"
+    ];
+  };
 
   system.stateVersion = "24.05"; # Did you read the comment?
 }

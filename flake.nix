@@ -34,6 +34,9 @@
     {
       nixosConfigurations = {
         ThiagoServer = nixpkgs.lib.nixosSystem {
+          specialArgs = {
+            inherit inputs;
+          };
           modules = [
             ./hosts/ThiagoServer/configuration.nix
             disko.nixosModules.disko
@@ -53,6 +56,9 @@
           ];
         };
         ThiagoDesktop = nixpkgs.lib.nixosSystem {
+          specialArgs = {
+            inherit inputs;
+          };
           modules = [
             ./hosts/ThiagoDesktop/configuration.nix
             disko.nixosModules.disko
@@ -72,6 +78,9 @@
           ];
         };
         ThiagoLaptop = nixpkgs.lib.nixosSystem {
+          specialArgs = {
+            inherit inputs;
+          };
           modules = [
             ./hosts/ThiagoLaptop/configuration.nix
             disko.nixosModules.disko

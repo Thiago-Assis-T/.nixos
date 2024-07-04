@@ -2,7 +2,12 @@
 # your system. Help is available in the configuration.nix(5) man page, on
 # https://search.nixos.org/options and in the NixOS manual (`nixos-help`).
 
-{ pkgs, lib, ... }:
+{
+  inputs,
+  pkgs,
+  lib,
+  ...
+}:
 
 {
   imports = [
@@ -136,6 +141,18 @@
     isNormalUser = true;
     extraGroups = [ "wheel" ]; # Enable ‘sudo’ for the user.
     packages = [ ];
+  };
+
+  system.autoUpgrade = {
+    enable = true;
+    dates = "02:00";
+    flake = inputs.self.outPath;
+    randomizedDelaySec = "45min";
+    flags = [
+      "--update-input"
+      "nixpkgs"
+      "-L"
+    ];
   };
 
   system.stateVersion = "23.11"; # Did you read the comment?
