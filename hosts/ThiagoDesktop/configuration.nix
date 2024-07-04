@@ -14,6 +14,9 @@
     ../modules/powerManagement
     ../modules/stylix
   ];
+  zramSwap.enable = true;
+  services.openssh.enable = true;
+
   programs.nm-applet.enable = true;
   programs.gamemode = {
     enable = true;
