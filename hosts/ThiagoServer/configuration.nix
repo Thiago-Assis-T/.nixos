@@ -19,12 +19,13 @@
     ./modules/homepage-dashboard
   ];
 
+  zramSwap.enable = true;
   nixpkgs.config = {
     allowUnfree = true;
     localSystem = {
       system = "x86_64-linux";
-      gcc.arch = "skylake";
-      gcc.tune = "skylake";
+      #gcc.arch = "skylake";
+      #gcc.tune = "skylake";
     };
   };
 
