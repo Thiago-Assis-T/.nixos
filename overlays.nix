@@ -27,31 +27,6 @@
               "test_validate_transcendentals"
             ];
           });
-          scipy = pyprev.scipy.overridePythonAttrs (oldAttrs: {
-            doCheck = false;
-            doInstallCheck = false;
-            dontCheck = true;
-          });
-          pandas = pyprev.pandas.overridePythonAttrs (oldAttrs: {
-            doCheck = false;
-            doInstallCheck = false;
-            dontCheck = true;
-          });
-          eventlet = pyprev.eventlet.overridePythonAttrs (oldAttrs: {
-            doCheck = false;
-            doInstallCheck = false;
-            dontCheck = true;
-          });
-          aiohttp = pyprev.aiohttp.overridePythonAttrs (oldAttrs: {
-            doCheck = false;
-            doInstallCheck = false;
-            dontCheck = true;
-          });
-          websockets = pyprev.websockets.overridePythonAttrs (oldAttrs: {
-            doCheck = false; # test hanged
-            doInstallCheck = false;
-            dontCheck = true;
-          });
         })
       ];
     })
