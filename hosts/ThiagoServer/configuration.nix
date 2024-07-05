@@ -20,14 +20,6 @@
   ];
 
   zramSwap.enable = true;
-  nixpkgs.config = {
-    allowUnfree = true;
-    localSystem = {
-      system = "x86_64-linux";
-      #gcc.arch = "skylake";
-      #gcc.tune = "skylake";
-    };
-  };
 
   services.xserver.videoDrivers = [ "nvidia" ];
   hardware.nvidia = {

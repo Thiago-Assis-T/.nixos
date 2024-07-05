@@ -48,6 +48,14 @@
     "gcctune-znver3"
   ];
   nixpkgs = {
+    config = {
+      allowUnfree = true;
+      localSystem = {
+        system = "x86_64-linux";
+        gcc.arch = "znver3";
+        gcc.tune = "znver3";
+      };
+    };
     hostPlatform = {
       config = "x86_64-unknown-linux-gnu";
       system = "x86_64-linux";
