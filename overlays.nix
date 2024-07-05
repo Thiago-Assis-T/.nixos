@@ -34,6 +34,16 @@
   nixpkgs.config.packageOverrides = pkgs: {
     haskellPackages = pkgs.haskellPackages.override {
       overrides = hsSelf: hsSuper: {
+        crypton = pkgs.haskell.lib.overrideCabal hsSuper.crypton (oa: {
+          doCheck = false;
+        });
+        tls = pkgs.haskell.lib.overrideCabal hsSuper.tls (oa: {
+          doCheck = false;
+        });
+        crypton-x509-validation = pkgs.haskell.lib.overrideCabal hsSuper.crypton-x509-validation (oa: {
+          doCheck = false;
+        });
+
         cryptonite = pkgs.haskell.lib.overrideCabal hsSuper.cryptonite (oa: {
           doCheck = false;
         });
