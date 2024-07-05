@@ -23,6 +23,7 @@
   services.openssh.enable = true;
 
   programs.nm-applet.enable = true;
+  systemd.network.wait-online.enable = true;
   programs.gamemode = {
     enable = true;
     enableRenice = true;

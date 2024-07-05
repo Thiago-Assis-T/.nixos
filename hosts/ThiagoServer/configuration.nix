@@ -21,6 +21,7 @@
 
   zramSwap.enable = true;
 
+  systemd.network.wait-online.enable = true;
   services.xserver.videoDrivers = [ "nvidia" ];
   hardware.nvidia = {
     modesetting.enable = true;
