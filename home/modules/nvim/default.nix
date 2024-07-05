@@ -183,7 +183,24 @@ in
             };
           };
         };
-        neorg.enable = true;
+        neorg = {
+          enable = false;
+          package = pkgs.luaPackages.neorg;
+          lazyLoading = true;
+          modules = {
+            "core.journal" = { };
+            "core.latex.renderer" = { };
+            "core.integrations.treesitter" = { };
+            "core.defaults" = { };
+            "core.dirman" = {
+              config = {
+                workspaces = {
+                  home = "~/Documents/notes/home";
+                };
+              };
+            };
+          };
+        };
         telescope = {
           enable = true;
           extensions = {
