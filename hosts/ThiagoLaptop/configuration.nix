@@ -20,7 +20,7 @@
   networking.hostName = "ThiagoLaptop"; # Define your hostname.
   programs.nm-applet.enable = true;
 
-  systemd.network.wait-online.enable = true;
+  systemd.services.NetworkManager-wait-online.enable = false;
 
   nix.settings.experimental-features = [
     "nix-command"
