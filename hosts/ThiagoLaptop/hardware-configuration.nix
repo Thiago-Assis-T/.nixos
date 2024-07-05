@@ -36,7 +36,6 @@
     "nixos-test"
     "benchmark"
     "big-parallel"
-    "kvm"
     "gccarch-skylake"
     "gcctune-skylake"
   ];

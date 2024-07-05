@@ -24,6 +24,8 @@
 
   programs.nm-applet.enable = true;
 
+  services.xserver.excludePackages = with pkgs; [ xterm ];
+
   systemd.services.NetworkManager-wait-online.enable = false;
 
   programs.gamemode = {

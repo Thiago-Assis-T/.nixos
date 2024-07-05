@@ -43,7 +43,6 @@
     "nixos-test"
     "benchmark"
     "big-parallel"
-    "kvm"
     "gccarch-znver3"
     "gcctune-znver3"
   ];
