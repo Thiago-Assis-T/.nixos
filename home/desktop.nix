@@ -37,7 +37,6 @@
       floorp
       pavucontrol
       freecad
-      logseq
       webcord-vencord
     ];
   };
