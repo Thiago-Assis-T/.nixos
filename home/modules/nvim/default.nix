@@ -71,6 +71,7 @@ in
       };
 
       plugins = {
+        ltex-extra.enable = true;
         nvim-colorizer.enable = true;
         transparent.enable = true;
         noice.enable = true;
@@ -182,11 +183,40 @@ in
             };
           };
         };
+        neorg.enable = true;
         telescope = {
           enable = true;
-          #keymapsSilent = true;
-          extensions.fzf-native.enable = true;
+          extensions = {
+            fzf-native.enable = true;
+            fzy-native.enable = true;
+            file-browser = {
+              enable = true;
+              settings = {
+                file_browser = {
+                  hijack_netrw = true;
+                  theme = "ivy";
+                };
+              };
+            };
+            media-files = {
+              enable = true;
+              dependencies = {
+                chafa.enable = true;
+                epub-thumbnailer.enable = true;
+                ffmpegthumbnailer.enable = true;
+                fontpreview.enable = true;
+                imageMagick.enable = true;
+                pdftoppm.enable = true;
+              };
+            };
+          };
           keymaps = {
+            "<leader>fb" = {
+              action = "file_browser";
+              options = {
+                desc = "[F]ile [B]rowser";
+              };
+            };
             "<leader>?" = {
               action = "oldfiles";
               options = {
@@ -290,7 +320,6 @@ in
             timeoutMs = 250;
           };
           formattersByFt = {
-
             nix = [
               "nixfmt"
               "nixpkgs-fmt"

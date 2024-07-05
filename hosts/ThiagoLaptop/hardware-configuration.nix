@@ -46,13 +46,13 @@
       allowUnfree = true;
       localSystem = {
         system = "x86_64-linux";
-        gcc.arch = "skylake";
-        gcc.tune = "skylake";
+        #gcc.arch = "skylake";
+        #gcc.tune = "skylake";
       };
     };
     hostPlatform = {
       system = "x86_64-linux";
-      config = "x86_64-unknown-linux-gnu";
+      #config = "x86_64-unknown-linux-gnu";
       #gcc.arch = "skylake";
       #gcc.tune = "skylake";
     };
