@@ -62,7 +62,7 @@ in
         fileencoding = "utf-8"; # File-content encoding for the current buffer
         termguicolors = true; # Enables 24-bit RGB color in the |TUI|
         spell = true; # Highlight spelling mistakes (local to window)
-        wrap = false; # Prevent text from wrapping
+        wrap = false;
         # Tab options
         tabstop = 2; # Number of spaces a <Tab> in the text stands for (local to buffer)
         shiftwidth = 2; # Number of spaces used for each step of (auto)indent (local to buffer)
@@ -196,14 +196,16 @@ in
             "core.dirman" = {
               config = {
                 workspaces = {
-                  notes = "~/notes";
+                  journal = "~/notes/journal";
+                  college = "~/notes/college";
                 };
-                default_workspace = "notes";
-                index = "index.norg";
-                use_popup = true;
+                default_workspace = "journal";
               };
             };
-            "core.concealer" = { };
+            "core.highlight" = { };
+            "core.concealer" = {
+              icon_preset = "basic";
+            };
           };
         };
         telescope = {
