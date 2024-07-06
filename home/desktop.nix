@@ -9,7 +9,7 @@
   programs.my-hyprland.enable = true;
   programs.my-waybar.enable = true;
   programs.my-swaync.enable = true;
-  programs.my-foot.enable = true;
+  programs.my-kitty.enable = true;
 
   gtk = {
     enable = true;

@@ -8,6 +8,6 @@
     ./hyprland
     ./waybar
     ./swaync
-    ./foot
+    ./kitty
   ];
 }

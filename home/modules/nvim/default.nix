@@ -13,6 +13,7 @@ in
   };
   config = lib.mkIf cfg.enable {
     home.packages = with pkgs; [
+
       fd
       # Telescope Dependency for find grep
       ripgrep
@@ -87,6 +88,8 @@ in
         treesitter = {
           enable = true;
           ensureInstalled = [
+            "norg"
+            "norg-meta"
             "nix"
             "lua"
           ];
@@ -184,21 +187,23 @@ in
           };
         };
         neorg = {
-          enable = false;
-          package = pkgs.luaPackages.neorg;
-          lazyLoading = true;
+          enable = true;
+          package = pkgs.vimPlugins.neorg;
           modules = {
-            "core.journal" = { };
-            "core.latex.renderer" = { };
-            "core.integrations.treesitter" = { };
-            "core.defaults" = { };
+            "core.defaults" = {
+              __empty = null;
+            };
             "core.dirman" = {
               config = {
                 workspaces = {
-                  home = "~/Documents/notes/home";
+                  notes = "~/notes";
                 };
+                default_workspace = "notes";
+                index = "index.norg";
+                use_popup = true;
               };
             };
+            "core.concealer" = { };
           };
         };
         telescope = {

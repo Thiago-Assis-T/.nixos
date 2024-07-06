@@ -23,7 +23,6 @@ in
         variables = [ "--all" ];
       };
       settings = {
-        exec-once = [ "${pkgs.foot}/bin/foot --server" ];
         monitor = ",preferred,auto,1";
         input = {
           kb_layout = "br";
@@ -68,7 +67,7 @@ in
         bind = [
           "$mod,W,exec,${pkgs.floorp}/bin/floorp"
           "$mod,Q,killactive"
-          "$mod,Return,exec,${pkgs.foot}/bin/footclient"
+          "$mod,Return,exec,${pkgs.kitty}/bin/kitty"
           "$mod, R, exec, ${pkgs.wofi}/bin/wofi -I -m -b -a --show drun"
           "$mod SHIFT, N, exec, ${pkgs.swaynotificationcenter}/bin/swaync-client -t -sw"
           "$mod,M,exit"

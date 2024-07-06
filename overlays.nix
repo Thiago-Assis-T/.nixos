@@ -1,6 +1,7 @@
-{ ... }:
+{ inputs, ... }:
 {
   nixpkgs.overlays = [
+    inputs.neorg-overlay.overlays.default
     (final: prev: {
       pythonPackagesExtensions = prev.pythonPackagesExtensions ++ [
         (pyfinal: pyprev: {
