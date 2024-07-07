@@ -1,6 +1,6 @@
 { pkgs, ... }:
 let
-  inputImage = ../../../wallpapers/Guardian.png;
+  inputImage = ../../../wallpapers/tokyo_rainy_road.jpg;
   brightness = "-20";
   contrast = "0";
   fillColor = "black";
