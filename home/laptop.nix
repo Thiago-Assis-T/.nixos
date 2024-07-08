@@ -36,7 +36,6 @@
       jellyfin-media-player
       floorp
       pavucontrol
-      webcord-vencord
     ];
   };
 }
