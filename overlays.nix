@@ -2,12 +2,7 @@
 {
   nixpkgs.overlays = [
     inputs.neorg-overlay.overlays.default
-
     (final: prev:{
-      libreoffice = prev.libreoffice.overrideAttrs (old: {
-        doCheck = false;
-        checkTarget =  [];
-      });
       pythonPackagesExtensions = prev.pythonPackagesExtensions ++ [
         (pyfinal: pyprev: {
           numpy = pyprev.numpy.overridePythonAttrs (oldAttrs: {
@@ -38,6 +33,9 @@
     })
   ];
   nixpkgs.config.packageOverrides = pkgs: {
+    libreoffice = pkgs.libreoffice.overrideAttrs (old: {
+      doCheck = false;
+    });
     haskellPackages = pkgs.haskellPackages.override {
       overrides = hsSelf: hsSuper: {
         crypton = pkgs.haskell.lib.overrideCabal hsSuper.crypton (oa: {
