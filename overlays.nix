@@ -33,9 +33,9 @@
     })
   ];
   nixpkgs.config.packageOverrides = pkgs: {
-    libreoffice-qt6-fresh = pkgs.libreoffice-qt6-fresh.overrideAttrs (old: {
+    libreoffice= pkgs.libreoffice.override {
       doCheck = false;
-    });
+    };
     haskellPackages = pkgs.haskellPackages.override {
       overrides = hsSelf: hsSuper: {
         crypton = pkgs.haskell.lib.overrideCabal hsSuper.crypton (oa: {

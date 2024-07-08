@@ -23,12 +23,16 @@ in
       extraLuaConfig = ''
         vim.g.mapleader = ' '
         vim.g.maplocalleader = ' '
+        vim.opt.termguicolors = true
         vim.g.have_nerd_font = true
         vim.opt.relativenumber = true
         vim.opt.cursorline = true
         vim.opt.list = true
         vim.opt.listchars = { tab = '» ', trail = '·', nbsp = '␣' }
         vim.opt.hlsearch = true
+	vim.opt.tabstop = 3
+	vim.opt.shiftwidth = 3
+	vim.opt.updatetime = 300
         vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>')
       '';
       plugins = with pkgs.vimPlugins; [
