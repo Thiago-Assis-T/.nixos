@@ -2,7 +2,11 @@
 {
   nixpkgs.overlays = [
     inputs.neorg-overlay.overlays.default
-    (final: prev: {
+
+    (final: prev:{
+      libreoffice-qt6-fresh = prev.libreoffice-qt6-fresh.overrideAttrs (old: {
+        checkTarget =  [];
+      });
       pythonPackagesExtensions = prev.pythonPackagesExtensions ++ [
         (pyfinal: pyprev: {
           numpy = pyprev.numpy.overridePythonAttrs (oldAttrs: {

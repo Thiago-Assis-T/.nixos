@@ -33,6 +33,7 @@
     homeDirectory = "/home/thiago";
     stateVersion = "23.11";
     packages = with pkgs; [
+      libreoffice-qt6-fresh
       jellyfin-media-player
       floorp
       pavucontrol
