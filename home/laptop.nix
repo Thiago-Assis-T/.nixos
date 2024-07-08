@@ -9,7 +9,7 @@
   programs.my-hyprland.enable = true;
   programs.my-waybar.enable = true;
   programs.my-swaync.enable = true;
-  programs.my-foot.enable = true;
+  programs.my-kitty.enable = true;
 
   gtk = {
     enable = true;
@@ -33,7 +33,6 @@
     homeDirectory = "/home/thiago";
     stateVersion = "23.11";
     packages = with pkgs; [
-      libreoffice-qt6-fresh
       jellyfin-media-player
       floorp
       pavucontrol
