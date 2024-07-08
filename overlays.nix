@@ -36,6 +36,7 @@
     libreoffice= pkgs.libreoffice.override {
       doCheck = false;
     };
+    vaapiIntel = pkgs.vaapiIntel.override { enableHybridCodec = true; };
     haskellPackages = pkgs.haskellPackages.override {
       overrides = hsSelf: hsSuper: {
         crypton = pkgs.haskell.lib.overrideCabal hsSuper.crypton (oa: {
