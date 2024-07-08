@@ -33,10 +33,10 @@
     })
   ];
   nixpkgs.config.packageOverrides = pkgs: {
-    libreoffice = pkgs.libreoffice.overrideAttrs {
+    libreoffice-qt6-fresh = pkgs.libreoffice-qt6-fresh.overrideAttrs {
       doCheck = false;
     };
-    vaapiIntel = pkgs.vaapiIntel.override { enableHybridCodec = true; };
+    intel-vaapi-driver= pkgs.intel-vaapi-driver.override { enableHybridCodec = true; };
     haskellPackages = pkgs.haskellPackages.override {
       overrides = hsSelf: hsSuper: {
         crypton = pkgs.haskell.lib.overrideCabal hsSuper.crypton (oa: {
