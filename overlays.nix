@@ -33,7 +33,7 @@
     })
   ];
   nixpkgs.config.packageOverrides = pkgs: {
-    libreoffice= pkgs.libreoffice.override {
+    libreoffice = pkgs.libreoffice.overrideAttrs {
       doCheck = false;
     };
     vaapiIntel = pkgs.vaapiIntel.override { enableHybridCodec = true; };
