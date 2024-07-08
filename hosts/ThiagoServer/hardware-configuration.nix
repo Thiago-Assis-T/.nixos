@@ -25,6 +25,7 @@
   boot.kernelModules = [ "kvm-intel" ];
   boot.extraModulePackages = [ ];
   boot.blacklistedKernelModules = [ ];
+  boot.kernelParams = [ "intal_pstate=active" ];
 
   services.logind.lidSwitch = "ignore";
   services.logind.lidSwitchDocked = "ignore";
