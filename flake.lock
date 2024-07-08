@@ -331,11 +331,11 @@
         "norg-meta": "norg-meta"
       },
       "locked": {
-        "lastModified": 1720347196,
-        "narHash": "sha256-LQyRyFvZEPwETGBT/KoOILzkiiRLKaPlqPPx4sCfSgo=",
+        "lastModified": 1720390404,
+        "narHash": "sha256-f7GZMCtubRojLcUj4GuP4VW+zRAR2+hApjdBYMQwG9g=",
         "owner": "nvim-neorg",
         "repo": "nixpkgs-neorg-overlay",
-        "rev": "aa0bd786479eac106e90721ecb79a2f4f54f4953",
+        "rev": "a682b270784f941347e6bc25034b9d19bc0b5091",
         "type": "github"
       },
       "original": {
