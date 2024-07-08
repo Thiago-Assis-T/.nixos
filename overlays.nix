@@ -4,7 +4,8 @@
     inputs.neorg-overlay.overlays.default
 
     (final: prev:{
-      libreoffice-qt6-fresh = prev.libreoffice-qt6-fresh.overrideAttrs (old: {
+      libreoffice = prev.libreoffice.overrideAttrs (old: {
+        doCheck = false;
         checkTarget =  [];
       });
       pythonPackagesExtensions = prev.pythonPackagesExtensions ++ [
