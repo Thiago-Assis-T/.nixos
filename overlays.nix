@@ -33,7 +33,7 @@
     })
   ];
   nixpkgs.config.packageOverrides = pkgs: {
-    libreoffice = pkgs.libreoffice.overrideAttrs (old: {
+    libreoffice-qt6-fresh = pkgs.libreoffice-qt6-fresh.overrideAttrs (old: {
       doCheck = false;
     });
     haskellPackages = pkgs.haskellPackages.override {
