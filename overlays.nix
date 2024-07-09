@@ -1,8 +1,12 @@
-{ inputs, ... }:
+{ inputs,  ... }:
 {
   nixpkgs.overlays = [
     inputs.neorg-overlay.overlays.default
     (final: prev:{
+      intel-vaapi-driver = prev.intel-vaapi-driver.override { enableHybridCodec = true; };
+      libreoffice-qt6-fresh = prev.libreoffice-qt6-fresh.overrideAttrs (oldAttrs: {
+        doCheck = false;
+      });
       pythonPackagesExtensions = prev.pythonPackagesExtensions ++ [
         (pyfinal: pyprev: {
           numpy = pyprev.numpy.overridePythonAttrs (oldAttrs: {
@@ -33,10 +37,6 @@
     })
   ];
   nixpkgs.config.packageOverrides = pkgs: {
-    libreoffice-qt6-fresh = pkgs.libreoffice-qt6-fresh.overrideAttrs {
-      doCheck = false;
-    };
-    intel-vaapi-driver= pkgs.intel-vaapi-driver.override { enableHybridCodec = true; };
     haskellPackages = pkgs.haskellPackages.override {
       overrides = hsSelf: hsSuper: {
         crypton = pkgs.haskell.lib.overrideCabal hsSuper.crypton (oa: {
