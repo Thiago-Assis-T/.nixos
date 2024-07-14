@@ -1,11 +1,21 @@
-{ inputs,  ... }:
+{ inputs, ... }:
 {
   nixpkgs.overlays = [
-	  inputs.neorg-overlay.overlays.default
-    (final: prev:{
+    inputs.neorg-overlay.overlays.default
+    (final: prev: {
+      intel-vaapi-driver = prev.intel-vaapi-driver.override { enableHybridCodec = true; };
+      libreoffice-qt6-fresh = prev.libreoffice-qt6-fresh.overrideAttrs (oldAttrs: {
+        doCheck = false;
+      });
       pythonPackagesExtensions = prev.pythonPackagesExtensions ++ [
         (pyfinal: pyprev: {
-		  
+          websockets = pyprev.websockets.overridePythonAttrs (oldAttrs: {
+            postPatch = '''';
+            doCheck = false;
+            doInstallCheck = false;
+            dontCheck = true;
+          });
+
           pyqt5 = pyprev.pyqt5.overridePythonAttrs (oldAttrs: {
 
             doCheck = false;

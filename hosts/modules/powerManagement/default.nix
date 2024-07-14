@@ -3,7 +3,7 @@
   powerManagement = {
     enable = true;
     powertop.enable = true;
-    cpuFreqGovernor = "performance";
+    cpuFreqGovernor = "powersave";
   };
   services.thermald.enable = true;
   services = {
