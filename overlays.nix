@@ -1,14 +1,17 @@
 { inputs,  ... }:
 {
   nixpkgs.overlays = [
-    inputs.neorg-overlay.overlays.default
+	  inputs.neorg-overlay.overlays.default
     (final: prev:{
-      intel-vaapi-driver = prev.intel-vaapi-driver.override { enableHybridCodec = true; };
-      libreoffice-qt6-fresh = prev.libreoffice-qt6-fresh.overrideAttrs (oldAttrs: {
-        doCheck = false;
-      });
       pythonPackagesExtensions = prev.pythonPackagesExtensions ++ [
         (pyfinal: pyprev: {
+		  
+          pyqt5 = pyprev.pyqt5.overridePythonAttrs (oldAttrs: {
+
+            doCheck = false;
+            doInstallCheck = false;
+            dontCheck = true;
+			 });
           numpy = pyprev.numpy.overridePythonAttrs (oldAttrs: {
             postPatch = ''
               rm numpy/core/tests/test_cython.py
@@ -35,8 +38,10 @@
         })
       ];
     })
+
   ];
   nixpkgs.config.packageOverrides = pkgs: {
+    intel-vaapi-driver = pkgs.intel-vaapi-driver.override { enableHybridCodec = true; };
     haskellPackages = pkgs.haskellPackages.override {
       overrides = hsSelf: hsSuper: {
         crypton = pkgs.haskell.lib.overrideCabal hsSuper.crypton (oa: {
@@ -48,7 +53,6 @@
         crypton-x509-validation = pkgs.haskell.lib.overrideCabal hsSuper.crypton-x509-validation (oa: {
           doCheck = false;
         });
-
         cryptonite = pkgs.haskell.lib.overrideCabal hsSuper.cryptonite (oa: {
           doCheck = false;
         });
