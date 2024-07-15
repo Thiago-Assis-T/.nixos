@@ -19,6 +19,8 @@ in
 			extraPackages = with pkgs; [
 				nixd
 				lua-language-server
+				nixfmt-classic
+				stylua
 			];
 			extraLuaConfig = ''
 				vim.g.mapleader = ' '
@@ -39,37 +41,47 @@ in
 				vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagnostic [Q]uickfix list' })
 				'';
 			plugins =  [
-			pkgs.vimPlugins.plenary-nvim
-			{
-				plugin = pkgs.vimPlugins.nvim-treesitter.withAllGrammars;
-				type = "lua";
-				config = builtins.readFile ./lua/treesitter.lua;
-			}
-			{
-				plugin = pkgs.vimPlugins.gitsigns-nvim;
-				type = "lua";
-				config = '' require("gitsigns").setup() '';
-			}
-			{
-				plugin = pkgs.vimPlugins.nvim-lspconfig;
-				type = "lua";
-				config = builtins.readFile ./lua/lsp.lua;
-			}
-			{
-				plugin = pkgs.vimPlugins.nvim-web-devicons;
-				type = "lua";
-				config = '' require'nvim-web-devicons'.setup {} '';
-			}
-			{
-				plugin = pkgs.vimPlugins.nvim-web-devicons;
-				type = "lua";
-				config = '' require'nvim-web-devicons'.setup {} '';
-			}
-			{
-				plugin = pkgs.vimPlugins.lualine-nvim;
-				type = "lua";
-				config = builtins.readFile ./lua/lualine.lua;
-			}
+				pkgs.vimPlugins.plenary-nvim
+				{
+					plugin = pkgs.vimPlugins.nvim-treesitter.withAllGrammars;
+					type = "lua";
+					config = builtins.readFile ./lua/treesitter.lua;
+				}
+
+				{
+					plugin = pkgs.vimPlugins.gitsigns-nvim;
+					type = "lua";
+					config = '' require("gitsigns").setup() '';
+				}
+
+				{
+					plugin = pkgs.vimPlugins.nvim-lspconfig;
+					type = "lua";
+					config = builtins.readFile ./lua/lsp.lua;
+				}
+				
+				{
+					plugin = pkgs.vimPlugins.nvim-web-devicons;
+					type = "lua";
+					config = '' require'nvim-web-devicons'.setup {} '';
+				}
+				
+				{
+					plugin = pkgs.vimPlugins.nvim-web-devicons;
+					type = "lua";
+					config = '' require'nvim-web-devicons'.setup {} '';
+				}
+
+				{
+					plugin = pkgs.vimPlugins.lualine-nvim;
+					type = "lua";
+					config = builtins.readFile ./lua/lualine.lua;
+				}
+				{
+					plugin = pkgs.vimPlugins.conform-nvim;
+					type = "lua";
+					config = builtins.readFile ./lua/conform.lua;
+				}
 			];
 		};
 	};
