@@ -20,7 +20,7 @@ in {
 
         lua-language-server
         stylua
-        luacheck
+        lua54Packages.luacheck
       ];
       extraLuaConfig = ''
         vim.g.mapleader = ' '
