@@ -21,7 +21,7 @@ in {
         stylua
         lua54Packages.luacheck
       ];
-      extraLuaConfig = builtins.readFile ./lua/extraConfig.lua 
+      extraLuaConfig = builtins.readFile ./lua/extraConfig.lua;
       plugins = [
         pkgs.vimPlugins.plenary-nvim
         {
@@ -29,31 +29,26 @@ in {
           type = "lua";
           config = builtins.readFile ./lua/treesitter.lua;
         }
-
         {
           plugin = pkgs.vimPlugins.gitsigns-nvim;
           type = "lua";
           config = ''require("gitsigns").setup() '';
         }
-
         {
           plugin = pkgs.vimPlugins.nvim-lspconfig;
           type = "lua";
           config = builtins.readFile ./lua/lsp.lua;
         }
-
         {
           plugin = pkgs.vimPlugins.nvim-web-devicons;
           type = "lua";
           config = "require'nvim-web-devicons'.setup {} ";
         }
-
         {
           plugin = pkgs.vimPlugins.nvim-web-devicons;
           type = "lua";
           config = "require'nvim-web-devicons'.setup {} ";
         }
-
         {
           plugin = pkgs.vimPlugins.lualine-nvim;
           type = "lua";
