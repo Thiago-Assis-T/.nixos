@@ -2,12 +2,7 @@
 # your system. Help is available in the configuration.nix(5) man page, on
 # https://search.nixos.org/options and in the NixOS manual (`nixos-help`).
 
-{
-  inputs,
-  pkgs,
-  lib,
-  ...
-}:
+{ inputs, pkgs, lib, ... }:
 
 {
   imports = [
@@ -88,17 +83,12 @@
       enable = true;
     };
   };
-  nixpkgs.config = {
-    allowUnfree = true;
-  };
+  nixpkgs.config = { allowUnfree = true; };
   hardware.opengl = {
     enable = true;
     driSupport = true;
     driSupport32Bit = true;
-    extraPackages = with pkgs; [
-      amdvlk
-      rocmPackages.clr.icd
-    ];
+    extraPackages = with pkgs; [ amdvlk rocmPackages.clr.icd ];
     extraPackages32 = with pkgs; [ driversi686Linux.amdvlk ];
   };
 
@@ -121,20 +111,18 @@
 
   services.fwupd.enable = true;
 
-  nix.settings.experimental-features = [
-    "nix-command"
-    "flakes"
-  ];
+  nix.settings.experimental-features = [ "nix-command" "flakes" ];
   environment.sessionVariables.NIXOS_OZONE_WL = 1;
   networking.hostName = "ThiagoDesktop"; # Define your hostname.
   networking.networkmanager = {
     enable = true;
-    wifi = {
-      powersave = false;
-    };
+    wifi = { powersave = false; };
   };
   time.timeZone = "America/Sao_Paulo";
   i18n.defaultLocale = "en_CA.UTF-8";
+  fonts.fontconfig.enable = true;
+  fonts.fontconfig.antialias = true;
+  fonts.fontDir.enable = true;
   console = {
     font = "Lat2-Terminus16";
     keyMap = "br-abnt2";
@@ -153,11 +141,7 @@
     dates = "02:00";
     flake = inputs.self.outPath;
     randomizedDelaySec = "45min";
-    flags = [
-      "--update-input"
-      "nixpkgs"
-      "-L"
-    ];
+    flags = [ "--update-input" "nixpkgs" "-L" ];
   };
 
   system.stateVersion = "23.11"; # Did you read the comment?

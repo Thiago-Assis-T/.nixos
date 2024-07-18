@@ -23,10 +23,7 @@
 
   systemd.services.NetworkManager-wait-online.enable = false;
 
-  nix.settings.experimental-features = [
-    "nix-command"
-    "flakes"
-  ];
+  nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
   # Set your time zone.
   time.timeZone = "America/Sao_Paulo";
@@ -77,9 +74,7 @@
   environment.sessionVariables.NIXOS_OZONE_WL = 1;
   networking.networkmanager = {
     enable = true;
-    wifi = {
-      powersave = true;
-    };
+    wifi = { powersave = true; };
   };
 
   security.rtkit.enable = true;
@@ -99,6 +94,9 @@
 
   # Select internationalisation properties.
   i18n.defaultLocale = "en_CA.UTF-8";
+  fonts.fontconfig.enable = true;
+  fonts.fontconfig.antialias = true;
+  fonts.fontDir.enable = true;
   console = {
     font = "Lat2-Terminus16";
     keyMap = "br-abnt2";
@@ -127,11 +125,7 @@
     dates = "02:00";
     flake = inputs.self.outPath;
     randomizedDelaySec = "45min";
-    flags = [
-      "--update-input"
-      "nixpkgs"
-      "-L"
-    ];
+    flags = [ "--update-input" "nixpkgs" "-L" ];
   };
 
   system.stateVersion = "24.05"; # Did you read the comment?
