@@ -74,7 +74,19 @@
     xwayland.enable = true;
   };
 
-  services.getty.autologinUser = "thiago";
+  #services.getty.autologinUser = "thiago";
+  programs.regreet = {
+    enable = true;
+    settings = {
+      background.path = ../../wallpapers/tokyo_rainy_road.jpg;
+      gtk = {
+        application_prefer_dark_theme = true;
+        cursor_theme_name = "Adwaita";
+        icon_theme_name = "Adwaita";
+        theme_name = "Adwaita";
+      };
+    };
+  };
 
   nixpkgs.config = { allowUnfree = true; };
   hardware.opengl = {
