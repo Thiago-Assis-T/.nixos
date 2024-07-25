@@ -1,11 +1,8 @@
-{ config, lib, ... }:
+{ config, lib, pkgs, ... }:
 
-let
-  cfg = config.programs.my-shell;
-in
+let cfg = config.programs.my-shell;
 
-{
-
+in {
   options.programs.my-shell = {
     enable = lib.mkEnableOption (lib.mdDoc "my-shell");
   };
@@ -21,9 +18,7 @@ in
       bash = {
         enable = true;
         enableCompletion = true;
-        shellAliases = {
-          cat = "bat";
-        };
+        shellAliases = { cat = "bat"; };
       };
       starship = {
         enable = true;

@@ -36,6 +36,7 @@
       floorp
       pavucontrol
       freecad
+      libreoffice-qt6-fresh
       webcord-vencord
     ];
   };

@@ -20,6 +20,7 @@
   programs.nm-applet.enable = true;
 
   services.xserver.excludePackages = with pkgs; [ xterm ];
+  services.xserver.displayManager.lightdm.enable = false;
 
   systemd.services.NetworkManager-wait-online.enable = false;
 
@@ -50,7 +51,7 @@
 
   programs.steam = {
     enable = true;
-    gamescopeSession.enable = true;
+    gamescopeSession.enable = false;
     extraCompatPackages = with pkgs; [ proton-ge-bin ];
     extest.enable = true;
   };
@@ -64,10 +65,7 @@
       wlr.enable = true;
       xdgOpenUsePortal = true;
       configPackages = with pkgs; [ xdg-desktop-portal-hyprland ];
-      extraPortals = with pkgs; [
-        xdg-desktop-portal-hyprland
-        xdg-desktop-portal-wlr
-      ];
+      extraPortals = with pkgs; [ xdg-desktop-portal-hyprland ];
     };
   };
 
@@ -76,13 +74,8 @@
     xwayland.enable = true;
   };
 
-  services.displayManager = {
-    defaultSession = "hyprland";
-    sddm = {
-      wayland.enable = true;
-      enable = true;
-    };
-  };
+  services.getty.autologinUser = "thiago";
+
   nixpkgs.config = { allowUnfree = true; };
   hardware.opengl = {
     enable = true;
