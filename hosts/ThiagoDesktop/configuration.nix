@@ -78,7 +78,7 @@
   programs.regreet = {
     enable = true;
     settings = {
-      background.path = ../../wallpapers/tokyo_rainy_road.jpg;
+      background.path = ../../wallpapers/od_current.png;
       gtk = {
         application_prefer_dark_theme = true;
         cursor_theme_name = "Adwaita";

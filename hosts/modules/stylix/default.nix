@@ -1,7 +1,6 @@
-{ pkgs, wallpapers, ... }:
+{ pkgs, ... }:
 let
-  #inputImage = ../../../wallpapers/od_current.png;
-  inputImage = wallpapers.minimal.od_error.png;
+  inputImage = ../../../wallpapers/minimal/od_underwater.png;
   #brightness = "-20";
   #contrast = "0";
   #fillColor = "black";
