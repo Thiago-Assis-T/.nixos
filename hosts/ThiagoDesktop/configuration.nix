@@ -78,7 +78,7 @@
   programs.regreet = {
     enable = true;
     settings = {
-      background.path = ../../wallpapers/od_current.png;
+      background.path = ../../wallpapers/minimal/od_underwater.png;
       gtk = {
         application_prefer_dark_theme = true;
         cursor_theme_name = "Adwaita";
