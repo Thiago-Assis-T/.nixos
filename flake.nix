@@ -20,6 +20,8 @@
       url = "github:danth/stylix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    wallpapers = { url = "github:Narmis-E/onedark-wallpapers"; };
   };
   outputs = inputs@{ nixpkgs, disko, home-manager, ... }: {
     nixosConfigurations = {

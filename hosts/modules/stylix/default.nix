@@ -1,6 +1,7 @@
-{ pkgs, ... }:
+{ pkgs, wallpapers, ... }:
 let
-  inputImage = ../../../wallpapers/tokyo_rainy_road.jpg;
+  #inputImage = ../../../wallpapers/od_current.png;
+  inputImage = wallpapers.minimal.od_error.png;
   #brightness = "-20";
   #contrast = "0";
   #fillColor = "black";
