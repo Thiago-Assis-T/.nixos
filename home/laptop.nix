@@ -1,5 +1,4 @@
-{ pkgs, ... }:
-{
+{ pkgs, ... }: {
 
   imports = [ ./modules ];
 
@@ -10,6 +9,7 @@
   programs.my-waybar.enable = true;
   programs.my-swaync.enable = true;
   programs.my-kitty.enable = true;
+  programs.my-nnn.enable = true;
 
   gtk = {
     enable = true;
@@ -32,10 +32,6 @@
     username = "thiago";
     homeDirectory = "/home/thiago";
     stateVersion = "23.11";
-    packages = with pkgs; [
-      jellyfin-media-player
-      floorp
-      pavucontrol
-    ];
+    packages = with pkgs; [ jellyfin-media-player floorp pavucontrol ];
   };
 }

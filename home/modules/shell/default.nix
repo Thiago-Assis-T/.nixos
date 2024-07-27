@@ -18,7 +18,10 @@ in {
       bash = {
         enable = true;
         enableCompletion = true;
-        shellAliases = { cat = "bat"; };
+        shellAliases = {
+          cat = "bat";
+          ls = "nnn -eH";
+        };
       };
       starship = {
         enable = true;
