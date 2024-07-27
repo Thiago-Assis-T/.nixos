@@ -1,6 +1,6 @@
 { pkgs, ... }:
 let
-  inputImage = ../../../wallpapers/minimal/od_underwater.png;
+  inputImage = ../../../wallpapers/minimal/od_space01.png;
   #brightness = "-20";
   #contrast = "0";
   #fillColor = "black";
