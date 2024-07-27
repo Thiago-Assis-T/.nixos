@@ -34,17 +34,18 @@
   nixpkgs = {
     config = {
       allowUnfree = true;
-      localSystem = {
-        system = "x86_64-linux";
-        #gcc.arch = "znver3";
-        #gcc.tune = "znver3";
-      };
+
+    };
+    localSystem = {
+      system = "x86_64-linux";
+      gcc.arch = "znver3";
+      gcc.tune = "znver3";
     };
     hostPlatform = {
-      #config = "x86_64-unknown-linux-gnu";
       system = "x86_64-linux";
-      #gcc.arch = "znver3";
-      #gcc.tune = "znver3";
+      config = "x86_64-unknown-linux-gnu";
+      gcc.arch = "znver3";
+      gcc.tune = "znver3";
     };
   };
   hardware.cpu.amd.updateMicrocode =

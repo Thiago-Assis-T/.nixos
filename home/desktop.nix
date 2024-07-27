@@ -32,11 +32,10 @@
     homeDirectory = "/home/thiago";
     stateVersion = "23.11";
     packages = with pkgs; [
-      jellyfin-media-player
       floorp
       pavucontrol
       freecad
-      libreoffice-qt6-fresh
+      #libreoffice-qt6-fresh
       webcord-vencord
     ];
   };
