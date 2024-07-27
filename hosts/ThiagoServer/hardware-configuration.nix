@@ -18,7 +18,7 @@
   services.logind.lidSwitch = "ignore";
   services.logind.lidSwitchDocked = "ignore";
   services.logind.extraConfig = "HandleLidSwitch=ignore";
-  #nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
+  nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
 
   nix.settings.system-features = [
     "nixos-test"
@@ -30,18 +30,18 @@
   nixpkgs = {
     config = {
       allowUnfree = true;
-      localSystem = {
-        system = "x86_64-linux";
-        #gcc.arch = "skylake";
-        #gcc.tune = "skylake";
-      };
-    };
-    hostPlatform = {
-      system = "x86_64-linux";
-      #config = "x86_64-unknown-linux-gnu";
+      #localSystem = {
+      #system = "x86_64-linux";
       #gcc.arch = "skylake";
       #gcc.tune = "skylake";
+      #};
     };
+    #hostPlatform = {
+    #system = "x86_64-linux";
+    #config = "x86_64-unknown-linux-gnu";
+    #gcc.arch = "skylake";
+    #gcc.tune = "skylake";
+    #};
   };
   hardware.cpu.intel.updateMicrocode =
     lib.mkDefault config.hardware.enableRedistributableFirmware;
