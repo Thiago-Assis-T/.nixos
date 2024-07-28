@@ -21,6 +21,7 @@ in {
         shellAliases = {
           cat = "bat";
           ls = "nnn -eH";
+          nnn = "nnn -e";
         };
       };
       starship = {
