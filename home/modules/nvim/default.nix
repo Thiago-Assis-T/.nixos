@@ -63,7 +63,11 @@ in {
           plugin = pkgs.vimPlugins.nvim-lint;
           type = "lua";
           config = builtins.readFile ./lua/lint.lua;
-
+        }
+        {
+          plugin = pkgs.vimPlugins.telescope-nvim;
+          type = "lua";
+          config = builtins.readFile ./lua/telescope.lua;
         }
       ];
     };
