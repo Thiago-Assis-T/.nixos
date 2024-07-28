@@ -13,6 +13,7 @@
     ../modules/tailscale
     ../modules/powerManagement
     ../modules/stylix
+    ../modules/loginManager
   ];
   zramSwap.enable = true;
   services.openssh.enable = true;
@@ -75,19 +76,6 @@
   };
 
   #services.getty.autologinUser = "thiago";
-  programs.regreet = {
-    enable = true;
-    settings = {
-      background.path = ../../wallpapers/minimal/od_space01.png;
-      gtk = {
-        application_prefer_dark_theme = true;
-        cursor_theme_name = "Adwaita";
-        icon_theme_name = "Adwaita";
-        theme_name = "Adwaita";
-      };
-    };
-  };
-
   nixpkgs.config = { allowUnfree = true; };
   hardware.graphics = {
     enable = true;
