@@ -1,1201 +1,1494 @@
-From 45e6f0f6d45342f41344ae035990306785175bed Mon Sep 17 00:00:00 2001
-From: sewn <sewn@disroot.org>
-Date: Wed, 26 Jun 2024 23:07:14 +0300
-Subject: [PATCH] Implement dwm bar clone
+<!DOCTYPE html>
+<html lang="en-US" data-theme="codeberg-auto">
+<head>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	
+	<title>sewn/dwl: Personal dwl fork - Codeberg.org</title>
+	<link rel="manifest" href="data:application/json;base64,eyJuYW1lIjoiQ29kZWJlcmcub3JnIiwic2hvcnRfbmFtZSI6IkNvZGViZXJnLm9yZyIsInN0YXJ0X3VybCI6Imh0dHBzOi8vY29kZWJlcmcub3JnLyIsImljb25zIjpbeyJzcmMiOiJodHRwczovL2NvZGViZXJnLm9yZy9hc3NldHMvaW1nL2xvZ28ucG5nIiwidHlwZSI6ImltYWdlL3BuZyIsInNpemVzIjoiNTEyeDUxMiJ9LHsic3JjIjoiaHR0cHM6Ly9jb2RlYmVyZy5vcmcvYXNzZXRzL2ltZy9sb2dvLnN2ZyIsInR5cGUiOiJpbWFnZS9zdmcreG1sIiwic2l6ZXMiOiI1MTJ4NTEyIn1dfQ==">
+	<meta name="author" content="sewn">
+	<meta name="description" content="dwl - Personal dwl fork">
+	<meta name="keywords" content="git,non-profit,foss,oss,free,software,open,source,code,hosting">
+	<meta name="referrer" content="no-referrer">
 
----
- LICENSE      |   3 +-
- LICENSE.drwl |  21 +++
- Makefile     |   2 +-
- config.def.h |  31 ++--
- drwl.h       | 284 +++++++++++++++++++++++++++++++++++++
- dwl.c        | 391 ++++++++++++++++++++++++++++++++++++++++-----------
- 6 files changed, 641 insertions(+), 91 deletions(-)
- create mode 100644 LICENSE.drwl
- create mode 100644 drwl.h
 
-diff --git a/LICENSE b/LICENSE
-index 658085a..2c269b2 100644
---- a/LICENSE
-+++ b/LICENSE
-@@ -2,7 +2,8 @@ dwl - dwm for Wayland
- 
- Copyright © 2020 dwl team
- 
--See also the files LICENSE.tinywl, LICENSE.dwm and LICENSE.sway.
-+See also the files LICENSE.tinywl, LICENSE.dwm, LICENSE.sway, and
-+LICENSE.drwl.
- 
- This program is free software: you can redistribute it and/or modify
- it under the terms of the GNU General Public License as published by
-diff --git a/LICENSE.drwl b/LICENSE.drwl
-new file mode 100644
-index 0000000..4754b85
---- /dev/null
-+++ b/LICENSE.drwl
-@@ -0,0 +1,21 @@
-+Copyright (c) 2023-2024 sewn <sewn@disroot.org>
-+Copyright (c) 2015 Eric Pruitt <eric.pruitt@gmail.com>
-+
-+Permission is hereby granted, free of charge, to any person obtaining
-+a copy of this software and associated documentation files (the
-+"Software"), to deal in the Software without restriction, including
-+without limitation the rights to use, copy, modify, merge, publish,
-+distribute, sublicense, and/or sell copies of the Software, and to
-+permit persons to whom the Software is furnished to do so, subject to
-+the following conditions:
-+
-+The above copyright notice and this permission notice shall be
-+included in all copies or substantial portions of the Software.
-+
-+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
-+EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
-+NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
-+LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
-+OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
-+WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-diff --git a/Makefile b/Makefile
-index 9308656..eb5c9d8 100644
---- a/Makefile
-+++ b/Makefile
-@@ -12,7 +12,7 @@ DWLDEVCFLAGS = -g -pedantic -Wall -Wextra -Wdeclaration-after-statement \
- 	-Wfloat-conversion
- 
- # CFLAGS / LDFLAGS
--PKGS      = wlroots wayland-server xkbcommon libinput $(XLIBS)
-+PKGS      = wlroots wayland-server xkbcommon libinput pixman-1 fcft $(XLIBS)
- DWLCFLAGS = `$(PKG_CONFIG) --cflags $(PKGS)` $(DWLCPPFLAGS) $(DWLDEVCFLAGS) $(CFLAGS)
- LDLIBS    = `$(PKG_CONFIG) --libs $(PKGS)` $(LIBS)
- 
-diff --git a/config.def.h b/config.def.h
-index 646a3d6..6024b7e 100644
---- a/config.def.h
-+++ b/config.def.h
-@@ -7,15 +7,21 @@
- static const int sloppyfocus               = 1;  /* focus follows mouse */
- static const int bypass_surface_visibility = 0;  /* 1 means idle inhibitors will disable idle tracking even if it's surface isn't visible  */
- static const unsigned int borderpx         = 1;  /* border pixel of windows */
--static const float rootcolor[]             = COLOR(0x222222ff);
--static const float bordercolor[]           = COLOR(0x444444ff);
--static const float focuscolor[]            = COLOR(0x005577ff);
--static const float urgentcolor[]           = COLOR(0xff0000ff);
-+static const int showbar                   = 1; /* 0 means no bar */
-+static const int topbar                    = 1; /* 0 means bottom bar */
-+static const char *fonts[]                 = {"monospace:size=10"};
-+static const float rootcolor[]             = COLOR(0x000000ff);
- /* This conforms to the xdg-protocol. Set the alpha to zero to restore the old behavior */
- static const float fullscreen_bg[]         = {0.1f, 0.1f, 0.1f, 1.0f}; /* You can also use glsl colors */
-+static uint32_t colors[][3]                = {
-+	/*               fg          bg          border    */
-+	[SchemeNorm] = { 0xbbbbbbff, 0x222222ff, 0x444444ff },
-+	[SchemeSel]  = { 0xeeeeeeff, 0x005577ff, 0x005577ff },
-+	[SchemeUrg]  = { 0,          0,          0x770000ff },
-+};
- 
- /* tagging - TAGCOUNT must be no greater than 31 */
--#define TAGCOUNT (9)
-+static char *tags[] = { "1", "2", "3", "4", "5", "6", "7", "8", "9" };
- 
- /* logging */
- static int log_level = WLR_ERROR;
-@@ -126,6 +132,7 @@ static const Key keys[] = {
- 	/* modifier                  key                 function        argument */
- 	{ MODKEY,                    XKB_KEY_p,          spawn,          {.v = menucmd} },
- 	{ MODKEY|WLR_MODIFIER_SHIFT, XKB_KEY_Return,     spawn,          {.v = termcmd} },
-+	{ MODKEY,                    XKB_KEY_b,          togglebar,      {0} },
- 	{ MODKEY,                    XKB_KEY_j,          focusstack,     {.i = +1} },
- 	{ MODKEY,                    XKB_KEY_k,          focusstack,     {.i = -1} },
- 	{ MODKEY,                    XKB_KEY_i,          incnmaster,     {.i = +1} },
-@@ -169,7 +176,15 @@ static const Key keys[] = {
- };
- 
- static const Button buttons[] = {
--	{ MODKEY, BTN_LEFT,   moveresize,     {.ui = CurMove} },
--	{ MODKEY, BTN_MIDDLE, togglefloating, {0} },
--	{ MODKEY, BTN_RIGHT,  moveresize,     {.ui = CurResize} },
-+	{ ClkLtSymbol, 0,      BTN_LEFT,   setlayout,      {.v = &layouts[0]} },
-+	{ ClkLtSymbol, 0,      BTN_RIGHT,  setlayout,      {.v = &layouts[2]} },
-+	{ ClkTitle,    0,      BTN_MIDDLE, zoom,           {0} },
-+	{ ClkStatus,   0,      BTN_MIDDLE, spawn,          {.v = termcmd} },
-+	{ ClkClient,   MODKEY, BTN_LEFT,   moveresize,     {.ui = CurMove} },
-+	{ ClkClient,   MODKEY, BTN_MIDDLE, togglefloating, {0} },
-+	{ ClkClient,   MODKEY, BTN_RIGHT,  moveresize,     {.ui = CurResize} },
-+	{ ClkTagBar,   0,      BTN_LEFT,   view,           {0} },
-+	{ ClkTagBar,   0,      BTN_RIGHT,  toggleview,     {0} },
-+	{ ClkTagBar,   MODKEY, BTN_LEFT,   tag,            {0} },
-+	{ ClkTagBar,   MODKEY, BTN_RIGHT,  toggletag,      {0} },
- };
-diff --git a/drwl.h b/drwl.h
-new file mode 100644
-index 0000000..afcb2bd
---- /dev/null
-+++ b/drwl.h
-@@ -0,0 +1,284 @@
-+/*
-+ * drwl - https://codeberg.org/sewn/drwl
-+ * See LICENSE.drwl file for copyright and license details.
-+ */
-+#pragma once
-+
-+#include <stdlib.h>
-+#include <fcft/fcft.h>
-+#include <pixman-1/pixman.h>
-+
-+#define BETWEEN(X, A, B) ((A) <= (X) && (X) <= (B))
-+
-+enum { ColFg, ColBg, ColBorder }; /* colorscheme index */
-+
-+typedef struct {
-+	pixman_image_t *pix;
-+	struct fcft_font *font;
-+	uint32_t *scheme;
-+} Drwl;
-+
-+#define UTF_INVALID 0xFFFD
-+#define UTF_SIZ     4
-+
-+static const unsigned char utfbyte[UTF_SIZ + 1] = {0x80,    0, 0xC0, 0xE0, 0xF0};
-+static const unsigned char utfmask[UTF_SIZ + 1] = {0xC0, 0x80, 0xE0, 0xF0, 0xF8};
-+static const uint32_t utfmin[UTF_SIZ + 1] = {       0,    0,  0x80,  0x800,  0x10000};
-+static const uint32_t utfmax[UTF_SIZ + 1] = {0x10FFFF, 0x7F, 0x7FF, 0xFFFF, 0x10FFFF};
-+
-+static inline uint32_t
-+utf8decodebyte(const char c, size_t *i)
-+{
-+	for (*i = 0; *i < (UTF_SIZ + 1); ++(*i))
-+		if (((unsigned char)c & utfmask[*i]) == utfbyte[*i])
-+			return (unsigned char)c & ~utfmask[*i];
-+	return 0;
-+}
-+
-+static inline size_t
-+utf8decode(const char *c, uint32_t *u)
-+{
-+	size_t i, j, len, type;
-+	uint32_t udecoded;
-+
-+	*u = UTF_INVALID;
-+	udecoded = utf8decodebyte(c[0], &len);
-+	if (!BETWEEN(len, 1, UTF_SIZ))
-+		return 1;
-+	for (i = 1, j = 1; i < UTF_SIZ && j < len; ++i, ++j) {
-+		udecoded = (udecoded << 6) | utf8decodebyte(c[i], &type);
-+		if (type)
-+			return j;
-+	}
-+	if (j < len)
-+		return 0;
-+	*u = udecoded;
-+	if (!BETWEEN(*u, utfmin[len], utfmax[len]) || BETWEEN(*u, 0xD800, 0xDFFF))
-+		*u = UTF_INVALID;
-+	for (i = 1; *u > utfmax[i]; ++i)
-+		;
-+	return len;
-+}
-+
-+static int
-+drwl_init(void)
-+{
-+	fcft_set_scaling_filter(FCFT_SCALING_FILTER_LANCZOS3);
-+	return fcft_init(FCFT_LOG_COLORIZE_AUTO, 0, FCFT_LOG_CLASS_ERROR);
-+}
-+
-+static Drwl *
-+drwl_create(void)
-+{
-+	Drwl *drwl;
-+	
-+	if (!(drwl = calloc(1, sizeof(Drwl))))
-+		return NULL;
-+
-+	return drwl;
-+}
-+
-+static void
-+drwl_setfont(Drwl *drwl, struct fcft_font *font)
-+{
-+	if (drwl)
-+		drwl->font = font;
-+}
-+
-+static struct fcft_font *
-+drwl_load_font(Drwl *drwl, size_t fontcount,
-+		const char *fonts[static fontcount], const char *attributes)
-+{
-+	struct fcft_font *font = fcft_from_name(fontcount, fonts, attributes);
-+	if (drwl)
-+		drwl_setfont(drwl, font);
-+	return font;
-+}
-+
-+static void
-+drwl_destroy_font(struct fcft_font *font)
-+{
-+	fcft_destroy(font);
-+}
-+
-+static inline pixman_color_t
-+convert_color(uint32_t clr)
-+{
-+	return (pixman_color_t){
-+		((clr >> 24) & 0xFF) * 0x101,
-+		((clr >> 16) & 0xFF) * 0x101,
-+		((clr >> 8) & 0xFF) * 0x101,
-+		(clr & 0xFF) * 0x101
-+	};
-+}
-+
-+static void
-+drwl_setscheme(Drwl *drwl, uint32_t *scm)
-+{
-+	if (drwl)
-+		drwl->scheme = scm;
-+}
-+
-+static inline int
-+drwl_stride(unsigned int width)
-+{
-+	return (((PIXMAN_FORMAT_BPP(PIXMAN_a8r8g8b8) * width + 7) / 8 + 4 - 1) & -4);
-+}
-+
-+static void
-+drwl_prepare_drawing(Drwl *drwl, unsigned int w, unsigned int h,
-+		uint32_t *bits, int stride)
-+{
-+	pixman_region32_t clip;
-+
-+	if (!drwl)
-+		return;
-+
-+	drwl->pix = pixman_image_create_bits_no_clear(
-+		PIXMAN_a8r8g8b8, w, h, bits, stride);
-+	pixman_region32_init_rect(&clip, 0, 0, w, h);
-+	pixman_image_set_clip_region32(drwl->pix, &clip);
-+	pixman_region32_fini(&clip);
-+}
-+
-+static void
-+drwl_rect(Drwl *drwl,
-+		int x, int y, unsigned int w, unsigned int h,
-+		int filled, int invert)
-+{
-+	pixman_color_t clr;
-+	if (!drwl || !drwl->scheme || !drwl->pix)
-+		return;
-+
-+	clr = convert_color(drwl->scheme[invert ? ColBg : ColFg]);
-+	if (filled)
-+		pixman_image_fill_rectangles(PIXMAN_OP_SRC, drwl->pix, &clr, 1,
-+			&(pixman_rectangle16_t){x, y, w, h});
-+	else
-+		pixman_image_fill_rectangles(PIXMAN_OP_SRC, drwl->pix, &clr, 4,
-+			(pixman_rectangle16_t[4]){
-+				{ x,         y,         w, 1 },
-+				{ x,         y + h - 1, w, 1 },
-+				{ x,         y,         1, h },
-+				{ x + w - 1, y,         1, h }});
-+}
-+
-+static int
-+drwl_text(Drwl *drwl,
-+		int x, int y, unsigned int w, unsigned int h,
-+		unsigned int lpad, const char *text, int invert)
-+{
-+	int ty;
-+	int utf8charlen, render = x || y || w || h;
-+	long x_kern;
-+	uint32_t cp = 0, last_cp = 0;
-+	pixman_color_t clr;
-+	pixman_image_t *fg_pix = NULL;
-+	int noellipsis = 0;
-+	const struct fcft_glyph *glyph, *eg;
-+	int fcft_subpixel_mode = FCFT_SUBPIXEL_DEFAULT;
-+
-+	if (!drwl || (render && (!drwl->scheme || !w || !drwl->pix)) || !text || !drwl->font)
-+		return 0;
-+
-+	if (!render) {
-+		w = invert ? invert : ~invert;
-+	} else {
-+		clr = convert_color(drwl->scheme[invert ? ColBg : ColFg]);
-+		fg_pix = pixman_image_create_solid_fill(&clr);
-+
-+		drwl_rect(drwl, x, y, w, h, 1, !invert);
-+
-+		x += lpad;
-+		w -= lpad;
-+	}
-+
-+	if (render && (drwl->scheme[ColBg] & 0xFF) != 0xFF)
-+		fcft_subpixel_mode = FCFT_SUBPIXEL_NONE;
-+
-+	// U+2026 == …
-+	eg = fcft_rasterize_char_utf32(drwl->font, 0x2026, fcft_subpixel_mode);
-+
-+	while (*text) {
-+		utf8charlen = utf8decode(text, &cp);
-+
-+		glyph = fcft_rasterize_char_utf32(drwl->font, cp, fcft_subpixel_mode);
-+		if (!glyph)
-+			continue;
-+
-+		x_kern = 0;
-+		if (last_cp)
-+			fcft_kerning(drwl->font, last_cp, cp, &x_kern, NULL);
-+		last_cp = cp;
-+
-+		ty = y + (h - drwl->font->height) / 2 + drwl->font->ascent;
-+
-+		/* draw ellipsis if remaining text doesn't fit */
-+		if (!noellipsis && x_kern + glyph->advance.x + eg->advance.x > w && *(text + 1) != '\0') {
-+			if (drwl_text(drwl, 0, 0, 0, 0, 0, text, 0)
-+					- glyph->advance.x < eg->advance.x) {
-+				noellipsis = 1;
-+			} else {
-+				w -= eg->advance.x;
-+				pixman_image_composite32(
-+					PIXMAN_OP_OVER, fg_pix, eg->pix, drwl->pix, 0, 0, 0, 0,
-+					x + eg->x, ty - eg->y, eg->width, eg->height);
-+			}
-+		}
-+
-+		if ((x_kern + glyph->advance.x) > w)
-+			break;
-+
-+		x += x_kern;
-+
-+		if (render && pixman_image_get_format(glyph->pix) == PIXMAN_a8r8g8b8)
-+			// pre-rendered glyphs (eg. emoji)
-+			pixman_image_composite32(
-+				PIXMAN_OP_OVER, glyph->pix, NULL, drwl->pix, 0, 0, 0, 0,
-+				x + glyph->x, ty - glyph->y, glyph->width, glyph->height);
-+		else if (render)
-+			pixman_image_composite32(
-+				PIXMAN_OP_OVER, fg_pix, glyph->pix, drwl->pix, 0, 0, 0, 0,
-+				x + glyph->x, ty - glyph->y, glyph->width, glyph->height);
-+
-+		text += utf8charlen;
-+		x += glyph->advance.x;
-+		w -= glyph->advance.x;
-+	}
-+
-+	if (render)
-+		pixman_image_unref(fg_pix);
-+
-+	return x + (render ? w : 0);
-+}
-+
-+static unsigned int
-+drwl_font_getwidth(Drwl *drwl, const char *text)
-+{
-+	if (!drwl || !drwl->font || !text)
-+		return 0;
-+	return drwl_text(drwl, 0, 0, 0, 0, 0, text, 0);
-+}
-+
-+static void
-+drwl_finish_drawing(Drwl *drwl)
-+{
-+	if (drwl && drwl->pix)
-+		pixman_image_unref(drwl->pix);
-+}
-+
-+static void
-+drwl_destroy(Drwl *drwl)
-+{
-+	if (drwl->pix)
-+		pixman_image_unref(drwl->pix);
-+	if (drwl->font)
-+		drwl_destroy_font(drwl->font);
-+	free(drwl);
-+}
-+
-+static void
-+drwl_fini(void)
-+{
-+	fcft_fini();
-+}
-diff --git a/dwl.c b/dwl.c
-index 9fb50a7..9fdddc7 100644
---- a/dwl.c
-+++ b/dwl.c
-@@ -4,6 +4,7 @@
- #include <getopt.h>
- #include <libinput.h>
- #include <linux/input-event-codes.h>
-+#include <libdrm/drm_fourcc.h>
- #include <signal.h>
- #include <stdio.h>
- #include <stdlib.h>
-@@ -56,6 +57,7 @@
- #include <wlr/types/wlr_xdg_decoration_v1.h>
- #include <wlr/types/wlr_xdg_output_v1.h>
- #include <wlr/types/wlr_xdg_shell.h>
-+#include <wlr/interfaces/wlr_buffer.h>
- #include <wlr/util/log.h>
- #include <wlr/util/region.h>
- #include <xkbcommon/xkbcommon.h>
-@@ -66,6 +68,7 @@
- #endif
- 
- #include "util.h"
-+#include "drwl.h"
- 
- /* macros */
- #define MAX(A, B)               ((A) > (B) ? (A) : (B))
-@@ -76,14 +79,17 @@
- #define VISIBLEON(C, M)         ((M) && (C)->mon == (M) && ((C)->tags & (M)->tagset[(M)->seltags]))
- #define LENGTH(X)               (sizeof X / sizeof X[0])
- #define END(A)                  ((A) + LENGTH(A))
--#define TAGMASK                 ((1u << TAGCOUNT) - 1)
-+#define TAGMASK                 ((1u << LENGTH(tags)) - 1)
- #define LISTEN(E, L, H)         wl_signal_add((E), ((L)->notify = (H), (L)))
- #define LISTEN_STATIC(E, H)     do { static struct wl_listener _l = {.notify = (H)}; wl_signal_add((E), &_l); } while (0)
-+#define TEXTW(mon, text)        (drwl_font_getwidth(mon->drw, text) + mon->lrpad)
- 
- /* enums */
-+enum { SchemeNorm, SchemeSel, SchemeUrg }; /* color schemes */
- enum { CurNormal, CurPressed, CurMove, CurResize }; /* cursor */
- enum { XDGShell, LayerShell, X11 }; /* client types */
- enum { LyrBg, LyrBottom, LyrTile, LyrFloat, LyrTop, LyrFS, LyrOverlay, LyrBlock, NUM_LAYERS }; /* scene layers */
-+enum { ClkTagBar, ClkLtSymbol, ClkStatus, ClkTitle, ClkClient, ClkRoot }; /* clicks */
- #ifdef XWAYLAND
- enum { NetWMWindowTypeDialog, NetWMWindowTypeSplash, NetWMWindowTypeToolbar,
- 	NetWMWindowTypeUtility, NetLast }; /* EWMH atoms */
-@@ -97,6 +103,7 @@ typedef union {
- } Arg;
- 
- typedef struct {
-+	unsigned int click;
- 	unsigned int mod;
- 	unsigned int button;
- 	void (*func)(const Arg *);
-@@ -191,6 +198,7 @@ struct Monitor {
- 	struct wl_list link;
- 	struct wlr_output *wlr_output;
- 	struct wlr_scene_output *scene_output;
-+	struct wlr_scene_buffer *scene_buffer; /* bar buffer */
- 	struct wlr_scene_rect *fullscreen_bg; /* See createmon() for info */
- 	struct wl_listener frame;
- 	struct wl_listener destroy;
-@@ -198,6 +206,11 @@ struct Monitor {
- 	struct wl_listener destroy_lock_surface;
- 	struct wlr_session_lock_surface_v1 *lock_surface;
- 	struct wlr_box m; /* monitor area, layout-relative */
-+	struct {
-+		int width, height;
-+		int real_width, real_height; /* non-scaled */
-+		float scale;
-+	} b; /* bar area */
- 	struct wlr_box w; /* window area, layout-relative */
- 	struct wl_list layers[4]; /* LayerSurface.link */
- 	const Layout *lt[2];
-@@ -207,10 +220,19 @@ struct Monitor {
- 	float mfact;
- 	int gamma_lut_changed;
- 	int nmaster;
-+	int showbar;
- 	char ltsymbol[16];
- 	int asleep;
-+	Drwl *drw;
-+	int lrpad;
- };
- 
-+typedef struct {
-+    struct wlr_buffer base;
-+    size_t stride;
-+    uint32_t data[];
-+} Buffer;
-+
- typedef struct {
- 	const char *name;
- 	float mfact;
-@@ -251,6 +273,10 @@ static void arrangelayer(Monitor *m, struct wl_list *list,
- 		struct wlr_box *usable_area, int exclusive);
- static void arrangelayers(Monitor *m);
- static void axisnotify(struct wl_listener *listener, void *data);
-+static bool bar_accepts_input(struct wlr_scene_buffer *buffer, double *sx, double *sy);
-+static void buffer_destroy(struct wlr_buffer *buffer);
-+static bool buffer_begin_data_ptr_access(struct wlr_buffer *buffer, uint32_t flags, void **data, uint32_t *format, size_t *stride);
-+static void buffer_end_data_ptr_access(struct wlr_buffer *buffer);
- static void buttonpress(struct wl_listener *listener, void *data);
- static void chvt(const Arg *arg);
- static void checkidleinhibitor(struct wlr_surface *exclude);
-@@ -284,6 +310,8 @@ static void destroysessionlock(struct wl_listener *listener, void *data);
- static void destroysessionmgr(struct wl_listener *listener, void *data);
- static void destroykeyboardgroup(struct wl_listener *listener, void *data);
- static Monitor *dirtomon(enum wlr_direction dir);
-+static void drawbar(Monitor *m);
-+static void drawbars(void);
- static void focusclient(Client *c, int lift);
- static void focusmon(const Arg *arg);
- static void focusstack(const Arg *arg);
-@@ -312,7 +340,6 @@ static void outputmgrapplyortest(struct wlr_output_configuration_v1 *config, int
- static void outputmgrtest(struct wl_listener *listener, void *data);
- static void pointerfocus(Client *c, struct wlr_surface *surface,
- 		double sx, double sy, uint32_t time);
--static void printstatus(void);
- static void powermgrsetmode(struct wl_listener *listener, void *data);
- static void quit(const Arg *arg);
- static void rendermon(struct wl_listener *listener, void *data);
-@@ -334,9 +361,11 @@ static void setsel(struct wl_listener *listener, void *data);
- static void setup(void);
- static void spawn(const Arg *arg);
- static void startdrag(struct wl_listener *listener, void *data);
-+static int status_in(int fd, unsigned int mask, void *data);
- static void tag(const Arg *arg);
- static void tagmon(const Arg *arg);
- static void tile(Monitor *m);
-+static void togglebar(const Arg *arg);
- static void togglefloating(const Arg *arg);
- static void togglefullscreen(const Arg *arg);
- static void toggletag(const Arg *arg);
-@@ -345,6 +374,7 @@ static void unlocksession(struct wl_listener *listener, void *data);
- static void unmaplayersurfacenotify(struct wl_listener *listener, void *data);
- static void unmapnotify(struct wl_listener *listener, void *data);
- static void updatemons(struct wl_listener *listener, void *data);
-+static void updatebar(Monitor *m);
- static void updatetitle(struct wl_listener *listener, void *data);
- static void urgent(struct wl_listener *listener, void *data);
- static void view(const Arg *arg);
-@@ -411,6 +441,15 @@ static struct wlr_box sgeom;
- static struct wl_list mons;
- static Monitor *selmon;
- 
-+static char stext[256];
-+static struct wl_event_source *status_event_source;
-+
-+static const struct wlr_buffer_impl buffer_impl = {
-+    .destroy = buffer_destroy,
-+    .begin_data_ptr_access = buffer_begin_data_ptr_access,
-+    .end_data_ptr_access = buffer_end_data_ptr_access
-+};
-+
- #ifdef XWAYLAND
- static void activatex11(struct wl_listener *listener, void *data);
- static void associatex11(struct wl_listener *listener, void *data);
-@@ -551,6 +590,11 @@ arrangelayers(Monitor *m)
- 	if (!m->wlr_output->enabled)
- 		return;
- 
-+	if (m->showbar) {
-+		usable_area.height -= m->b.real_height;
-+		usable_area.y += topbar ? m->b.real_height : 0;
-+	}
-+
- 	/* Arrange exclusive surfaces from top->bottom */
- 	for (i = 3; i >= 0; i--)
- 		arrangelayer(m, &m->layers[i], &usable_area, 1);
-@@ -593,17 +637,82 @@ axisnotify(struct wl_listener *listener, void *data)
- 			event->delta_discrete, event->source);
- }
- 
-+bool
-+bar_accepts_input(struct wlr_scene_buffer *buffer, double *sx, double *sy)
-+{
-+	return true;
-+}
-+
-+void
-+buffer_destroy(struct wlr_buffer *wlr_buffer)
-+{
-+	Buffer *buf;
-+	buf = wl_container_of(wlr_buffer, buf, base);
-+	free(buf);
-+}
-+
-+bool
-+buffer_begin_data_ptr_access(struct wlr_buffer *wlr_buffer, uint32_t flags,
-+                             void **data, uint32_t *format, size_t *stride)
-+{
-+	Buffer *buf;
-+	buf = wl_container_of(wlr_buffer, buf, base);
-+
-+	if (flags & WLR_BUFFER_DATA_PTR_ACCESS_WRITE) return false;
-+
-+	*data   = buf->data;
-+	*stride = buf->stride;
-+	*format = DRM_FORMAT_ARGB8888;
-+
-+	return true;
-+}
-+
-+void
-+buffer_end_data_ptr_access(struct wlr_buffer *buffer)
-+{
-+}
-+
- void
- buttonpress(struct wl_listener *listener, void *data)
- {
-+	unsigned int i = 0, x = 0;
-+	unsigned int click;
- 	struct wlr_pointer_button_event *event = data;
- 	struct wlr_keyboard *keyboard;
-+	struct wlr_scene_node *node;
-+	struct wlr_scene_buffer *buffer;
- 	uint32_t mods;
-+	Arg arg = {0};
- 	Client *c;
- 	const Button *b;
- 
- 	wlr_idle_notifier_v1_notify_activity(idle_notifier, seat);
- 
-+	click = ClkRoot;
-+	xytonode(cursor->x, cursor->y, NULL, &c, NULL, NULL, NULL);
-+	if (c)
-+		click = ClkClient;
-+
-+	if (!c && !exclusive_focus &&
-+		(node = wlr_scene_node_at(&layers[LyrBottom]->node, cursor->x, cursor->y, NULL, NULL)) &&
-+		(buffer = wlr_scene_buffer_from_node(node)) && buffer == selmon->scene_buffer) {
-+		cursor->x *= selmon->wlr_output->scale;
-+		cursor->y *= selmon->wlr_output->scale;
-+		x = selmon->m.x;
-+		do
-+			x += TEXTW(selmon, tags[i]);
-+		while (cursor->x >= x && ++i < LENGTH(tags));
-+		if (i < LENGTH(tags)) {
-+			click = ClkTagBar;
-+			arg.ui = 1 << i;
-+		} else if (cursor->x < x + TEXTW(selmon, selmon->ltsymbol))
-+			click = ClkLtSymbol;
-+		else if (cursor->x > selmon->w.width - (int)TEXTW(selmon, stext))
-+			click = ClkStatus;
-+		else
-+			click = ClkTitle;
-+	}
-+
- 	switch (event->state) {
- 	case WLR_BUTTON_PRESSED:
- 		cursor_mode = CurPressed;
-@@ -612,15 +721,14 @@ buttonpress(struct wl_listener *listener, void *data)
- 
- 		/* Change focus if the button was _pressed_ over a client */
- 		xytonode(cursor->x, cursor->y, NULL, &c, NULL, NULL, NULL);
--		if (c && (!client_is_unmanaged(c) || client_wants_focus(c)))
-+		if (click == ClkClient && (!client_is_unmanaged(c) || client_wants_focus(c)))
- 			focusclient(c, 1);
- 
- 		keyboard = wlr_seat_get_keyboard(seat);
- 		mods = keyboard ? wlr_keyboard_get_modifiers(keyboard) : 0;
- 		for (b = buttons; b < END(buttons); b++) {
--			if (CLEANMASK(mods) == CLEANMASK(b->mod) &&
--					event->button == b->button && b->func) {
--				b->func(&b->arg);
-+			if (CLEANMASK(mods) == CLEANMASK(b->mod) && event->button == b->button && click == b->click && b->func) {
-+				b->func(click == ClkTagBar && b->arg.i == 0 ? &arg : &b->arg);
- 				return;
- 			}
- 		}
-@@ -691,6 +799,8 @@ cleanup(void)
- 	/* Destroy after the wayland display (when the monitors are already destroyed)
- 	   to avoid destroying them with an invalid scene output. */
- 	wlr_scene_node_destroy(&scene->tree.node);
-+
-+	drwl_fini();
- }
- 
- void
-@@ -706,6 +816,8 @@ cleanupmon(struct wl_listener *listener, void *data)
- 			wlr_layer_surface_v1_destroy(l->layer_surface);
- 	}
- 
-+	drwl_destroy(m->drw);
-+
- 	wl_list_remove(&m->destroy.link);
- 	wl_list_remove(&m->frame.link);
- 	wl_list_remove(&m->link);
-@@ -745,7 +857,7 @@ closemon(Monitor *m)
- 			setmon(c, selmon, c->tags);
- 	}
- 	focusclient(focustop(selmon), 1);
--	printstatus();
-+	drawbars();
- }
- 
- void
-@@ -970,8 +1082,16 @@ createmon(struct wl_listener *listener, void *data)
- 	wlr_output_commit_state(wlr_output, &state);
- 	wlr_output_state_finish(&state);
- 
-+	if (!(m->drw = drwl_create()))
-+		die("failed to create drwl context");
-+
-+	m->scene_buffer = wlr_scene_buffer_create(layers[LyrBottom], NULL);
-+	m->scene_buffer->point_accepts_input = bar_accepts_input;
-+	m->showbar = showbar;
-+	updatebar(m);
-+
- 	wl_list_insert(&mons, &m->link);
--	printstatus();
-+	drawbars();
- 
- 	/* The xdg-protocol specifies:
- 	 *
-@@ -1303,6 +1423,89 @@ dirtomon(enum wlr_direction dir)
- 	return selmon;
- }
- 
-+void
-+drawbar(Monitor *m)
-+{
-+	int x, w, tw = 0;
-+	int boxs = m->drw->font->height / 9;
-+	int boxw = m->drw->font->height / 6 + 2;
-+	uint32_t i, occ = 0, urg = 0;
-+	int32_t stride, size;
-+	Client *c;
-+	Buffer *buf;
-+
-+	if (!m->showbar)
-+		return;
-+
-+	stride = drwl_stride(m->b.width);
-+	size = stride * m->b.height;
-+
-+	buf = ecalloc(1, sizeof(Buffer) + size);
-+	buf->stride = stride;
-+	wlr_buffer_init(&buf->base, &buffer_impl, m->b.width, m->b.height);
-+
-+	drwl_prepare_drawing(m->drw, m->b.width, m->b.height, buf->data, stride);
-+
-+	/* draw status first so it can be overdrawn by tags later */
-+	if (m == selmon) { /* status is only drawn on selected monitor */
-+		drwl_setscheme(m->drw, colors[SchemeNorm]);
-+		tw = TEXTW(m, stext) - m->lrpad + 2; /* 2px right padding */
-+		drwl_text(m->drw, m->b.width - tw, 0, tw, m->b.height, 0, stext, 0);
-+	}
-+
-+	wl_list_for_each(c, &clients, link) {
-+		if (c->mon != m)
-+			continue;
-+		occ |= c->tags;
-+		if (c->isurgent)
-+			urg |= c->tags;
-+	}
-+	x = 0;
-+	c = focustop(m);
-+	for (i = 0; i < LENGTH(tags); i++) {
-+		w = TEXTW(m, tags[i]);
-+		drwl_setscheme(m->drw, colors[m->tagset[m->seltags] & 1 << i ? SchemeSel : SchemeNorm]);
-+		drwl_text(m->drw, x, 0, w, m->b.height, m->lrpad / 2, tags[i], urg & 1 << i);
-+		if (occ & 1 << i)
-+			drwl_rect(m->drw, x + boxs, boxs, boxw, boxw,
-+				m == selmon && c && c->tags & 1 << i,
-+				urg & 1 << i);
-+		x += w;
-+	}
-+	w = TEXTW(m, m->ltsymbol);
-+	drwl_setscheme(m->drw, colors[SchemeNorm]);
-+	x = drwl_text(m->drw, x, 0, w, m->b.height, m->lrpad / 2, m->ltsymbol, 0);
-+
-+	if ((w = m->b.width - tw - x) > m->b.height) {
-+		if (c) {
-+			drwl_setscheme(m->drw, colors[m == selmon ? SchemeSel : SchemeNorm]);
-+			drwl_text(m->drw, x, 0, w, m->b.height, m->lrpad / 2, client_get_title(c), 0);
-+			if (c && c->isfloating)
-+				drwl_rect(m->drw, x + boxs, boxs, boxw, boxw, 0, 0);
-+		} else {
-+			drwl_setscheme(m->drw, colors[SchemeNorm]);
-+			drwl_rect(m->drw, x, 0, w, m->b.height, 1, 1);
-+		}
-+	}
-+
-+	drwl_finish_drawing(m->drw);
-+	wlr_scene_buffer_set_dest_size(m->scene_buffer,
-+		m->b.real_width, m->b.real_height);
-+	wlr_scene_node_set_position(&m->scene_buffer->node, m->m.x,
-+		m->m.y + (topbar ? 0 : m->m.height - m->b.real_height));
-+	wlr_scene_buffer_set_buffer(m->scene_buffer, &buf->base);
-+	wlr_buffer_drop(&buf->base);
-+}
-+
-+void
-+drawbars(void)
-+{
-+	Monitor *m = NULL;
-+
-+	wl_list_for_each(m, &mons, link)
-+		drawbar(m);
-+}
-+
- void
- focusclient(Client *c, int lift)
- {
-@@ -1338,13 +1541,13 @@ focusclient(Client *c, int lift)
- 		/* Don't change border color if there is an exclusive focus or we are
- 		 * handling a drag operation */
- 		if (!exclusive_focus && !seat->drag)
--			client_set_border_color(c, focuscolor);
-+			client_set_border_color(c, (float[])COLOR(colors[SchemeSel][ColBorder]));
- 	}
- 
- 	/* Deactivate old client if focus is changing */
- 	if (old && (!c || client_surface(c) != old)) {
- 		/* If an overlay is focused, don't focus or activate the client,
--		 * but only update its position in fstack to render its border with focuscolor
-+		 * but only update its position in fstack to render its border with its color
- 		 * and focus it after the overlay is closed. */
- 		if (old_client_type == LayerShell && wlr_scene_node_coords(
- 					&old_l->scene->node, &unused_lx, &unused_ly)
-@@ -1355,12 +1558,11 @@ focusclient(Client *c, int lift)
- 		/* Don't deactivate old client if the new one wants focus, as this causes issues with winecfg
- 		 * and probably other clients */
- 		} else if (old_c && !client_is_unmanaged(old_c) && (!c || !client_wants_focus(c))) {
--			client_set_border_color(old_c, bordercolor);
--
-+			client_set_border_color(old_c, (float[])COLOR(colors[SchemeNorm][ColBorder]));
- 			client_activate_surface(old, 0);
- 		}
- 	}
--	printstatus();
-+	drawbars();
- 
- 	if (!c) {
- 		/* With no client, all we have left is to clear focus */
-@@ -1664,7 +1866,7 @@ mapnotify(struct wl_listener *listener, void *data)
- 
- 	for (i = 0; i < 4; i++) {
- 		c->border[i] = wlr_scene_rect_create(c->scene, 0, 0,
--				c->isurgent ? urgentcolor : bordercolor);
-+			(float[])COLOR(colors[c->isurgent ? SchemeUrg : SchemeNorm][ColBorder]));
- 		c->border[i]->node.data = c;
- 	}
- 
-@@ -1687,7 +1889,7 @@ mapnotify(struct wl_listener *listener, void *data)
- 	} else {
- 		applyrules(c);
- 	}
--	printstatus();
-+	drawbars();
- 
- unset_fullscreen:
- 	m = c->mon ? c->mon : xytomon(c->geom.x, c->geom.y);
-@@ -1980,46 +2182,6 @@ pointerfocus(Client *c, struct wlr_surface *surface, double sx, double sy,
- 	wlr_seat_pointer_notify_motion(seat, time, sx, sy);
- }
- 
--void
--printstatus(void)
--{
--	Monitor *m = NULL;
--	Client *c;
--	uint32_t occ, urg, sel;
--	const char *appid, *title;
--
--	wl_list_for_each(m, &mons, link) {
--		occ = urg = 0;
--		wl_list_for_each(c, &clients, link) {
--			if (c->mon != m)
--				continue;
--			occ |= c->tags;
--			if (c->isurgent)
--				urg |= c->tags;
--		}
--		if ((c = focustop(m))) {
--			title = client_get_title(c);
--			appid = client_get_appid(c);
--			printf("%s title %s\n", m->wlr_output->name, title ? title : broken);
--			printf("%s appid %s\n", m->wlr_output->name, appid ? appid : broken);
--			printf("%s fullscreen %d\n", m->wlr_output->name, c->isfullscreen);
--			printf("%s floating %d\n", m->wlr_output->name, c->isfloating);
--			sel = c->tags;
--		} else {
--			printf("%s title \n", m->wlr_output->name);
--			printf("%s appid \n", m->wlr_output->name);
--			printf("%s fullscreen \n", m->wlr_output->name);
--			printf("%s floating \n", m->wlr_output->name);
--			sel = 0;
--		}
--
--		printf("%s selmon %u\n", m->wlr_output->name, m == selmon);
--		printf("%s tags %"PRIu32" %"PRIu32" %"PRIu32" %"PRIu32"\n",
--			m->wlr_output->name, occ, m->tagset[m->seltags], sel, urg);
--		printf("%s layout %s\n", m->wlr_output->name, m->ltsymbol);
--	}
--	fflush(stdout);
--}
- 
- void
- powermgrsetmode(struct wl_listener *listener, void *data)
-@@ -2173,24 +2335,16 @@ run(char *startup_cmd)
- 
- 	/* Now that the socket exists and the backend is started, run the startup command */
- 	if (startup_cmd) {
--		int piperw[2];
--		if (pipe(piperw) < 0)
--			die("startup: pipe:");
- 		if ((child_pid = fork()) < 0)
- 			die("startup: fork:");
- 		if (child_pid == 0) {
-+			close(STDIN_FILENO);
- 			setsid();
--			dup2(piperw[0], STDIN_FILENO);
--			close(piperw[0]);
--			close(piperw[1]);
- 			execl("/bin/sh", "/bin/sh", "-c", startup_cmd, NULL);
- 			die("startup: execl:");
- 		}
--		dup2(piperw[1], STDOUT_FILENO);
--		close(piperw[1]);
--		close(piperw[0]);
- 	}
--	printstatus();
-+	drawbars();
- 
- 	/* At this point the outputs are initialized, choose initial selmon based on
- 	 * cursor position, and set default cursor image */
-@@ -2256,7 +2410,7 @@ setfloating(Client *c, int floating)
- 			(p && p->isfullscreen) ? LyrFS
- 			: c->isfloating ? LyrFloat : LyrTile]);
- 	arrange(c->mon);
--	printstatus();
-+	drawbars();
- }
- 
- void
-@@ -2279,7 +2433,7 @@ setfullscreen(Client *c, int fullscreen)
- 		resize(c, c->prev, 0);
- 	}
- 	arrange(c->mon);
--	printstatus();
-+	drawbars();
- }
- 
- void
-@@ -2304,7 +2458,7 @@ setlayout(const Arg *arg)
- 		selmon->lt[selmon->sellt] = (Layout *)arg->v;
- 	strncpy(selmon->ltsymbol, selmon->lt[selmon->sellt]->symbol, LENGTH(selmon->ltsymbol));
- 	arrange(selmon);
--	printstatus();
-+	drawbar(selmon);
- }
- 
- /* arg > 1.0 will set mfact absolutely */
-@@ -2377,6 +2531,7 @@ setup(void)
- 	for (i = 0; i < (int)LENGTH(sig); i++)
- 		sigaction(sig[i], &sa, NULL);
- 
-+
- 	wlr_log_init(log_level, NULL);
- 
- 	/* The Wayland display is managed by libwayland. It handles accepting
-@@ -2563,6 +2718,11 @@ setup(void)
- 
- 	wlr_scene_set_presentation(scene, wlr_presentation_create(dpy, backend));
- 
-+	drwl_init();
-+
-+	status_event_source = wl_event_loop_add_fd(wl_display_get_event_loop(dpy),
-+		STDIN_FILENO, WL_EVENT_READABLE, status_in, NULL);
-+
- 	/* Make sure XWayland clients don't connect to the parent X server,
- 	 * e.g when running in the x11 backend or the wayland backend and the
- 	 * compositor has Xwayland support */
-@@ -2587,6 +2747,7 @@ void
- spawn(const Arg *arg)
- {
- 	if (fork() == 0) {
-+		close(STDIN_FILENO);
- 		dup2(STDERR_FILENO, STDOUT_FILENO);
- 		setsid();
- 		execvp(((char **)arg->v)[0], (char **)arg->v);
-@@ -2605,6 +2766,30 @@ startdrag(struct wl_listener *listener, void *data)
- 	LISTEN_STATIC(&drag->icon->events.destroy, destroydragicon);
- }
- 
-+int
-+status_in(int fd, unsigned int mask, void *data)
-+{
-+	char status[1024];
-+	ssize_t n;
-+
-+	if (mask & WL_EVENT_ERROR)
-+		die("status in event error");
-+	if (mask & WL_EVENT_HANGUP)
-+		wl_event_source_remove(status_event_source);
-+
-+	n = read(fd, status, sizeof(status) - 1);
-+	if (n < 0 && errno != EWOULDBLOCK)
-+		die("read:");
-+
-+	status[n] = '\0';
-+	status[strcspn(status, "\n")] = '\0';
-+
-+	strncpy(stext, status, sizeof(stext));
-+	drawbars();
-+
-+	return 0;
-+}
-+
- void
- tag(const Arg *arg)
- {
-@@ -2615,7 +2800,7 @@ tag(const Arg *arg)
- 	sel->tags = arg->ui & TAGMASK;
- 	focusclient(focustop(selmon), 1);
- 	arrange(selmon);
--	printstatus();
-+	drawbars();
- }
- 
- void
-@@ -2660,6 +2845,14 @@ tile(Monitor *m)
- 	}
- }
- 
-+void
-+togglebar(const Arg *arg)
-+{
-+	selmon->showbar = !selmon->showbar;
-+	wlr_scene_node_set_enabled(&selmon->scene_buffer->node, selmon->showbar);
-+	arrangelayers(selmon);
-+}
-+
- void
- togglefloating(const Arg *arg)
- {
-@@ -2688,7 +2881,7 @@ toggletag(const Arg *arg)
- 	sel->tags = newtags;
- 	focusclient(focustop(selmon), 1);
- 	arrange(selmon);
--	printstatus();
-+	drawbars();
- }
- 
- void
-@@ -2701,7 +2894,7 @@ toggleview(const Arg *arg)
- 	selmon->tagset[selmon->seltags] = newtagset;
- 	focusclient(focustop(selmon), 1);
- 	arrange(selmon);
--	printstatus();
-+	drawbars();
- }
- 
- void
-@@ -2749,7 +2942,7 @@ unmapnotify(struct wl_listener *listener, void *data)
- 	}
- 
- 	wlr_scene_node_destroy(&c->scene->node);
--	printstatus();
-+	drawbars();
- 	motionnotify(0, NULL, 0, 0, 0, 0);
- }
- 
-@@ -2849,6 +3042,14 @@ updatemons(struct wl_listener *listener, void *data)
- 		}
- 	}
- 
-+	/* Update bar */
-+	if (stext[0] == '\0')
-+		strncpy(stext, "dwl-"VERSION, sizeof(stext));
-+	wl_list_for_each(m, &mons, link) {
-+		updatebar(m);
-+		drawbar(m);
-+	}
-+
- 	/* FIXME: figure out why the cursor image is at 0,0 after turning all
- 	 * the monitors on.
- 	 * Move the cursor image where it used to be. It does not generate a
-@@ -2859,12 +3060,36 @@ updatemons(struct wl_listener *listener, void *data)
- 	wlr_output_manager_v1_set_configuration(output_mgr, config);
- }
- 
-+void
-+updatebar(Monitor *m)
-+{
-+	int rw, rh;
-+	char fontattrs[12];
-+
-+	wlr_output_transformed_resolution(m->wlr_output, &rw, &rh);
-+	m->b.width = rw;
-+	m->b.real_width = (int)((float)m->b.width / m->wlr_output->scale);
-+
-+	if (m->b.scale == m->wlr_output->scale && m->drw)
-+		return;
-+
-+	drwl_destroy_font(m->drw->font);
-+	snprintf(fontattrs, sizeof(fontattrs), "dpi=%.2f", 96. * m->wlr_output->scale);
-+	if (!(drwl_load_font(m->drw, LENGTH(fonts), fonts, fontattrs)))
-+		die("Could not load font");
-+
-+	m->b.scale = m->wlr_output->scale;
-+	m->lrpad = m->drw->font->height;
-+	m->b.height = m->drw->font->height + 2;
-+	m->b.real_height = (int)((float)m->b.height / m->wlr_output->scale);
-+}
-+
- void
- updatetitle(struct wl_listener *listener, void *data)
- {
- 	Client *c = wl_container_of(listener, c, set_title);
- 	if (c == focustop(c->mon))
--		printstatus();
-+		drawbars();
- }
- 
- void
-@@ -2877,10 +3102,10 @@ urgent(struct wl_listener *listener, void *data)
- 		return;
- 
- 	c->isurgent = 1;
--	printstatus();
-+	drawbars();
- 
- 	if (client_surface(c)->mapped)
--		client_set_border_color(c, urgentcolor);
-+		client_set_border_color(c, (float[])COLOR(colors[SchemeUrg][ColBorder]));
- }
- 
- void
-@@ -2893,7 +3118,7 @@ view(const Arg *arg)
- 		selmon->tagset[selmon->seltags] = arg->ui & TAGMASK;
- 	focusclient(focustop(selmon), 1);
- 	arrange(selmon);
--	printstatus();
-+	drawbars();
- }
- 
- void
-@@ -2934,6 +3159,7 @@ xytonode(double x, double y, struct wlr_surface **psurface,
- {
- 	struct wlr_scene_node *node, *pnode;
- 	struct wlr_surface *surface = NULL;
-+	struct wlr_scene_surface *scene_surface = NULL;
- 	Client *c = NULL;
- 	LayerSurface *l = NULL;
- 	int layer;
-@@ -2942,9 +3168,12 @@ xytonode(double x, double y, struct wlr_surface **psurface,
- 		if (!(node = wlr_scene_node_at(&layers[layer]->node, x, y, nx, ny)))
- 			continue;
- 
--		if (node->type == WLR_SCENE_NODE_BUFFER)
--			surface = wlr_scene_surface_try_from_buffer(
--					wlr_scene_buffer_from_node(node))->surface;
-+		if (node->type == WLR_SCENE_NODE_BUFFER) {
-+			scene_surface = wlr_scene_surface_try_from_buffer(
-+					wlr_scene_buffer_from_node(node));
-+			if (!scene_surface) continue;
-+			surface = scene_surface->surface;
-+		}
- 		/* Walk the tree to find a node that knows the client */
- 		for (pnode = node; pnode && !c; pnode = &pnode->parent->node)
- 			c = pnode->data;
-@@ -3083,10 +3312,10 @@ sethints(struct wl_listener *listener, void *data)
- 		return;
- 
- 	c->isurgent = xcb_icccm_wm_hints_get_urgency(c->surface.xwayland->hints);
--	printstatus();
-+	drawbars();
- 
- 	if (c->isurgent && surface && surface->mapped)
--		client_set_border_color(c, urgentcolor);
-+		client_set_border_color(c, (float[])COLOR(colors[SchemeUrg][ColBorder]));
- }
- 
- void
--- 
-2.45.2
+	<link rel="alternate" type="application/atom+xml" title="" href="/sewn/dwl.atom">
+	<link rel="alternate" type="application/rss+xml" title="" href="/sewn/dwl.rss">
+
+	<link rel="icon" href="/assets/img/favicon.svg" type="image/svg+xml">
+	<link rel="alternate icon" href="/assets/img/favicon.png" type="image/png">
+	
+<script>
+	
+	window.addEventListener('error', function(e) {window._globalHandlerErrors=window._globalHandlerErrors||[]; window._globalHandlerErrors.push(e);});
+	window.addEventListener('unhandledrejection', function(e) {window._globalHandlerErrors=window._globalHandlerErrors||[]; window._globalHandlerErrors.push(e);});
+	window.config = {
+		appUrl: 'https:\/\/codeberg.org\/',
+		appSubUrl: '',
+		assetVersionEncoded: encodeURIComponent('7.0.0-417-7f5de1e248~gitea-1.21.11'), 
+		assetUrlPrefix: '\/assets',
+		runModeIsProd:  true ,
+		customEmojis: {"codeberg":":codeberg:","forgejo":":forgejo:","git":":git:","gitea":":gitea:","github":":github:","gitlab":":gitlab:","gogs":":gogs:"},
+		csrfToken: 'os2rGzgPMLyxIo7u9tahluvmBWI6MTcyMjI5NzM1NDEzMjU2OTQ3Ng',
+		pageData: {},
+		notificationSettings: {"EventSourceUpdateTime":10000,"MaxTimeout":60000,"MinTimeout":10000,"TimeoutStep":10000}, 
+		enableTimeTracking:  true ,
+		
+		mermaidMaxSourceCharacters:  5000 ,
+		
+		i18n: {
+			copy_success: "Copied!",
+			copy_error: "Copy failed",
+			error_occurred: "An error occurred",
+			network_error: "Network error",
+			remove_label_str: "Remove item \"%s\"",
+			modal_confirm: "Confirm",
+			modal_cancel: "Cancel",
+			more_items: "More items",
+		},
+	};
+	
+	window.config.pageData = window.config.pageData || {};
+</script>
+<script src="/assets/js/webcomponents.js?v=7.0.0-417-7f5de1e248~gitea-1.21.11"></script>
+
+	<noscript>
+		<style>
+			.dropdown:hover > .menu { display: block; }
+			.ui.secondary.menu .dropdown.item > .menu { margin-top: 0; }
+		</style>
+	</noscript>
+	
+	
+		<meta property="og:title" content="dwl">
+		<meta property="og:url" content="https://codeberg.org/sewn/dwl">
+		
+			<meta property="og:description" content="Personal dwl fork">
+		
+	
+	<meta property="og:type" content="object">
+	
+		<meta property="og:image" content="https://codeberg.org/avatars/8ca4aa4f697d185f9929249993e90ef4bb4cf5148241c89ec2d313b26f350bc5">
+	
+
+<meta property="og:site_name" content="Codeberg.org">
+
+	<link rel="stylesheet" href="/assets/css/index.css?v=7.0.0-417-7f5de1e248~gitea-1.21.11">
+<link rel="stylesheet" href="/assets/css/theme-codeberg-auto.css?v=7.0.0-417-7f5de1e248~gitea-1.21.11">
+
+	
+</head>
+<body hx-headers='{"x-csrf-token": "os2rGzgPMLyxIo7u9tahluvmBWI6MTcyMjI5NzM1NDEzMjU2OTQ3Ng"}' hx-swap="outerHTML" hx-ext="morph" hx-push-url="false">
+	
+
+	<div class="full height">
+		<noscript>This website requires JavaScript.</noscript>
+
+		
+
+		
+			
+
+
+<nav id="navbar" aria-label="Navigation bar">
+	<div class="navbar-left ui secondary menu">
+		
+		<a class="item" id="navbar-logo" href="/" aria-label="Home">
+			<img width="30" height="30" src="https://design.codeberg.org/logo-kit/icon_inverted.svg" aria-hidden="true">
+		</a>
+
+		
+		<div class="ui secondary menu item navbar-mobile-right only-mobile">
+			
+			<button class="item tw-w-auto ui icon mini button tw-p-2 tw-m-0" id="navbar-expand-toggle" aria-label="Toggle menu"><svg viewBox="0 0 16 16" class="svg octicon-three-bars" aria-hidden="true" width="16" height="16"><path d="M1 2.75A.75.75 0 0 1 1.75 2h12.5a.75.75 0 0 1 0 1.5H1.75A.75.75 0 0 1 1 2.75m0 5A.75.75 0 0 1 1.75 7h12.5a.75.75 0 0 1 0 1.5H1.75A.75.75 0 0 1 1 7.75M1.75 12h12.5a.75.75 0 0 1 0 1.5H1.75a.75.75 0 0 1 0-1.5"/></svg></button>
+		</div>
+
+		
+		
+			<a class="item" href="/explore/repos">Explore</a>
+		
+
+		
+
+		
+			<a class="item" target="_blank" href="https://docs.codeberg.org/getting-started/what-is-codeberg/#what-is-codeberg-e.v.%3F">About</a>
+			<a class="item" target="_blank" href="https://docs.codeberg.org/getting-started/faq/">FAQ</a>
+			<a class="item" target="_blank" href="https://docs.codeberg.org/improving-codeberg/#donate-to-codeberg">Donate</a>
+			<a class="item" target="_blank" rel="noopener noreferrer" href="https://docs.codeberg.org">Help</a>
+		
+	</div>
+
+	
+	<div class="navbar-right ui secondary menu">
+		
+			
+				<a class="item" href="/user/cbrgp/An7JdS3">
+					<svg viewBox="0 0 16 16" class="svg octicon-person" aria-hidden="true" width="16" height="16"><path d="M10.561 8.073a6 6 0 0 1 3.432 5.142.75.75 0 1 1-1.498.07 4.5 4.5 0 0 0-8.99 0 .75.75 0 0 1-1.498-.07 6 6 0 0 1 3.431-5.142 3.999 3.999 0 1 1 5.123 0M10.5 5a2.5 2.5 0 1 0-5 0 2.5 2.5 0 0 0 5 0"/></svg> Register
+				</a>
+			
+			<a class="item" rel="nofollow" href="/user/login?redirect_to=%2fsewn%2fdwl%2fsrc%2fbranch%2fbar">
+				<svg viewBox="0 0 16 16" class="svg octicon-sign-in" aria-hidden="true" width="16" height="16"><path d="M2 2.75C2 1.784 2.784 1 3.75 1h2.5a.75.75 0 0 1 0 1.5h-2.5a.25.25 0 0 0-.25.25v10.5c0 .138.112.25.25.25h2.5a.75.75 0 0 1 0 1.5h-2.5A1.75 1.75 0 0 1 2 13.25Zm6.56 4.5h5.69a.75.75 0 0 1 0 1.5H8.56l1.97 1.97a.749.749 0 0 1-.326 1.275.75.75 0 0 1-.734-.215L6.22 8.53a.75.75 0 0 1 0-1.06l3.25-3.25a.749.749 0 0 1 1.275.326.75.75 0 0 1-.215.734Z"/></svg> Sign In
+			</a>
+		
+	</div>
+</nav>
+
+		
+
+
+
+<div role="main" aria-label="sewn/dwl: Personal dwl fork" class="page-content repository file list ">
+	<div class="secondary-nav">
+
+	<div class="ui container">
+		<div class="repo-header">
+			<div class="flex-item tw-items-center">
+				<div class="flex-item-leading">
+					
+
+	<svg viewBox="0 0 16 16" class="svg octicon-repo-forked" aria-hidden="true" width="24" height="24"><path d="M5 5.372v.878c0 .414.336.75.75.75h4.5a.75.75 0 0 0 .75-.75v-.878a2.25 2.25 0 1 1 1.5 0v.878a2.25 2.25 0 0 1-2.25 2.25h-1.5v2.128a2.251 2.251 0 1 1-1.5 0V8.5h-1.5A2.25 2.25 0 0 1 3.5 6.25v-.878a2.25 2.25 0 1 1 1.5 0M5 3.25a.75.75 0 1 0-1.5 0 .75.75 0 0 0 1.5 0m6.75.75a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5m-3 8.75a.75.75 0 1 0-1.5 0 .75.75 0 0 0 1.5 0"/></svg>
+
+
+				</div>
+				<div class="flex-item-main">
+					<div class="flex-item-title gt-font-18">
+						<a class="muted gt-font-normal" href="/sewn">sewn</a>/<a class="muted" href="/sewn/dwl">dwl</a>
+					</div>
+				</div>
+				<div class="flex-item-trailing">
+					
+					
+						
+					
+					
+					
+				</div>
+			</div>
+			
+				<div class="repo-buttons">
+					
+					
+					
+					
+					<a class="ui compact small basic button" href="/sewn/dwl.rss" data-tooltip-content="RSS feed">
+						<svg viewBox="0 0 16 16" class="svg octicon-rss" aria-hidden="true" width="16" height="16"><path d="M2.002 2.725a.75.75 0 0 1 .797-.699C8.79 2.42 13.58 7.21 13.974 13.201a.75.75 0 0 1-1.497.098 10.5 10.5 0 0 0-9.776-9.776.747.747 0 0 1-.7-.798ZM2.84 7.05h-.002a7 7 0 0 1 6.113 6.111.75.75 0 0 1-1.49.178 5.5 5.5 0 0 0-4.8-4.8.75.75 0 0 1 .179-1.489M2 13a1 1 0 1 1 2 0 1 1 0 0 1-2 0"/></svg>
+					</a>
+					
+					<form hx-boost="true" hx-target="this" method="post" action="/sewn/dwl/action/watch">
+	<div class="ui labeled button" data-tooltip-content="Sign in to watch this repository.">
+		<button type="submit" class="ui compact small basic button" disabled>
+			
+				<svg viewBox="0 0 16 16" class="svg octicon-eye" aria-hidden="true" width="16" height="16"><path d="M8 2c1.981 0 3.671.992 4.933 2.078 1.27 1.091 2.187 2.345 2.637 3.023a1.62 1.62 0 0 1 0 1.798c-.45.678-1.367 1.932-2.637 3.023C11.67 13.008 9.981 14 8 14s-3.671-.992-4.933-2.078C1.797 10.83.88 9.576.43 8.898a1.62 1.62 0 0 1 0-1.798c.45-.677 1.367-1.931 2.637-3.022C4.33 2.992 6.019 2 8 2M1.679 7.932a.12.12 0 0 0 0 .136c.411.622 1.241 1.75 2.366 2.717C5.176 11.758 6.527 12.5 8 12.5s2.825-.742 3.955-1.715c1.124-.967 1.954-2.096 2.366-2.717a.12.12 0 0 0 0-.136c-.412-.621-1.242-1.75-2.366-2.717C10.824 4.242 9.473 3.5 8 3.5s-2.825.742-3.955 1.715c-1.124.967-1.954 2.096-2.366 2.717M8 10a2 2 0 1 1-.001-3.999A2 2 0 0 1 8 10"/></svg><span class="text not-mobile">Watch</span>
+			
+		</button>
+		<a hx-boost="false" class="ui basic label" href="/sewn/dwl/watchers">
+			1
+		</a>
+	</div>
+</form>
+
+					
+					<form hx-boost="true" hx-target="this" method="post" action="/sewn/dwl/action/star">
+	<div class="ui labeled button" data-tooltip-content="Sign in to star this repository.">
+		<button type="submit" class="ui compact small basic button" disabled>
+			
+				<svg viewBox="0 0 16 16" class="svg octicon-star" aria-hidden="true" width="16" height="16"><path d="M8 .25a.75.75 0 0 1 .673.418l1.882 3.815 4.21.612a.75.75 0 0 1 .416 1.279l-3.046 2.97.719 4.192a.751.751 0 0 1-1.088.791L8 12.347l-3.766 1.98a.75.75 0 0 1-1.088-.79l.72-4.194L.818 6.374a.75.75 0 0 1 .416-1.28l4.21-.611L7.327.668A.75.75 0 0 1 8 .25m0 2.445L6.615 5.5a.75.75 0 0 1-.564.41l-3.097.45 2.24 2.184a.75.75 0 0 1 .216.664l-.528 3.084 2.769-1.456a.75.75 0 0 1 .698 0l2.77 1.456-.53-3.084a.75.75 0 0 1 .216-.664l2.24-2.183-3.096-.45a.75.75 0 0 1-.564-.41z"/></svg><span class="text not-mobile">Star</span>
+			
+		</button>
+		<a hx-boost="false" class="ui basic label" href="/sewn/dwl/stars">
+			0
+		</a>
+	</div>
+</form>
+
+					
+					
+					
+
+	<div class="ui labeled button
+		
+			disabled
+		"
+		
+			data-tooltip-content="Sign in to fork this repository."
+		
+	>
+		<a class="ui compact small basic button"
+			
+				
+			
+		>
+			<svg viewBox="0 0 16 16" class="svg octicon-repo-forked" aria-hidden="true" width="16" height="16"><path d="M5 5.372v.878c0 .414.336.75.75.75h4.5a.75.75 0 0 0 .75-.75v-.878a2.25 2.25 0 1 1 1.5 0v.878a2.25 2.25 0 0 1-2.25 2.25h-1.5v2.128a2.251 2.251 0 1 1-1.5 0V8.5h-1.5A2.25 2.25 0 0 1 3.5 6.25v-.878a2.25 2.25 0 1 1 1.5 0M5 3.25a.75.75 0 1 0-1.5 0 .75.75 0 0 0 1.5 0m6.75.75a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5m-3 8.75a.75.75 0 1 0-1.5 0 .75.75 0 0 0 1.5 0"/></svg><span class="text not-mobile">Fork</span>
+		</a>
+		<div class="ui small modal" id="fork-repo-modal">
+			<div class="header">
+				You've already forked dwl
+			</div>
+			<div class="content tw-text-left">
+				<div class="ui list">
+					
+				</div>
+				
+			</div>
+		</div>
+		<a class="ui basic label" href="/sewn/dwl/forks">
+			0
+		</a>
+	</div>
+
+
+
+					
+				</div>
+			
+		</div>
+		
+		<div class="fork-flag">forked from <a href="/dwl/dwl">dwl/dwl</a></div>
+		
+	</div>
+
+	<overflow-menu class="ui container secondary pointing tabular top attached borderless menu tw-pt-0 tw-my-0">
+		
+			<div class="overflow-menu-items">
+				
+				<a class="active item" href="/sewn/dwl/src/branch/bar">
+					<svg viewBox="0 0 16 16" class="svg octicon-code" aria-hidden="true" width="16" height="16"><path d="m11.28 3.22 4.25 4.25a.75.75 0 0 1 0 1.06l-4.25 4.25a.749.749 0 0 1-1.275-.326.75.75 0 0 1 .215-.734L13.94 8l-3.72-3.72a.749.749 0 0 1 .326-1.275.75.75 0 0 1 .734.215m-6.56 0a.75.75 0 0 1 1.042.018.75.75 0 0 1 .018 1.042L2.06 8l3.72 3.72a.749.749 0 0 1-.326 1.275.75.75 0 0 1-.734-.215L.47 8.53a.75.75 0 0 1 0-1.06Z"/></svg> Code
+				</a>
+				
+
+				
+
+				
+
+				
+					<a class="item" href="/sewn/dwl/pulls">
+						<svg viewBox="0 0 16 16" class="svg octicon-git-pull-request" aria-hidden="true" width="16" height="16"><path d="M1.5 3.25a2.25 2.25 0 1 1 3 2.122v5.256a2.251 2.251 0 1 1-1.5 0V5.372A2.25 2.25 0 0 1 1.5 3.25m5.677-.177L9.573.677A.25.25 0 0 1 10 .854V2.5h1A2.5 2.5 0 0 1 13.5 5v5.628a2.251 2.251 0 1 1-1.5 0V5a1 1 0 0 0-1-1h-1v1.646a.25.25 0 0 1-.427.177L7.177 3.427a.25.25 0 0 1 0-.354M3.75 2.5a.75.75 0 1 0 0 1.5.75.75 0 0 0 0-1.5m0 9.5a.75.75 0 1 0 0 1.5.75.75 0 0 0 0-1.5m8.25.75a.75.75 0 1 0 1.5 0 .75.75 0 0 0-1.5 0"/></svg> Pull requests
+						
+					</a>
+				
+
+				
+
+				
+
+				
+
+				
+
+				
+
+				
+
+				
+					<a class="item" href="/sewn/dwl/activity">
+						<svg viewBox="0 0 16 16" class="svg octicon-pulse" aria-hidden="true" width="16" height="16"><path d="M6 2c.306 0 .582.187.696.471L10 10.731l1.304-3.26A.75.75 0 0 1 12 7h3.25a.75.75 0 0 1 0 1.5h-2.742l-1.812 4.528a.751.751 0 0 1-1.392 0L6 4.77 4.696 8.03A.75.75 0 0 1 4 8.5H.75a.75.75 0 0 1 0-1.5h2.742l1.812-4.529A.75.75 0 0 1 6 2"/></svg> Activity
+					</a>
+				
+
+				
+
+				
+
+				
+			</div>
+		
+	</overflow-menu>
+	<div class="ui tabs divider"></div>
+</div>
+
+	<div class="ui container ">
+		
+
+
+
+
+		
+
+		
+		<div class="repo-description">
+			<div id="repo-desc" class="gt-word-break tw-text-16">
+				
+				<span class="description">Personal dwl fork</span>
+				<a class="link" href=""></a>
+			</div>
+			
+		</div>
+		<div class="tw-flex tw-items-center tw-flex-wrap tw-gap-1" id="repo-topics">
+			
+			
+		</div>
+		
+		
+
+		
+		
+
+
+
+
+
+
+
+
+
+
+		
+		
+<div class="ui segments repository-summary tw-mt-1 tw-mb-0">
+	<div class="ui segment sub-menu repository-menu">
+		
+			<a class="item muted " href="/sewn/dwl/commits/branch/bar">
+				<svg viewBox="0 0 16 16" class="svg octicon-history" aria-hidden="true" width="16" height="16"><path d="m.427 1.927 1.215 1.215a8.002 8.002 0 1 1-1.6 5.685.75.75 0 1 1 1.493-.154 6.5 6.5 0 1 0 1.18-4.458l1.358 1.358A.25.25 0 0 1 3.896 6H.25A.25.25 0 0 1 0 5.75V2.104a.25.25 0 0 1 .427-.177M7.75 4a.75.75 0 0 1 .75.75v2.992l2.028.812a.75.75 0 0 1-.557 1.392l-2.5-1A.75.75 0 0 1 7 8.25v-3.5A.75.75 0 0 1 7.75 4"/></svg> <b>1184</b> commits
+			</a>
+			<a class="item muted " href="/sewn/dwl/branches">
+				<svg viewBox="0 0 16 16" class="svg octicon-git-branch" aria-hidden="true" width="16" height="16"><path d="M9.5 3.25a2.25 2.25 0 1 1 3 2.122V6A2.5 2.5 0 0 1 10 8.5H6a1 1 0 0 0-1 1v1.128a2.251 2.251 0 1 1-1.5 0V5.372a2.25 2.25 0 1 1 1.5 0v1.836A2.5 2.5 0 0 1 6 7h4a1 1 0 0 0 1-1v-.628A2.25 2.25 0 0 1 9.5 3.25m-6 0a.75.75 0 1 0 1.5 0 .75.75 0 0 0-1.5 0m8.25-.75a.75.75 0 1 0 0 1.5.75.75 0 0 0 0-1.5M4.25 12a.75.75 0 1 0 0 1.5.75.75 0 0 0 0-1.5"/></svg> <b>19</b> branches
+			</a>
+			
+				<a class="item muted " href="/sewn/dwl/tags">
+					<svg viewBox="0 0 16 16" class="svg octicon-tag" aria-hidden="true" width="16" height="16"><path d="M1 7.775V2.75C1 1.784 1.784 1 2.75 1h5.025c.464 0 .91.184 1.238.513l6.25 6.25a1.75 1.75 0 0 1 0 2.474l-5.026 5.026a1.75 1.75 0 0 1-2.474 0l-6.25-6.25A1.75 1.75 0 0 1 1 7.775m1.5 0c0 .066.026.13.073.177l6.25 6.25a.25.25 0 0 0 .354 0l5.025-5.025a.25.25 0 0 0 0-.354l-6.25-6.25a.25.25 0 0 0-.177-.073H2.75a.25.25 0 0 0-.25.25ZM6 5a1 1 0 1 1 0 2 1 1 0 0 1 0-2"/></svg> <b>11</b> tags
+				</a>
+			
+			<span class="item not-mobile" data-tooltip-content="git: 3.2 MiB, lfs: 0 B">
+				
+				<svg viewBox="0 0 16 16" class="svg octicon-database" aria-hidden="true" width="16" height="16"><path d="M1 3.5c0-.626.292-1.165.7-1.59.406-.422.956-.767 1.579-1.041C4.525.32 6.195 0 8 0s3.475.32 4.722.869c.622.274 1.172.62 1.578 1.04.408.426.7.965.7 1.591v9c0 .626-.292 1.165-.7 1.59-.406.422-.956.767-1.579 1.041C11.476 15.68 9.806 16 8 16c-1.805 0-3.475-.32-4.721-.869-.623-.274-1.173-.62-1.579-1.04-.408-.426-.7-.965-.7-1.591Zm1.5 0c0 .133.058.318.282.551.227.237.591.483 1.101.707C4.898 5.205 6.353 5.5 8 5.5s3.101-.295 4.118-.742c.508-.224.873-.471 1.1-.708.224-.232.282-.417.282-.55s-.058-.318-.282-.551c-.227-.237-.591-.483-1.101-.707C11.102 1.795 9.647 1.5 8 1.5s-3.101.295-4.118.742c-.508.224-.873.471-1.1.708-.224.232-.282.417-.282.55m0 4.5c0 .133.058.318.282.551.227.237.591.483 1.101.707C4.898 9.705 6.353 10 8 10s3.101-.295 4.118-.742c.508-.224.873-.471 1.1-.708.224-.232.282-.417.282-.55V5.724c-.241.15-.503.286-.778.407C11.475 6.68 9.805 7 8 7s-3.475-.32-4.721-.869a6 6 0 0 1-.779-.407Zm0 2.225V12.5c0 .133.058.318.282.55.227.237.592.484 1.1.708 1.016.447 2.471.742 4.118.742s3.102-.295 4.117-.742c.51-.224.874-.47 1.101-.707.224-.233.282-.418.282-.551v-2.275c-.241.15-.503.285-.778.406-1.247.549-2.917.869-4.722.869s-3.475-.32-4.721-.869a6 6 0 0 1-.779-.406"/></svg> <b>3.2</b> MiB
+			</span>
+		
+	</div>
+	
+	<div class="ui segment sub-menu language-stats-details tw-hidden">
+		
+		<div class="item">
+			<i class="color-icon" style="background-color: #555555"></i>
+			<span class="tw-font-semibold">
+				
+					C
+				
+			</span>
+			95.5%
+		</div>
+		
+		<div class="item">
+			<i class="color-icon" style="background-color: #ecdebe"></i>
+			<span class="tw-font-semibold">
+				
+					Roff
+				
+			</span>
+			2.3%
+		</div>
+		
+		<div class="item">
+			<i class="color-icon" style="background-color: #427819"></i>
+			<span class="tw-font-semibold">
+				
+					Makefile
+				
+			</span>
+			2.2%
+		</div>
+		
+	</div>
+	<a class="ui segment language-stats show-panel toggle" data-panel=".repository-summary > .sub-menu">
+		
+		<div class="bar" style="width: 95.5%; background-color: #555555" data-tooltip-placement="top" data-tooltip-content=C data-tooltip-follow-cursor="horizontal"></div>
+		
+		<div class="bar" style="width: 2.3%; background-color: #ecdebe" data-tooltip-placement="top" data-tooltip-content=Roff data-tooltip-follow-cursor="horizontal"></div>
+		
+		<div class="bar" style="width: 2.2%; background-color: #427819" data-tooltip-placement="top" data-tooltip-content=Makefile data-tooltip-follow-cursor="horizontal"></div>
+		
+	</a>
+	
+</div>
+
+
+		
+		
+		
+		<div class="repo-button-row">
+			<div class="tw-flex tw-items-center tw-gap-y-2">
+				
+
+
+
+
+
+
+	
+
+
+
+
+<script type="module">
+	const data = {
+		'textReleaseCompare': "Compare",
+		'textCreateTag': "Create tag \u003cstrong\u003e%s\u003c/strong\u003e",
+		'textCreateBranch': "Create branch \u003cstrong\u003e%s\u003c/strong\u003e",
+		'textCreateBranchFrom': "from \"%s\"",
+		'textBranches': "Branches",
+		'textTags': "Tags",
+		'textDefaultBranchLabel': "default",
+
+		'mode': 'branches',
+		'showBranchesInDropdown':  true ,
+		'searchFieldPlaceholder': 'Filter branch or tag...',
+		'branchForm':  null ,
+		'disableCreateBranch':  true ,
+		'setAction':  null ,
+		'submitForm':  null ,
+		'viewType': "branch",
+		'refName': "bar",
+		'commitIdShort': "45e6f0f6d4",
+		'tagName': "",
+		'branchName': "bar",
+		'noTag':  null ,
+		'defaultSelectedRefName': "bar",
+		'repoDefaultBranch': "main",
+		'enableFeed':  true ,
+		'rssURLPrefix': '\/sewn\/dwl/rss/branch/',
+		'branchURLPrefix': '\/sewn\/dwl/src/branch/',
+		'branchURLSuffix': '',
+		'tagURLPrefix': '\/sewn\/dwl/src/tag/',
+		'tagURLSuffix': '',
+		'repoLink': "/sewn/dwl",
+		'treePath': "",
+		'branchNameSubURL': "branch/bar",
+		'noResults': "No results found.",
+	};
+	
+	window.config.pageData.branchDropdownDataList = window.config.pageData.branchDropdownDataList || [];
+	window.config.pageData.branchDropdownDataList.push(data);
+</script>
+
+<div class="js-branch-tag-selector tw-mr-1">
+	
+	<div class="ui dropdown custom">
+		<button class="branch-dropdown-button gt-ellipsis ui basic small compact button tw-flex tw-m-0">
+			<span class="text tw-flex tw-items-center tw-mr-1">
+				
+					
+						<svg viewBox="0 0 16 16" class="svg octicon-git-branch" aria-hidden="true" width="16" height="16"><path d="M9.5 3.25a2.25 2.25 0 1 1 3 2.122V6A2.5 2.5 0 0 1 10 8.5H6a1 1 0 0 0-1 1v1.128a2.251 2.251 0 1 1-1.5 0V5.372a2.25 2.25 0 1 1 1.5 0v1.836A2.5 2.5 0 0 1 6 7h4a1 1 0 0 0 1-1v-.628A2.25 2.25 0 0 1 9.5 3.25m-6 0a.75.75 0 1 0 1.5 0 .75.75 0 0 0-1.5 0m8.25-.75a.75.75 0 1 0 0 1.5.75.75 0 0 0 0-1.5M4.25 12a.75.75 0 1 0 0 1.5.75.75 0 0 0 0-1.5"/></svg>
+					
+					<strong ref="dropdownRefName" class="tw-ml-2">bar</strong>
+				
+			</span>
+			<svg viewBox="0 0 16 16" class="dropdown icon svg octicon-triangle-down" aria-hidden="true" width="14" height="14"><path d="m4.427 7.427 3.396 3.396a.25.25 0 0 0 .354 0l3.396-3.396A.25.25 0 0 0 11.396 7H4.604a.25.25 0 0 0-.177.427"/></svg>
+		</button>
+	</div>
+</div>
+
+				
+					
+					
+						
+					
+					
+					
+					<a id="new-pull-request" role="button" class="ui compact basic button" href="/dwl/dwl/compare/main...sewn/dwl:bar"
+						data-tooltip-content="Compare">
+						<svg viewBox="0 0 16 16" class="svg octicon-git-pull-request" aria-hidden="true" width="16" height="16"><path d="M1.5 3.25a2.25 2.25 0 1 1 3 2.122v5.256a2.251 2.251 0 1 1-1.5 0V5.372A2.25 2.25 0 0 1 1.5 3.25m5.677-.177L9.573.677A.25.25 0 0 1 10 .854V2.5h1A2.5 2.5 0 0 1 13.5 5v5.628a2.251 2.251 0 1 1-1.5 0V5a1 1 0 0 0-1-1h-1v1.646a.25.25 0 0 1-.427.177L7.177 3.427a.25.25 0 0 1 0-.354M3.75 2.5a.75.75 0 1 0 0 1.5.75.75 0 0 0 0-1.5m0 9.5a.75.75 0 1 0 0 1.5.75.75 0 0 0 0-1.5m8.25.75a.75.75 0 1 0 1.5 0 .75.75 0 0 0-1.5 0"/></svg>
+					</a>
+				
+				
+				
+					<a href="/sewn/dwl/find/branch/bar" class="ui compact basic button">Find a file</a>
+				
+
+				
+
+				
+				
+			</div>
+			<div class="tw-flex tw-items-center">
+				
+				
+					<div class="clone-panel ui action tiny input">
+						
+
+	<button class="ui small button" id="repo-clone-https" data-link="https://codeberg.org/sewn/dwl.git">
+		HTTPS
+	</button>
+
+
+<input id="repo-clone-url" size="20" class="js-clone-url" value="https://codeberg.org/sewn/dwl.git" readonly>
+<button class="ui small icon button" id="clipboard-btn" data-tooltip-content="Copy URL" data-clipboard-target="#repo-clone-url" aria-label="Copy URL">
+	<svg viewBox="0 0 16 16" class="svg octicon-copy" aria-hidden="true" width="14" height="14"><path d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 0 1 0 1.5h-1.5a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-1.5a.75.75 0 0 1 1.5 0v1.5A1.75 1.75 0 0 1 9.25 16h-7.5A1.75 1.75 0 0 1 0 14.25Z"/><path d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0 1 14.25 11h-7.5A1.75 1.75 0 0 1 5 9.25Zm1.75-.25a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-7.5a.25.25 0 0 0-.25-.25Z"/></svg>
+</button>
+
+						<button class="ui small jump dropdown icon button" data-tooltip-content="More operations">
+							<svg viewBox="0 0 16 16" class="svg octicon-kebab-horizontal" aria-hidden="true" width="16" height="16"><path d="M8 9a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3M1.5 9a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3m13 0a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3"/></svg>
+							<div class="menu">
+								
+									<a class="item archive-link" href="/sewn/dwl/archive/bar.zip" rel="nofollow"><svg viewBox="0 0 16 16" class="tw-mr-2 svg octicon-file-zip" aria-hidden="true" width="16" height="16"><path d="M3.5 1.75v11.5c0 .09.048.173.126.217a.75.75 0 0 1-.752 1.298A1.75 1.75 0 0 1 2 13.25V1.75C2 .784 2.784 0 3.75 0h5.586c.464 0 .909.185 1.237.513l2.914 2.914c.329.328.513.773.513 1.237v8.586A1.75 1.75 0 0 1 12.25 15h-.5a.75.75 0 0 1 0-1.5h.5a.25.25 0 0 0 .25-.25V4.664a.25.25 0 0 0-.073-.177L9.513 1.573a.25.25 0 0 0-.177-.073H7.25a.75.75 0 0 1 0 1.5h-.5a.75.75 0 0 1 0-1.5h-3a.25.25 0 0 0-.25.25m3.75 8.75h.5c.966 0 1.75.784 1.75 1.75v3a.75.75 0 0 1-.75.75h-2.5a.75.75 0 0 1-.75-.75v-3c0-.966.784-1.75 1.75-1.75M6 5.25a.75.75 0 0 1 .75-.75h.5a.75.75 0 0 1 0 1.5h-.5A.75.75 0 0 1 6 5.25m.75 2.25h.5a.75.75 0 0 1 0 1.5h-.5a.75.75 0 0 1 0-1.5M8 6.75A.75.75 0 0 1 8.75 6h.5a.75.75 0 0 1 0 1.5h-.5A.75.75 0 0 1 8 6.75M8.75 3h.5a.75.75 0 0 1 0 1.5h-.5a.75.75 0 0 1 0-1.5M8 9.75A.75.75 0 0 1 8.75 9h.5a.75.75 0 0 1 0 1.5h-.5A.75.75 0 0 1 8 9.75m-1 2.5v2.25h1v-2.25a.25.25 0 0 0-.25-.25h-.5a.25.25 0 0 0-.25.25"/></svg>Download ZIP</a>
+									<a class="item archive-link" href="/sewn/dwl/archive/bar.tar.gz" rel="nofollow"><svg viewBox="0 0 16 16" class="tw-mr-2 svg octicon-file-zip" aria-hidden="true" width="16" height="16"><path d="M3.5 1.75v11.5c0 .09.048.173.126.217a.75.75 0 0 1-.752 1.298A1.75 1.75 0 0 1 2 13.25V1.75C2 .784 2.784 0 3.75 0h5.586c.464 0 .909.185 1.237.513l2.914 2.914c.329.328.513.773.513 1.237v8.586A1.75 1.75 0 0 1 12.25 15h-.5a.75.75 0 0 1 0-1.5h.5a.25.25 0 0 0 .25-.25V4.664a.25.25 0 0 0-.073-.177L9.513 1.573a.25.25 0 0 0-.177-.073H7.25a.75.75 0 0 1 0 1.5h-.5a.75.75 0 0 1 0-1.5h-3a.25.25 0 0 0-.25.25m3.75 8.75h.5c.966 0 1.75.784 1.75 1.75v3a.75.75 0 0 1-.75.75h-2.5a.75.75 0 0 1-.75-.75v-3c0-.966.784-1.75 1.75-1.75M6 5.25a.75.75 0 0 1 .75-.75h.5a.75.75 0 0 1 0 1.5h-.5A.75.75 0 0 1 6 5.25m.75 2.25h.5a.75.75 0 0 1 0 1.5h-.5a.75.75 0 0 1 0-1.5M8 6.75A.75.75 0 0 1 8.75 6h.5a.75.75 0 0 1 0 1.5h-.5A.75.75 0 0 1 8 6.75M8.75 3h.5a.75.75 0 0 1 0 1.5h-.5a.75.75 0 0 1 0-1.5M8 9.75A.75.75 0 0 1 8.75 9h.5a.75.75 0 0 1 0 1.5h-.5A.75.75 0 0 1 8 9.75m-1 2.5v2.25h1v-2.25a.25.25 0 0 0-.25-.25h-.5a.25.25 0 0 0-.25.25"/></svg>Download TAR.GZ</a>
+									<a class="item archive-link" href="/sewn/dwl/archive/bar.bundle" rel="nofollow"><svg viewBox="0 0 16 16" class="tw-mr-2 svg octicon-package" aria-hidden="true" width="16" height="16"><path d="m8.878.392 5.25 3.045c.54.314.872.89.872 1.514v6.098a1.75 1.75 0 0 1-.872 1.514l-5.25 3.045a1.75 1.75 0 0 1-1.756 0l-5.25-3.045A1.75 1.75 0 0 1 1 11.049V4.951c0-.624.332-1.201.872-1.514L7.122.392a1.75 1.75 0 0 1 1.756 0M7.875 1.69l-4.63 2.685L8 7.133l4.755-2.758-4.63-2.685a.25.25 0 0 0-.25 0M2.5 5.677v5.372c0 .09.047.171.125.216l4.625 2.683V8.432Zm6.25 8.271 4.625-2.683a.25.25 0 0 0 .125-.216V5.677L8.75 8.432Z"/></svg>Download BUNDLE</a>
+								
+								
+								
+									<a class="item js-clone-url-editor" data-href-template="vscode://vscode.git/clone?url={url}"><svg viewBox="-1 -1 34 34" class="tw-mr-2 svg gitea-open-with-vscode" aria-hidden="true" width="16" height="16"><path d="M30.9 3.4 24.3.3a2 2 0 0 0-2.3.4L9.4 12.2 3.9 8c-.5-.4-1.2-.4-1.7 0L.4 9.8c-.5.5-.5 1.4 0 2L5.2 16 .4 20.3c-.5.6-.5 1.5 0 2L2.2 24c.5.5 1.2.5 1.7 0l5.5-4L22 31.2a2 2 0 0 0 2.3.4l6.6-3.2a2 2 0 0 0 1.1-1.8V5.2a2 2 0 0 0-1.1-1.8M24 23.3 14.4 16 24 8.7z"/></svg>Open with VS Code</a>
+								
+									<a class="item js-clone-url-editor" data-href-template="vscodium://vscode.git/clone?url={url}"><svg xml:space="preserve" fill-rule="evenodd" stroke-linejoin="round" stroke-miterlimit="2" clip-rule="evenodd" viewBox="0 0 16 16" class="tw-mr-2 svg gitea-open-with-vscodium" aria-hidden="true" width="16" height="16"><path fill-rule="nonzero" d="m10.2.2.5-.3c.3 0 .5.2.7.4l.2.8-.2 1-.8 2.4c-.3 1-.4 2 0 2.9l.8-2c.2 0 .4.1.4.3l-.3 1L9.2 13l3.1-2.9c.3-.2.7-.5.8-1a2 2 0 0 0-.3-1c-.2-.5-.5-.9-.6-1.4l.1-.7c.1-.1.3-.2.5-.1.2 0 .3.2.4.4.3.5.4 1.2.5 1.8l.6-1.2c0-.2.2-.4.4-.6l.4-.2c.2 0 .4.3.4.4v.6l-.8 1.6-1.4 1.8 1-.4c.2 0 .6.2.7.5 0 .2 0 .4-.2.5-.3.2-.6.2-1 .2-1 0-2.2.6-2.9 1.4L9.6 15c-.4.4-.9 1-1.4.8-.8-.1-.8-1.3-1-1.8 0-.3-.2-.6-.4-.7-.3-.2-.5-.3-.8-.3-.6-.1-1.2 0-1.8-.2l-.8-.4-.4-.7c-.3-.6-.3-1.2-.5-1.8A4 4 0 0 0 1 8l-.4-.4v-.4c.2-.2.5-.2.7 0 .5.2.5.8 1 1.1V6.2s.3-.1.4 0l.2.5L3 9c.4-.4.6-1 .5-1.5L3.4 7l.3-.2c.2 0 .3.2.4.3v.7c0 .6-.3 1.1-.4 1.7-.2.4-.3 1-.1 1.4.1.5.5.9.9 1 .5.3 1.1.4 1.7.4-.4-.6-.7-1.2-.7-2 0-.7.4-1.3.6-2C6.3 7 5.7 5.8 4.8 5l-1.5-.7c-.4-.2-.7-.7-.7-1.2.3-.1.7 0 1 .1L5 4.5l.6.1c.2-.3 0-.6-.2-.8-.3-.5-1-.6-1.3-1a.9.9 0 0 1-.2-.8c0-.2.3-.4.5-.4.4 0 .7.3.9.5.8.8 1.2 1.8 1.4 3s0 2.5-.2 3.7c0 .3-.2.5-.1.8l.2.2c.2 0 .4 0 .5-.2.4-.3.8-.8.9-1.3l.1-1.2.1-.6.4-.2.3.3v.6c-.1.5-.2 1-.5 1.6a2 2 0 0 1-.6 1l-1 1c-.1.2-.2.6-.1.9 0 .2.2.4.4.5.4.2.8.2 1 0 .3-.1.5-.4.7-.6l.5-1.4.4-2.5C9.7 7 9.6 6 9 5.2c-.2-.4-.5-.7-1-1l-1-.8c-.2-.3-.4-.7-.3-1.2h.6c.4.1.7.4.9.8s.4.8.9 1l-1-2c-.1-.3-.3-.5-.2-.8 0-.2.2-.4.4-.4s.4.1.5.3l.2.5 1 3.1a4 4 0 0 0 .4-2.3L10 1V.2Z"/></svg>Open with VSCodium</a>
+								
+									<a class="item js-clone-url-editor" data-href-template="jetbrains://idea/checkout/git?idea.required.plugins.id=Git4Idea&amp;checkout.repo={url}"><svg xml:space="preserve" viewBox="0 0 70 70" class="tw-mr-2 svg gitea-open-with-jetbrains" aria-hidden="true" width="16" height="16"><linearGradient id="gitea-open-with-jetbrains__a" x1=".79" x2="33.317" y1="40.089" y2="40.089" gradientUnits="userSpaceOnUse"><stop offset=".258" style="stop-color:#f97a12"/><stop offset=".459" style="stop-color:#b07b58"/><stop offset=".724" style="stop-color:#577bae"/><stop offset=".91" style="stop-color:#1e7ce5"/><stop offset="1" style="stop-color:#087cfa"/></linearGradient><path d="M17.7 54.6.8 41.2l8.4-15.6L33.3 35z" style="fill:url(#gitea-open-with-jetbrains__a)"/><linearGradient id="gitea-open-with-jetbrains__b" x1="25.767" x2="79.424" y1="24.88" y2="54.57" gradientUnits="userSpaceOnUse"><stop offset="0" style="stop-color:#f97a12"/><stop offset=".072" style="stop-color:#cb7a3e"/><stop offset=".154" style="stop-color:#9e7b6a"/><stop offset=".242" style="stop-color:#757b91"/><stop offset=".334" style="stop-color:#537bb1"/><stop offset=".432" style="stop-color:#387ccc"/><stop offset=".538" style="stop-color:#237ce0"/><stop offset=".655" style="stop-color:#147cef"/><stop offset=".792" style="stop-color:#0b7cf7"/><stop offset="1" style="stop-color:#087cfa"/></linearGradient><path d="m70 18.7-1.3 40.5L41.8 70 25.6 59.6 49.3 35 38.9 12.3l9.3-11.2z" style="fill:url(#gitea-open-with-jetbrains__b)"/><linearGradient id="gitea-open-with-jetbrains__c" x1="63.228" x2="48.29" y1="42.915" y2="-1.719" gradientUnits="userSpaceOnUse"><stop offset="0" style="stop-color:#fe315d"/><stop offset=".078" style="stop-color:#cb417e"/><stop offset=".16" style="stop-color:#9e4e9b"/><stop offset=".247" style="stop-color:#755bb4"/><stop offset=".339" style="stop-color:#5365ca"/><stop offset=".436" style="stop-color:#386ddb"/><stop offset=".541" style="stop-color:#2374e9"/><stop offset=".658" style="stop-color:#1478f3"/><stop offset=".794" style="stop-color:#0b7bf8"/><stop offset="1" style="stop-color:#087cfa"/></linearGradient><path d="M70 18.7 48.7 43.9l-9.8-31.6 9.3-11.2z" style="fill:url(#gitea-open-with-jetbrains__c)"/><linearGradient id="gitea-open-with-jetbrains__d" x1="10.72" x2="55.524" y1="16.473" y2="90.58" gradientUnits="userSpaceOnUse"><stop offset="0" style="stop-color:#fe315d"/><stop offset=".04" style="stop-color:#f63462"/><stop offset=".104" style="stop-color:#df3a71"/><stop offset=".167" style="stop-color:#c24383"/><stop offset=".291" style="stop-color:#ad4a91"/><stop offset=".55" style="stop-color:#755bb4"/><stop offset=".917" style="stop-color:#1d76ed"/><stop offset="1" style="stop-color:#087cfa"/></linearGradient><path d="M33.7 58.1 5.6 68.3l4.5-15.8L16 33.1 0 27.7 10.1 0l22 2.7 21.6 24.7z" style="fill:url(#gitea-open-with-jetbrains__d)"/><path d="M13.7 13.5h43.2v43.2H13.7z" style="fill:#000"/><path d="M17.7 48.6h16.2v2.7H17.7zM29.4 22.4v-3.3h-9v3.3H23v11.3h-2.6V37h9v-3.3h-2.5V22.4zM38 37.3c-1.4 0-2.6-.3-3.5-.8s-1.7-1.2-2.3-1.9l2.5-2.8c.5.6 1 1 1.5 1.3s1.1.5 1.7.5c.7 0 1.3-.2 1.8-.7.4-.5.6-1.2.6-2.3V19.1h4v11.7c0 1.1-.1 2-.4 2.8s-.7 1.4-1.3 2c-.5.5-1.2 1-2 1.2-.8.3-1.6.5-2.6.5" style="fill:#fff"/></svg>Open with Intellij IDEA</a>
+								
+							</div>
+						</button>
+						<script>
+	
+	
+	
+	
+	
+	
+	(window.updateCloneStates = function() {
+		const httpsBtn = document.getElementById('repo-clone-https');
+		const sshBtn = document.getElementById('repo-clone-ssh');
+		const value = localStorage.getItem('repo-clone-protocol') || 'https';
+		const isSSH = value === 'ssh' && sshBtn || value !== 'ssh' && !httpsBtn;
+
+		if (httpsBtn) {
+			httpsBtn.textContent = window.origin.split(':')[0].toUpperCase();
+			httpsBtn.classList.toggle('primary', !isSSH);
+			httpsBtn.classList.toggle('basic', isSSH);
+		}
+		if (sshBtn) {
+			sshBtn.classList.toggle('primary', isSSH);
+			sshBtn.classList.toggle('basic', !isSSH);
+		}
+
+		const btn = isSSH ? sshBtn : httpsBtn;
+		if (!btn) return;
+
+		
+		function toOriginUrl(urlStr) {
+			try {
+				if (urlStr.startsWith('http://') || urlStr.startsWith('https://') || urlStr.startsWith('/')) {
+					const {origin, protocol, hostname, port} = window.location;
+					const url = new URL(urlStr, origin);
+					url.protocol = protocol;
+					url.hostname = hostname;
+					url.port = port || (protocol === 'https:' ? '443' : '80');
+					return url.toString();
+				}
+			} catch {}
+			return urlStr;
+		}
+		const link = toOriginUrl(btn.getAttribute('data-link'));
+
+		for (const el of document.getElementsByClassName('js-clone-url')) {
+			el[el.nodeName === 'INPUT' ? 'value' : 'textContent'] = link;
+		}
+		for (const el of document.getElementsByClassName('js-clone-url-editor')) {
+			el.href = el.getAttribute('data-href-template').replace('{url}', encodeURIComponent(link));
+		}
+	})();
+</script>
+
+					</div>
+					<div class="ui small modal" id="cite-repo-modal">
+	<div class="header">
+		Cite this repository
+	</div>
+	<div class="content">
+		<div class="ui stackable secondary menu">
+			<div class="ui action input" id="citation-panel">
+				<button class="ui citation button" id="citation-copy-apa" data-text="">
+APA
+</button>
+<button class="ui citation button" id="citation-copy-bibtex" data-text="">
+BibTeX
+</button>
+
+<input id="citation-copy-content" value="" size="1" readonly>
+<button class="ui icon button" id="citation-clipboard-btn" data-tooltip-content="Copy" data-clipboard-target="#citation-copy-content">
+	<svg viewBox="0 0 16 16" class="svg octicon-copy" aria-hidden="true" width="16" height="16"><path d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 0 1 0 1.5h-1.5a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-1.5a.75.75 0 0 1 1.5 0v1.5A1.75 1.75 0 0 1 9.25 16h-7.5A1.75 1.75 0 0 1 0 14.25Z"/><path d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0 1 14.25 11h-7.5A1.75 1.75 0 0 1 5 9.25Zm1.75-.25a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-7.5a.25.25 0 0 0-.25-.25Z"/></svg>
+</button>
+
+				<a id="goto-citation-btn" class="ui basic jump icon button" href="/sewn/dwl/src/bar/CITATION.cff" data-tooltip-content="Find a file">
+					<svg viewBox="0 0 16 16" class="svg octicon-file-moved" aria-hidden="true" width="16" height="16"><path d="M2 1.75C2 .784 2.784 0 3.75 0h6.586c.464 0 .909.184 1.237.513l2.914 2.914c.329.328.513.773.513 1.237v9.586A1.75 1.75 0 0 1 13.25 16h-3.5a.75.75 0 0 1 0-1.5h3.5a.25.25 0 0 0 .25-.25V4.664a.25.25 0 0 0-.073-.177l-2.914-2.914a.25.25 0 0 0-.177-.073H3.75a.25.25 0 0 0-.25.25v6.5a.75.75 0 0 1-1.5 0z"/><path d="m5.427 15.573 3.146-3.146a.25.25 0 0 0 0-.354L5.427 8.927A.25.25 0 0 0 5 9.104V11.5H.75a.75.75 0 0 0 0 1.5H5v2.396c0 .223.27.335.427.177"/></svg>
+				</a>
+			</div>
+		</div>
+	</div>
+	<div class="actions">
+		<button class="ui cancel button">
+			Cancel
+		</button>
+	</div>
+</div>
+
+				
+				
+			</div>
+		</div>
+		
+			<table id="repo-files-table" class="ui single line table tw-mt-0" >
+	<thead>
+		<tr class="commit-list">
+			<th class="tw-overflow-hidden" colspan="2">
+				<div class="tw-flex">
+					<div class="latest-commit">
+						
+	
+		<img class="ui avatar tw-align-middle tw-mr-1" src="/avatars/8ca4aa4f697d185f9929249993e90ef4bb4cf5148241c89ec2d313b26f350bc5?size=48" title="sewn" width="24" height="24"/>
+		
+			<a class="muted author-wrapper" title="sewn" href="/sewn"><strong>sewn</strong></a>
+		
+	
+	<a rel="nofollow" class="ui sha label  isSigned  isVerified" href="/sewn/dwl/commit/45e6f0f6d45342f41344ae035990306785175bed">
+		<span class="shortsha">45e6f0f6d4</span>
+		
+			<div class="ui detail icon button">
+	
+		<div title="sewn / SHA256:mP9zjD6amlFQm2O8Bo1gJyeL&#43;nE/2IIDHV0b1ze&#43;oQk">
+		
+			<svg viewBox="0 0 14 16" class="svg gitea-lock" aria-hidden="true" width="16" height="16"><path d="M12.5 7h-.75V4.75A4.756 4.756 0 0 0 7 0a4.756 4.756 0 0 0-4.75 4.75V7H1.5A1.5 1.5 0 0 0 0 8.5v6A1.5 1.5 0 0 0 1.5 16h11a1.5 1.5 0 0 0 1.5-1.5v-6A1.5 1.5 0 0 0 12.5 7M9.25 7h-4.5V4.75C4.75 3.51 5.76 2.5 7 2.5s2.25 1.01 2.25 2.25z"/></svg>
+			<img class="ui avatar tw-align-middle signature" src="/avatars/8ca4aa4f697d185f9929249993e90ef4bb4cf5148241c89ec2d313b26f350bc5?size=56" title="sewn" width="28" height="28"/>
+		
+		</div>
+	
+</div>
+
+		
+	</a>
+	
+
+	
+	<span class="grey commit-summary" title="Implement dwm bar clone"><span class="message-wrapper"><a href="/sewn/dwl/commit/45e6f0f6d45342f41344ae035990306785175bed" class="default-link muted">Implement dwm bar clone</a></span>
+		
+	</span>
+
+
+					</div>
+				</div>
+			</th>
+			<th class="text grey right age"><relative-time prefix="" tense="past" datetime="2024-06-26T23:07:14+03:00" data-tooltip-content data-tooltip-interactive="true">2024-06-26 23:07:14 +03:00</relative-time></th>
+		</tr>
+	</thead>
+	<tbody>
+		
+		
+			
+			
+			
+			<tr data-entryname=".gitea" data-ready="true" class="ready entry">
+				<td class="name four wide">
+					<span class="truncate">
+						
+							
+								
+								<svg viewBox="0 0 16 16" class="svg octicon-file-directory-fill" aria-hidden="true" width="16" height="16"><path d="M1.75 1A1.75 1.75 0 0 0 0 2.75v10.5C0 14.216.784 15 1.75 15h12.5A1.75 1.75 0 0 0 16 13.25v-8.5A1.75 1.75 0 0 0 14.25 3H7.5a.25.25 0 0 1-.2-.1l-.9-1.2C6.07 1.26 5.55 1 5 1z"/></svg>
+								<a class="muted" href="/sewn/dwl/src/branch/bar/.gitea/issue_template" title=".gitea/issue_template">
+									
+									
+									
+										
+										<span class="text light-2">.gitea</span>/issue_template
+									
+								</a>
+							
+						
+					</span>
+				</td>
+				<td class="message nine wide">
+					<span class="truncate">
+						
+							
+							<a href="/sewn/dwl/commit/417e37f98877975ad19b13c9c09f0837684668e7" class="default-link muted">request description before logs</a>
+						
+					</span>
+				</td>
+				<td class="text right age three wide"><relative-time prefix="" tense="past" datetime="2024-01-15T02:15:54Z" data-tooltip-content data-tooltip-interactive="true">2024-01-15 02:15:54 +00:00</relative-time></td>
+			</tr>
+		
+			
+			
+			
+			<tr data-entryname="protocols" data-ready="true" class="ready entry">
+				<td class="name four wide">
+					<span class="truncate">
+						
+							
+								
+								<svg viewBox="0 0 16 16" class="svg octicon-file-directory-fill" aria-hidden="true" width="16" height="16"><path d="M1.75 1A1.75 1.75 0 0 0 0 2.75v10.5C0 14.216.784 15 1.75 15h12.5A1.75 1.75 0 0 0 16 13.25v-8.5A1.75 1.75 0 0 0 14.25 3H7.5a.25.25 0 0 1-.2-.1l-.9-1.2C6.07 1.26 5.55 1 5 1z"/></svg>
+								<a class="muted" href="/sewn/dwl/src/branch/bar/protocols" title="protocols">
+									
+									
+									
+										protocols
+									
+								</a>
+							
+						
+					</span>
+				</td>
+				<td class="message nine wide">
+					<span class="truncate">
+						
+							
+							<a href="/sewn/dwl/commit/9b1f35e42bf435b212dfcdcc510439ef8b4f2e31" class="default-link muted">Implement support for output power management</a>
+						
+					</span>
+				</td>
+				<td class="text right age three wide"><relative-time prefix="" tense="past" datetime="2024-06-20T19:11:52-06:00" data-tooltip-content data-tooltip-interactive="true">2024-06-20 19:11:52 -06:00</relative-time></td>
+			</tr>
+		
+			
+			
+			
+			<tr data-entryname=".gitignore" data-ready="true" class="ready entry">
+				<td class="name four wide">
+					<span class="truncate">
+						
+							
+								<svg viewBox="0 0 16 16" class="svg octicon-file" aria-hidden="true" width="16" height="16"><path d="M2 1.75C2 .784 2.784 0 3.75 0h6.586c.464 0 .909.184 1.237.513l2.914 2.914c.329.328.513.773.513 1.237v9.586A1.75 1.75 0 0 1 13.25 16h-9.5A1.75 1.75 0 0 1 2 14.25Zm1.75-.25a.25.25 0 0 0-.25.25v12.5c0 .138.112.25.25.25h9.5a.25.25 0 0 0 .25-.25V6h-2.75A1.75 1.75 0 0 1 9 4.25V1.5Zm6.75.062V4.25c0 .138.112.25.25.25h2.688l-.011-.013-2.914-2.914z"/></svg>
+								<a class="muted" href="/sewn/dwl/src/branch/bar/.gitignore" title=".gitignore">.gitignore</a>
+							
+						
+					</span>
+				</td>
+				<td class="message nine wide">
+					<span class="truncate">
+						
+							
+							<a href="/sewn/dwl/commit/a58adbb7b99edb8173fc438c189b86118ef83d58" class="default-link muted">Add config.h to .gitignore</a>
+						
+					</span>
+				</td>
+				<td class="text right age three wide"><relative-time prefix="" tense="past" datetime="2021-01-13T15:25:24Z" data-tooltip-content data-tooltip-interactive="true">2021-01-13 15:25:24 +00:00</relative-time></td>
+			</tr>
+		
+			
+			
+			
+			<tr data-entryname="CHANGELOG.md" data-ready="true" class="ready entry">
+				<td class="name four wide">
+					<span class="truncate">
+						
+							
+								<svg viewBox="0 0 16 16" class="svg octicon-file" aria-hidden="true" width="16" height="16"><path d="M2 1.75C2 .784 2.784 0 3.75 0h6.586c.464 0 .909.184 1.237.513l2.914 2.914c.329.328.513.773.513 1.237v9.586A1.75 1.75 0 0 1 13.25 16h-9.5A1.75 1.75 0 0 1 2 14.25Zm1.75-.25a.25.25 0 0 0-.25.25v12.5c0 .138.112.25.25.25h9.5a.25.25 0 0 0 .25-.25V6h-2.75A1.75 1.75 0 0 1 9 4.25V1.5Zm6.75.062V4.25c0 .138.112.25.25.25h2.688l-.011-.013-2.914-2.914z"/></svg>
+								<a class="muted" href="/sewn/dwl/src/branch/bar/CHANGELOG.md" title="CHANGELOG.md">CHANGELOG.md</a>
+							
+						
+					</span>
+				</td>
+				<td class="message nine wide">
+					<span class="truncate">
+						
+							
+							<a href="/sewn/dwl/commit/922e117fc5fd03faebd8f23e127fb75d21b83f24" class="default-link muted">add new &#39;unreleased&#39; section</a>
+						
+					</span>
+				</td>
+				<td class="text right age three wide"><relative-time prefix="" tense="past" datetime="2023-11-25T19:04:08-06:00" data-tooltip-content data-tooltip-interactive="true">2023-11-25 19:04:08 -06:00</relative-time></td>
+			</tr>
+		
+			
+			
+			
+			<tr data-entryname="client.h" data-ready="true" class="ready entry">
+				<td class="name four wide">
+					<span class="truncate">
+						
+							
+								<svg viewBox="0 0 16 16" class="svg octicon-file" aria-hidden="true" width="16" height="16"><path d="M2 1.75C2 .784 2.784 0 3.75 0h6.586c.464 0 .909.184 1.237.513l2.914 2.914c.329.328.513.773.513 1.237v9.586A1.75 1.75 0 0 1 13.25 16h-9.5A1.75 1.75 0 0 1 2 14.25Zm1.75-.25a.25.25 0 0 0-.25.25v12.5c0 .138.112.25.25.25h9.5a.25.25 0 0 0 .25-.25V6h-2.75A1.75 1.75 0 0 1 9 4.25V1.5Zm6.75.062V4.25c0 .138.112.25.25.25h2.688l-.011-.013-2.914-2.914z"/></svg>
+								<a class="muted" href="/sewn/dwl/src/branch/bar/client.h" title="client.h">client.h</a>
+							
+						
+					</span>
+				</td>
+				<td class="message nine wide">
+					<span class="truncate">
+						
+							
+							<a href="/sewn/dwl/commit/13925eb1da8af2c1d23ee9d01efd03c3626081b2" class="default-link muted">correctly report position to xwayland clients</a>
+						
+					</span>
+				</td>
+				<td class="text right age three wide"><relative-time prefix="" tense="past" datetime="2024-06-24T13:32:03-06:00" data-tooltip-content data-tooltip-interactive="true">2024-06-24 13:32:03 -06:00</relative-time></td>
+			</tr>
+		
+			
+			
+			
+			<tr data-entryname="config.def.h" data-ready="true" class="ready entry">
+				<td class="name four wide">
+					<span class="truncate">
+						
+							
+								<svg viewBox="0 0 16 16" class="svg octicon-file" aria-hidden="true" width="16" height="16"><path d="M2 1.75C2 .784 2.784 0 3.75 0h6.586c.464 0 .909.184 1.237.513l2.914 2.914c.329.328.513.773.513 1.237v9.586A1.75 1.75 0 0 1 13.25 16h-9.5A1.75 1.75 0 0 1 2 14.25Zm1.75-.25a.25.25 0 0 0-.25.25v12.5c0 .138.112.25.25.25h9.5a.25.25 0 0 0 .25-.25V6h-2.75A1.75 1.75 0 0 1 9 4.25V1.5Zm6.75.062V4.25c0 .138.112.25.25.25h2.688l-.011-.013-2.914-2.914z"/></svg>
+								<a class="muted" href="/sewn/dwl/src/branch/bar/config.def.h" title="config.def.h">config.def.h</a>
+							
+						
+					</span>
+				</td>
+				<td class="message nine wide">
+					<span class="truncate">
+						
+							
+							<a href="/sewn/dwl/commit/45e6f0f6d45342f41344ae035990306785175bed" class="default-link muted">Implement dwm bar clone</a>
+						
+					</span>
+				</td>
+				<td class="text right age three wide"><relative-time prefix="" tense="past" datetime="2024-06-26T23:07:14+03:00" data-tooltip-content data-tooltip-interactive="true">2024-06-26 23:07:14 +03:00</relative-time></td>
+			</tr>
+		
+			
+			
+			
+			<tr data-entryname="config.mk" data-ready="true" class="ready entry">
+				<td class="name four wide">
+					<span class="truncate">
+						
+							
+								<svg viewBox="0 0 16 16" class="svg octicon-file" aria-hidden="true" width="16" height="16"><path d="M2 1.75C2 .784 2.784 0 3.75 0h6.586c.464 0 .909.184 1.237.513l2.914 2.914c.329.328.513.773.513 1.237v9.586A1.75 1.75 0 0 1 13.25 16h-9.5A1.75 1.75 0 0 1 2 14.25Zm1.75-.25a.25.25 0 0 0-.25.25v12.5c0 .138.112.25.25.25h9.5a.25.25 0 0 0 .25-.25V6h-2.75A1.75 1.75 0 0 1 9 4.25V1.5Zm6.75.062V4.25c0 .138.112.25.25.25h2.688l-.011-.013-2.914-2.914z"/></svg>
+								<a class="muted" href="/sewn/dwl/src/branch/bar/config.mk" title="config.mk">config.mk</a>
+							
+						
+					</span>
+				</td>
+				<td class="message nine wide">
+					<span class="truncate">
+						
+							
+							<a href="/sewn/dwl/commit/92d1c286b8041bcdf5c335a63f5c060460e2a0e0" class="default-link muted">default CC to gcc</a>
+						
+					</span>
+				</td>
+				<td class="text right age three wide"><relative-time prefix="" tense="past" datetime="2024-06-20T18:42:00-06:00" data-tooltip-content data-tooltip-interactive="true">2024-06-20 18:42:00 -06:00</relative-time></td>
+			</tr>
+		
+			
+			
+			
+			<tr data-entryname="drwl.h" data-ready="true" class="ready entry">
+				<td class="name four wide">
+					<span class="truncate">
+						
+							
+								<svg viewBox="0 0 16 16" class="svg octicon-file" aria-hidden="true" width="16" height="16"><path d="M2 1.75C2 .784 2.784 0 3.75 0h6.586c.464 0 .909.184 1.237.513l2.914 2.914c.329.328.513.773.513 1.237v9.586A1.75 1.75 0 0 1 13.25 16h-9.5A1.75 1.75 0 0 1 2 14.25Zm1.75-.25a.25.25 0 0 0-.25.25v12.5c0 .138.112.25.25.25h9.5a.25.25 0 0 0 .25-.25V6h-2.75A1.75 1.75 0 0 1 9 4.25V1.5Zm6.75.062V4.25c0 .138.112.25.25.25h2.688l-.011-.013-2.914-2.914z"/></svg>
+								<a class="muted" href="/sewn/dwl/src/branch/bar/drwl.h" title="drwl.h">drwl.h</a>
+							
+						
+					</span>
+				</td>
+				<td class="message nine wide">
+					<span class="truncate">
+						
+							
+							<a href="/sewn/dwl/commit/45e6f0f6d45342f41344ae035990306785175bed" class="default-link muted">Implement dwm bar clone</a>
+						
+					</span>
+				</td>
+				<td class="text right age three wide"><relative-time prefix="" tense="past" datetime="2024-06-26T23:07:14+03:00" data-tooltip-content data-tooltip-interactive="true">2024-06-26 23:07:14 +03:00</relative-time></td>
+			</tr>
+		
+			
+			
+			
+			<tr data-entryname="dwl.1" data-ready="true" class="ready entry">
+				<td class="name four wide">
+					<span class="truncate">
+						
+							
+								<svg viewBox="0 0 16 16" class="svg octicon-file" aria-hidden="true" width="16" height="16"><path d="M2 1.75C2 .784 2.784 0 3.75 0h6.586c.464 0 .909.184 1.237.513l2.914 2.914c.329.328.513.773.513 1.237v9.586A1.75 1.75 0 0 1 13.25 16h-9.5A1.75 1.75 0 0 1 2 14.25Zm1.75-.25a.25.25 0 0 0-.25.25v12.5c0 .138.112.25.25.25h9.5a.25.25 0 0 0 .25-.25V6h-2.75A1.75 1.75 0 0 1 9 4.25V1.5Zm6.75.062V4.25c0 .138.112.25.25.25h2.688l-.011-.013-2.914-2.914z"/></svg>
+								<a class="muted" href="/sewn/dwl/src/branch/bar/dwl.1" title="dwl.1">dwl.1</a>
+							
+						
+					</span>
+				</td>
+				<td class="message nine wide">
+					<span class="truncate">
+						
+							
+							<a href="/sewn/dwl/commit/34b7a5721134d63f8241af2f008c2e0d9f836dd5" class="default-link muted">Update wmenu-run name</a>
+						
+					</span>
+				</td>
+				<td class="text right age three wide"><relative-time prefix="" tense="past" datetime="2024-05-05T13:52:25-05:00" data-tooltip-content data-tooltip-interactive="true">2024-05-05 13:52:25 -05:00</relative-time></td>
+			</tr>
+		
+			
+			
+			
+			<tr data-entryname="dwl.c" data-ready="true" class="ready entry">
+				<td class="name four wide">
+					<span class="truncate">
+						
+							
+								<svg viewBox="0 0 16 16" class="svg octicon-file" aria-hidden="true" width="16" height="16"><path d="M2 1.75C2 .784 2.784 0 3.75 0h6.586c.464 0 .909.184 1.237.513l2.914 2.914c.329.328.513.773.513 1.237v9.586A1.75 1.75 0 0 1 13.25 16h-9.5A1.75 1.75 0 0 1 2 14.25Zm1.75-.25a.25.25 0 0 0-.25.25v12.5c0 .138.112.25.25.25h9.5a.25.25 0 0 0 .25-.25V6h-2.75A1.75 1.75 0 0 1 9 4.25V1.5Zm6.75.062V4.25c0 .138.112.25.25.25h2.688l-.011-.013-2.914-2.914z"/></svg>
+								<a class="muted" href="/sewn/dwl/src/branch/bar/dwl.c" title="dwl.c">dwl.c</a>
+							
+						
+					</span>
+				</td>
+				<td class="message nine wide">
+					<span class="truncate">
+						
+							
+							<a href="/sewn/dwl/commit/45e6f0f6d45342f41344ae035990306785175bed" class="default-link muted">Implement dwm bar clone</a>
+						
+					</span>
+				</td>
+				<td class="text right age three wide"><relative-time prefix="" tense="past" datetime="2024-06-26T23:07:14+03:00" data-tooltip-content data-tooltip-interactive="true">2024-06-26 23:07:14 +03:00</relative-time></td>
+			</tr>
+		
+			
+			
+			
+			<tr data-entryname="dwl.desktop" data-ready="true" class="ready entry">
+				<td class="name four wide">
+					<span class="truncate">
+						
+							
+								<svg viewBox="0 0 16 16" class="svg octicon-file" aria-hidden="true" width="16" height="16"><path d="M2 1.75C2 .784 2.784 0 3.75 0h6.586c.464 0 .909.184 1.237.513l2.914 2.914c.329.328.513.773.513 1.237v9.586A1.75 1.75 0 0 1 13.25 16h-9.5A1.75 1.75 0 0 1 2 14.25Zm1.75-.25a.25.25 0 0 0-.25.25v12.5c0 .138.112.25.25.25h9.5a.25.25 0 0 0 .25-.25V6h-2.75A1.75 1.75 0 0 1 9 4.25V1.5Zm6.75.062V4.25c0 .138.112.25.25.25h2.688l-.011-.013-2.914-2.914z"/></svg>
+								<a class="muted" href="/sewn/dwl/src/branch/bar/dwl.desktop" title="dwl.desktop">dwl.desktop</a>
+							
+						
+					</span>
+				</td>
+				<td class="message nine wide">
+					<span class="truncate">
+						
+							
+							<a href="/sewn/dwl/commit/773bd04764f8407f90bf5bd10d62cd1712594892" class="default-link muted">Add desktop entry file</a>
+						
+					</span>
+				</td>
+				<td class="text right age three wide"><relative-time prefix="" tense="past" datetime="2023-09-22T19:49:18-06:00" data-tooltip-content data-tooltip-interactive="true">2023-09-22 19:49:18 -06:00</relative-time></td>
+			</tr>
+		
+			
+			
+			
+			<tr data-entryname="LICENSE" data-ready="true" class="ready entry">
+				<td class="name four wide">
+					<span class="truncate">
+						
+							
+								<svg viewBox="0 0 16 16" class="svg octicon-file" aria-hidden="true" width="16" height="16"><path d="M2 1.75C2 .784 2.784 0 3.75 0h6.586c.464 0 .909.184 1.237.513l2.914 2.914c.329.328.513.773.513 1.237v9.586A1.75 1.75 0 0 1 13.25 16h-9.5A1.75 1.75 0 0 1 2 14.25Zm1.75-.25a.25.25 0 0 0-.25.25v12.5c0 .138.112.25.25.25h9.5a.25.25 0 0 0 .25-.25V6h-2.75A1.75 1.75 0 0 1 9 4.25V1.5Zm6.75.062V4.25c0 .138.112.25.25.25h2.688l-.011-.013-2.914-2.914z"/></svg>
+								<a class="muted" href="/sewn/dwl/src/branch/bar/LICENSE" title="LICENSE">LICENSE</a>
+							
+						
+					</span>
+				</td>
+				<td class="message nine wide">
+					<span class="truncate">
+						
+							
+							<a href="/sewn/dwl/commit/45e6f0f6d45342f41344ae035990306785175bed" class="default-link muted">Implement dwm bar clone</a>
+						
+					</span>
+				</td>
+				<td class="text right age three wide"><relative-time prefix="" tense="past" datetime="2024-06-26T23:07:14+03:00" data-tooltip-content data-tooltip-interactive="true">2024-06-26 23:07:14 +03:00</relative-time></td>
+			</tr>
+		
+			
+			
+			
+			<tr data-entryname="LICENSE.drwl" data-ready="true" class="ready entry">
+				<td class="name four wide">
+					<span class="truncate">
+						
+							
+								<svg viewBox="0 0 16 16" class="svg octicon-file" aria-hidden="true" width="16" height="16"><path d="M2 1.75C2 .784 2.784 0 3.75 0h6.586c.464 0 .909.184 1.237.513l2.914 2.914c.329.328.513.773.513 1.237v9.586A1.75 1.75 0 0 1 13.25 16h-9.5A1.75 1.75 0 0 1 2 14.25Zm1.75-.25a.25.25 0 0 0-.25.25v12.5c0 .138.112.25.25.25h9.5a.25.25 0 0 0 .25-.25V6h-2.75A1.75 1.75 0 0 1 9 4.25V1.5Zm6.75.062V4.25c0 .138.112.25.25.25h2.688l-.011-.013-2.914-2.914z"/></svg>
+								<a class="muted" href="/sewn/dwl/src/branch/bar/LICENSE.drwl" title="LICENSE.drwl">LICENSE.drwl</a>
+							
+						
+					</span>
+				</td>
+				<td class="message nine wide">
+					<span class="truncate">
+						
+							
+							<a href="/sewn/dwl/commit/45e6f0f6d45342f41344ae035990306785175bed" class="default-link muted">Implement dwm bar clone</a>
+						
+					</span>
+				</td>
+				<td class="text right age three wide"><relative-time prefix="" tense="past" datetime="2024-06-26T23:07:14+03:00" data-tooltip-content data-tooltip-interactive="true">2024-06-26 23:07:14 +03:00</relative-time></td>
+			</tr>
+		
+			
+			
+			
+			<tr data-entryname="LICENSE.dwm" data-ready="true" class="ready entry">
+				<td class="name four wide">
+					<span class="truncate">
+						
+							
+								<svg viewBox="0 0 16 16" class="svg octicon-file" aria-hidden="true" width="16" height="16"><path d="M2 1.75C2 .784 2.784 0 3.75 0h6.586c.464 0 .909.184 1.237.513l2.914 2.914c.329.328.513.773.513 1.237v9.586A1.75 1.75 0 0 1 13.25 16h-9.5A1.75 1.75 0 0 1 2 14.25Zm1.75-.25a.25.25 0 0 0-.25.25v12.5c0 .138.112.25.25.25h9.5a.25.25 0 0 0 .25-.25V6h-2.75A1.75 1.75 0 0 1 9 4.25V1.5Zm6.75.062V4.25c0 .138.112.25.25.25h2.688l-.011-.013-2.914-2.914z"/></svg>
+								<a class="muted" href="/sewn/dwl/src/branch/bar/LICENSE.dwm" title="LICENSE.dwm">LICENSE.dwm</a>
+							
+						
+					</span>
+				</td>
+				<td class="message nine wide">
+					<span class="truncate">
+						
+							
+							<a href="/sewn/dwl/commit/996738a5e6b41c1a2605dd492bb03ec86a6befac" class="default-link muted">add TinyWL and dwm LICENSE files</a>
+						
+					</span>
+				</td>
+				<td class="text right age three wide"><relative-time prefix="" tense="past" datetime="2020-04-22T11:26:57-05:00" data-tooltip-content data-tooltip-interactive="true">2020-04-22 11:26:57 -05:00</relative-time></td>
+			</tr>
+		
+			
+			
+			
+			<tr data-entryname="LICENSE.sway" data-ready="true" class="ready entry">
+				<td class="name four wide">
+					<span class="truncate">
+						
+							
+								<svg viewBox="0 0 16 16" class="svg octicon-file" aria-hidden="true" width="16" height="16"><path d="M2 1.75C2 .784 2.784 0 3.75 0h6.586c.464 0 .909.184 1.237.513l2.914 2.914c.329.328.513.773.513 1.237v9.586A1.75 1.75 0 0 1 13.25 16h-9.5A1.75 1.75 0 0 1 2 14.25Zm1.75-.25a.25.25 0 0 0-.25.25v12.5c0 .138.112.25.25.25h9.5a.25.25 0 0 0 .25-.25V6h-2.75A1.75 1.75 0 0 1 9 4.25V1.5Zm6.75.062V4.25c0 .138.112.25.25.25h2.688l-.011-.013-2.914-2.914z"/></svg>
+								<a class="muted" href="/sewn/dwl/src/branch/bar/LICENSE.sway" title="LICENSE.sway">LICENSE.sway</a>
+							
+						
+					</span>
+				</td>
+				<td class="message nine wide">
+					<span class="truncate">
+						
+							
+							<a href="/sewn/dwl/commit/d8f430accfb66c2575de608bb1b4c71815e4379a" class="default-link muted">add sway LICENSE file</a>
+						
+					</span>
+				</td>
+				<td class="text right age three wide"><relative-time prefix="" tense="past" datetime="2022-03-22T23:44:53-06:00" data-tooltip-content data-tooltip-interactive="true">2022-03-22 23:44:53 -06:00</relative-time></td>
+			</tr>
+		
+			
+			
+			
+			<tr data-entryname="LICENSE.tinywl" data-ready="true" class="ready entry">
+				<td class="name four wide">
+					<span class="truncate">
+						
+							
+								<svg viewBox="0 0 16 16" class="svg octicon-file" aria-hidden="true" width="16" height="16"><path d="M2 1.75C2 .784 2.784 0 3.75 0h6.586c.464 0 .909.184 1.237.513l2.914 2.914c.329.328.513.773.513 1.237v9.586A1.75 1.75 0 0 1 13.25 16h-9.5A1.75 1.75 0 0 1 2 14.25Zm1.75-.25a.25.25 0 0 0-.25.25v12.5c0 .138.112.25.25.25h9.5a.25.25 0 0 0 .25-.25V6h-2.75A1.75 1.75 0 0 1 9 4.25V1.5Zm6.75.062V4.25c0 .138.112.25.25.25h2.688l-.011-.013-2.914-2.914z"/></svg>
+								<a class="muted" href="/sewn/dwl/src/branch/bar/LICENSE.tinywl" title="LICENSE.tinywl">LICENSE.tinywl</a>
+							
+						
+					</span>
+				</td>
+				<td class="message nine wide">
+					<span class="truncate">
+						
+							
+							<a href="/sewn/dwl/commit/996738a5e6b41c1a2605dd492bb03ec86a6befac" class="default-link muted">add TinyWL and dwm LICENSE files</a>
+						
+					</span>
+				</td>
+				<td class="text right age three wide"><relative-time prefix="" tense="past" datetime="2020-04-22T11:26:57-05:00" data-tooltip-content data-tooltip-interactive="true">2020-04-22 11:26:57 -05:00</relative-time></td>
+			</tr>
+		
+			
+			
+			
+			<tr data-entryname="Makefile" data-ready="true" class="ready entry">
+				<td class="name four wide">
+					<span class="truncate">
+						
+							
+								<svg viewBox="0 0 16 16" class="svg octicon-file" aria-hidden="true" width="16" height="16"><path d="M2 1.75C2 .784 2.784 0 3.75 0h6.586c.464 0 .909.184 1.237.513l2.914 2.914c.329.328.513.773.513 1.237v9.586A1.75 1.75 0 0 1 13.25 16h-9.5A1.75 1.75 0 0 1 2 14.25Zm1.75-.25a.25.25 0 0 0-.25.25v12.5c0 .138.112.25.25.25h9.5a.25.25 0 0 0 .25-.25V6h-2.75A1.75 1.75 0 0 1 9 4.25V1.5Zm6.75.062V4.25c0 .138.112.25.25.25h2.688l-.011-.013-2.914-2.914z"/></svg>
+								<a class="muted" href="/sewn/dwl/src/branch/bar/Makefile" title="Makefile">Makefile</a>
+							
+						
+					</span>
+				</td>
+				<td class="message nine wide">
+					<span class="truncate">
+						
+							
+							<a href="/sewn/dwl/commit/45e6f0f6d45342f41344ae035990306785175bed" class="default-link muted">Implement dwm bar clone</a>
+						
+					</span>
+				</td>
+				<td class="text right age three wide"><relative-time prefix="" tense="past" datetime="2024-06-26T23:07:14+03:00" data-tooltip-content data-tooltip-interactive="true">2024-06-26 23:07:14 +03:00</relative-time></td>
+			</tr>
+		
+			
+			
+			
+			<tr data-entryname="README.md" data-ready="true" class="ready entry">
+				<td class="name four wide">
+					<span class="truncate">
+						
+							
+								<svg viewBox="0 0 16 16" class="svg octicon-file" aria-hidden="true" width="16" height="16"><path d="M2 1.75C2 .784 2.784 0 3.75 0h6.586c.464 0 .909.184 1.237.513l2.914 2.914c.329.328.513.773.513 1.237v9.586A1.75 1.75 0 0 1 13.25 16h-9.5A1.75 1.75 0 0 1 2 14.25Zm1.75-.25a.25.25 0 0 0-.25.25v12.5c0 .138.112.25.25.25h9.5a.25.25 0 0 0 .25-.25V6h-2.75A1.75 1.75 0 0 1 9 4.25V1.5Zm6.75.062V4.25c0 .138.112.25.25.25h2.688l-.011-.013-2.914-2.914z"/></svg>
+								<a class="muted" href="/sewn/dwl/src/branch/bar/README.md" title="README.md">README.md</a>
+							
+						
+					</span>
+				</td>
+				<td class="message nine wide">
+					<span class="truncate">
+						
+							
+							<a href="/sewn/dwl/commit/9825c26cdd5dfed34022b77a8936c5d8f485e134" class="default-link muted">dwl-patches overhaul - doc changes</a>
+						
+					</span>
+				</td>
+				<td class="text right age three wide"><relative-time prefix="" tense="past" datetime="2024-05-10T05:08:54Z" data-tooltip-content data-tooltip-interactive="true">2024-05-10 05:08:54 +00:00</relative-time></td>
+			</tr>
+		
+			
+			
+			
+			<tr data-entryname="util.c" data-ready="true" class="ready entry">
+				<td class="name four wide">
+					<span class="truncate">
+						
+							
+								<svg viewBox="0 0 16 16" class="svg octicon-file" aria-hidden="true" width="16" height="16"><path d="M2 1.75C2 .784 2.784 0 3.75 0h6.586c.464 0 .909.184 1.237.513l2.914 2.914c.329.328.513.773.513 1.237v9.586A1.75 1.75 0 0 1 13.25 16h-9.5A1.75 1.75 0 0 1 2 14.25Zm1.75-.25a.25.25 0 0 0-.25.25v12.5c0 .138.112.25.25.25h9.5a.25.25 0 0 0 .25-.25V6h-2.75A1.75 1.75 0 0 1 9 4.25V1.5Zm6.75.062V4.25c0 .138.112.25.25.25h2.688l-.011-.013-2.914-2.914z"/></svg>
+								<a class="muted" href="/sewn/dwl/src/branch/bar/util.c" title="util.c">util.c</a>
+							
+						
+					</span>
+				</td>
+				<td class="message nine wide">
+					<span class="truncate">
+						
+							
+							<a href="/sewn/dwl/commit/2f7834b130dbd930b06ae4d8ef802bd115b011d1" class="default-link muted">sort util.c functions</a>
+						
+					</span>
+				</td>
+				<td class="text right age three wide"><relative-time prefix="" tense="past" datetime="2022-10-29T14:57:22-05:00" data-tooltip-content data-tooltip-interactive="true">2022-10-29 14:57:22 -05:00</relative-time></td>
+			</tr>
+		
+			
+			
+			
+			<tr data-entryname="util.h" data-ready="true" class="ready entry">
+				<td class="name four wide">
+					<span class="truncate">
+						
+							
+								<svg viewBox="0 0 16 16" class="svg octicon-file" aria-hidden="true" width="16" height="16"><path d="M2 1.75C2 .784 2.784 0 3.75 0h6.586c.464 0 .909.184 1.237.513l2.914 2.914c.329.328.513.773.513 1.237v9.586A1.75 1.75 0 0 1 13.25 16h-9.5A1.75 1.75 0 0 1 2 14.25Zm1.75-.25a.25.25 0 0 0-.25.25v12.5c0 .138.112.25.25.25h9.5a.25.25 0 0 0 .25-.25V6h-2.75A1.75 1.75 0 0 1 9 4.25V1.5Zm6.75.062V4.25c0 .138.112.25.25.25h2.688l-.011-.013-2.914-2.914z"/></svg>
+								<a class="muted" href="/sewn/dwl/src/branch/bar/util.h" title="util.h">util.h</a>
+							
+						
+					</span>
+				</td>
+				<td class="message nine wide">
+					<span class="truncate">
+						
+							
+							<a href="/sewn/dwl/commit/aab397c30b9b9e4223a4f408431eb3aa5521cb92" class="default-link muted">new functions ecalloc() and die()</a>
+						
+					</span>
+				</td>
+				<td class="text right age three wide"><relative-time prefix="" tense="past" datetime="2022-03-28T15:02:09-06:00" data-tooltip-content data-tooltip-interactive="true">2022-03-28 15:02:09 -06:00</relative-time></td>
+			</tr>
+		
+	</tbody>
+</table>
+
+	<div id="readme" class="tab-size-4 non-diff-file-content">
+
+	
+
+	<h4 class="file-header ui top attached header tw-flex tw-items-center tw-justify-between tw-flex-wrap">
+		<div class="file-header-left tw-flex tw-items-center tw-py-2 tw-pr-4">
+			
+				<svg viewBox="0 0 16 16" class="tw-mr-2 svg octicon-book" aria-hidden="true" width="16" height="16"><path d="M0 1.75A.75.75 0 0 1 .75 1h4.253c1.227 0 2.317.59 3 1.501A3.74 3.74 0 0 1 11.006 1h4.245a.75.75 0 0 1 .75.75v10.5a.75.75 0 0 1-.75.75h-4.507a2.25 2.25 0 0 0-1.591.659l-.622.621a.75.75 0 0 1-1.06 0l-.622-.621A2.25 2.25 0 0 0 5.258 13H.75a.75.75 0 0 1-.75-.75Zm7.251 10.324.004-5.073-.002-2.253A2.25 2.25 0 0 0 5.003 2.5H1.5v9h3.757a3.75 3.75 0 0 1 1.994.574M8.755 4.75l-.004 7.322a3.75 3.75 0 0 1 1.992-.572H14.5v-9h-3.495a2.25 2.25 0 0 0-2.25 2.25"/></svg>
+				<strong><a class="default-link muted" href="#readme">README.md</a></strong>
+			
+		</div>
+		<div class="file-header-right file-actions tw-flex tw-items-center tw-flex-wrap">
+			
+			
+			
+		</div>
+	</h4>
+	<div class="ui bottom attached table unstackable segment">
+		
+		<div class="file-view markup markdown">
+			
+				<h1 id="user-content-dwl-dwm-for-wayland" dir="auto">dwl - dwm for Wayland</h1>
+<p dir="auto">Join us on our IRC channel: <a href="https://web.libera.chat/?channels=#dwl" rel="nofollow">#dwl on Libera Chat</a><br/>
+Or on our <a href="https://discord.gg/jJxZnrGPWN" rel="nofollow">Discord server</a>.</p>
+<p dir="auto">dwl is a compact, hackable compositor for <a href="https://wayland.freedesktop.org/" rel="nofollow">Wayland</a> based on <a href="https://gitlab.freedesktop.org/wlroots/wlroots/" rel="nofollow">wlroots</a>. It is
+intended to fill the same space in the Wayland world that dwm does in X11,
+primarily in terms of functionality, and secondarily in terms of philosophy.
+Like dwm, dwl is:</p>
+<ul dir="auto">
+<li>Easy to understand, hack on, and extend with patches</li>
+<li>One C source file (or a very small number) configurable via <code>config.h</code></li>
+<li>Tied to as few external dependencies as possible</li>
+</ul>
+<p dir="auto">dwl is not meant to provide every feature under the sun. Instead, like dwm, it
+sticks to features which are necessary, simple, and straightforward to implement
+given the base on which it is built. Implemented default features are:</p>
+<ul dir="auto">
+<li>Any features provided by dwm/Xlib: simple window borders, tags, keybindings,
+client rules, mouse move/resize. Providing a built-in status bar is an
+exception to this goal, to avoid dependencies on font rendering and/or
+drawing libraries when an external bar could work well.</li>
+<li>Configurable multi-monitor layout support, including position and rotation</li>
+<li>Configurable HiDPI/multi-DPI support</li>
+<li>Idle-inhibit protocol which lets applications such as mpv disable idle
+monitoring</li>
+<li>Provide information to external status bars via stdout/stdin</li>
+<li>Urgency hints via xdg-activate protocol</li>
+<li>Support screen lockers via ext-session-lock-v1 protocol</li>
+<li>Various Wayland protocols</li>
+<li>XWayland support as provided by wlroots (can be enabled in <code>config.mk</code>)</li>
+<li>Zero flickering - Wayland users naturally expect that &#34;every frame is perfect&#34;</li>
+<li>Layer shell popups (used by Waybar)</li>
+<li>Damage tracking provided by scenegraph API</li>
+</ul>
+<p dir="auto">Given the Wayland architecture, dwl has to implement features from dwm <strong>and</strong>
+the xorg-server. Because of this, it is impossible to maintain the original
+project goal of 2000 SLOC and have a reasonably complete compositor with
+features comparable to dwm. However, this does not mean that the code will grow
+indiscriminately. We will try to keep the code as small as possible.</p>
+<p dir="auto">Features under consideration (possibly as patches) are:</p>
+<ul dir="auto">
+<li>Protocols made trivial by wlroots</li>
+<li>Implement the text-input and input-method protocols to support IME once ibus
+implements input-method v2 (see <a href="https://github.com/ibus/ibus/pull/2256" rel="nofollow">https://github.com/ibus/ibus/pull/2256</a> and
+<a href="https://codeberg.org/dwl/dwl/pulls/235" class="ref-issue" rel="nofollow">dwl/dwl#235</a>)</li>
+</ul>
+<p dir="auto">Feature <em>non-goals</em> for the main codebase include:</p>
+<ul dir="auto">
+<li>Client-side decoration (any more than is necessary to tell the clients not to)</li>
+<li>Client-initiated window management, such as move, resize, and close, which can
+be done through the compositor</li>
+<li>Animations and visual effects</li>
+</ul>
+<h2 id="user-content-building-dwl" dir="auto">Building dwl</h2>
+<p dir="auto">dwl has the following dependencies:</p>
+<pre class="code-block"><code class="chroma language-text display">libinput
+wayland
+wlroots (compiled with the libinput backend)
+xkbcommon
+wayland-protocols (compile-time only)
+pkg-config (compile-time only)
+</code></pre><p dir="auto">If you enable X11 support:</p>
+<pre class="code-block"><code class="chroma language-text display">libxcb
+libxcb-wm
+wlroots (compiled with X11 support)
+Xwayland (runtime only)
+</code></pre><p dir="auto">Simply install these (and their <code>-devel</code> versions if your distro has separate
+development packages) and run <code>make</code>.  If you wish to build against a Git
+version of wlroots, check out the <a href="https://codeberg.org/dwl/dwl/src/branch/wlroots-next" rel="nofollow">wlroots-next branch</a>.</p>
+<p dir="auto">To enable XWayland, you should uncomment its flags in <code>config.mk</code>.</p>
+<h2 id="user-content-configuration" dir="auto">Configuration</h2>
+<p dir="auto">All configuration is done by editing <code>config.h</code> and recompiling, in the same
+manner as dwm. There is no way to separately restart the window manager in
+Wayland without restarting the entire display server, so any changes will take
+effect the next time dwl is executed.</p>
+<p dir="auto">As in the dwm community, we encourage users to share patches they have created.
+Check out the dwl <a href="https://codeberg.org/dwl/dwl-patches" rel="nofollow">patches repository</a>!</p>
+<h2 id="user-content-running-dwl" dir="auto">Running dwl</h2>
+<p dir="auto">dwl can be run on any of the backends supported by wlroots. This means you can
+run it as a separate window inside either an X11 or Wayland session, as well
+as directly from a VT console. Depending on your distro&#39;s setup, you may need
+to add your user to the <code>video</code> and <code>input</code> groups before you can run dwl on
+a VT. If you are using <code>elogind</code> or <code>systemd-logind</code> you need to install
+polkit; otherwise you need to add yourself in the <code>seat</code> group and
+enable/start the seatd daemon.</p>
+<p dir="auto">When dwl is run with no arguments, it will launch the server and begin handling
+any shortcuts configured in <code>config.h</code>. There is no status bar or other
+decoration initially; these are instead clients that can be run within
+the Wayland session.
+Do note that the background color is black.</p>
+<p dir="auto">If you would like to run a script or command automatically at startup, you can
+specify the command using the <code>-s</code> option. This command will be executed as a
+shell command using <code>/bin/sh -c</code>.  It serves a similar function to <code>.xinitrc</code>,
+but differs in that the display server will not shut down when this process
+terminates. Instead, dwl will send this process a SIGTERM at shutdown and wait
+for it to terminate (if it hasn&#39;t already). This makes it ideal for execing into
+a user service manager like <a href="https://skarnet.org/software/s6/" rel="nofollow">s6</a>, <a href="https://jjacky.com/anopa/" rel="nofollow">anopa</a>, <a href="http://smarden.org/runit/faq.html#userservices" rel="nofollow">runit</a>, <a href="https://davmac.org/projects/dinit/" rel="nofollow">dinit</a>, or <a href="https://wiki.archlinux.org/title/Systemd/User" rel="nofollow"><code>systemd --user</code></a>.</p>
+<p dir="auto">Note: The <code>-s</code> command is run as a <em>child process</em> of dwl, which means that it
+does not have the ability to affect the environment of dwl or of any processes
+that it spawns. If you need to set environment variables that affect the entire
+dwl session, these must be set prior to running dwl. For example, Wayland
+requires a valid <code>XDG_RUNTIME_DIR</code>, which is usually set up by a session manager
+such as <code>elogind</code> or <code>systemd-logind</code>.  If your system doesn&#39;t do this
+automatically, you will need to configure it prior to launching <code>dwl</code>, e.g.:</p>
+<pre><code>export XDG_RUNTIME_DIR=/tmp/xdg-runtime-$(id -u)
+mkdir -p $XDG_RUNTIME_DIR
+dwl
+</code></pre>
+<h3 id="user-content-status-information" dir="auto">Status information</h3>
+<p dir="auto">Information about selected layouts, current window title, app-id, and
+selected/occupied/urgent tags is written to the stdin of the <code>-s</code> command (see
+the <code>printstatus()</code> function for details).  This information can be used to
+populate an external status bar with a script that parses the information.
+Failing to read this information will cause dwl to block, so if you do want to
+run a startup command that does not consume the status information, you can
+close standard input with the <code>&lt;&amp;-</code> shell redirection, for example:</p>
+<pre><code>dwl -s &#39;foot --server &lt;&amp;-&#39;
+</code></pre>
+<p dir="auto">If your startup command is a shell script, you can achieve the same inside the
+script with the line</p>
+<pre><code>exec &lt;&amp;-
+</code></pre>
+<p dir="auto">To get a list of status bars that work with dwl consult our <a href="https://codeberg.org/dwl/dwl/wiki/Home#compatible-status-bars" rel="nofollow">wiki</a>.</p>
+<h2 id="user-content-replacements-for-x-applications" dir="auto">Replacements for X applications</h2>
+<p dir="auto">You can find a <a href="https://codeberg.org/dwl/dwl/wiki/Home#migrating-from-x" rel="nofollow">list of useful resources on our wiki</a>.</p>
+<h2 id="user-content-acknowledgements" dir="auto">Acknowledgements</h2>
+<p dir="auto">dwl began by extending the TinyWL example provided (CC0) by the sway/wlroots
+developers. This was made possible in many cases by looking at how sway
+accomplished something, then trying to do the same in as suckless a way as
+possible.</p>
+<p dir="auto">Many thanks to suckless.org and the dwm developers and community for the
+inspiration, and to the various contributors to the project, including:</p>
+<ul dir="auto">
+<li><strong>Devin J. Pohly for creating and nurturing the fledgling project</strong></li>
+<li>Alexander Courtis for the XWayland implementation</li>
+<li>Guido Cella for the layer-shell protocol implementation, patch maintenance,
+and for helping to keep the project running</li>
+<li>Stivvo for output management and fullscreen support, and patch maintenance</li>
+</ul>
+
+			
+		</div>
+	</div>
+</div>
+
+
+
+		
+	</div>
+</div>
+
+
+	
+
+	</div>
+
+	
+
+	<footer class="page-footer" role="group" aria-label="Footer">
+	<div class="grid" aria-label="Links">
+		<div class="branding not-mobile" aria-hidden="true">
+			<img src="https://design.codeberg.org/logo-kit/icon_inverted.svg">
+		</div>
+		<div>
+			<b>Codeberg</b>
+			<ul>
+				<li><a href="https://docs.codeberg.org" target="_blank">Documentation</a></li>
+				<li><a href="/Codeberg/Community/issues">Community Issues</a></li>
+				
+				<li><a href="/Codeberg/Contributing">Contributing</a>
+				<li><a href="https://docs.codeberg.org/contact/#abuse" target="_blank">Report Abuse</a>
+			</ul>
+		</div>
+		<div>
+			<b>Association</b>
+			<ul>
+				<li><a href="https://docs.codeberg.org/getting-started/what-is-codeberg/#what-is-codeberg-e.v.%3F" target="_blank">Who are we?</a></li>
+				<li><a href="/codeberg/org/src/en/bylaws.md" target="_blank">Bylaws / Satzung</a></li>
+				<li><a href="https://docs.codeberg.org/improving-codeberg/donate/" target="_blank">Donate</a></li>
+				<li><a href="https://join.codeberg.org" target="_blank">Join / Support</a></li>
+				<li><a href="https://docs.codeberg.org/contact/" target="_blank">Contact</a></li>
+			</ul>
+		</div>
+		<div>
+			<b>Service</b>
+			<ul>
+				<li><a href="https://codeberg.page" target="_blank">Codeberg Pages</a></li>
+				<li><a href="https://translate.codeberg.org" target="_blank">Weblate Translations</a></li>
+				<li><a href="https://docs.codeberg.org/ci/#using-codeberg's-instance-of-woodpecker-ci" target="_blank">Woodpecker CI</a></li>
+				
+					<li><a href="/api/swagger">Forgejo API</a></li>
+				
+				<li><a href="https://status.codeberg.eu" target="_blank">Status Page</a></li>
+			</ul>
+		</div>
+		<div>
+			<b>Legal</b>
+			<ul>
+				<li><a href="/codeberg/org/src/Imprint.md" target="_blank">Imprint / Impressum</a></li>
+				<li><a href="/codeberg/org/src/PrivacyPolicy.md" target="_blank">Privacy Policy</a></li>
+				<li><a href="/assets/licenses.txt">Licenses</a></li>
+				<li><a href="/codeberg/org/src/TermsOfUse.md">Terms of Use</a></li>
+			</ul>
+		</div>
+	</div>
+	<center>
+		<a href="https://blog.codeberg.org" target="_blank">Blog</a> |
+		<a href="https://social.anoxinon.de/@Codeberg" target="_blank" rel="noopener noreferrer">Mastodon</a> |
+		<a href="https://matrix.to/#/#codeberg-space:matrix.org" target="_blank" rel="noopener noreferrer">Matrix Space</a>
+	</center>
+	<div class="gt-float-right">
+		<div class="ui language bottom floating slide up dropdown link item button">
+			<svg viewBox="0 0 16 16" class="svg octicon-globe" aria-hidden="true" width="16" height="16"><path d="M8 0a8 8 0 1 1 0 16A8 8 0 0 1 8 0M5.78 8.75a9.64 9.64 0 0 0 1.363 4.177q.383.64.857 1.215c.245-.296.551-.705.857-1.215A9.64 9.64 0 0 0 10.22 8.75Zm4.44-1.5a9.64 9.64 0 0 0-1.363-4.177c-.307-.51-.612-.919-.857-1.215a10 10 0 0 0-.857 1.215A9.64 9.64 0 0 0 5.78 7.25Zm-5.944 1.5H1.543a6.51 6.51 0 0 0 4.666 5.5q-.184-.271-.352-.552c-.715-1.192-1.437-2.874-1.581-4.948m-2.733-1.5h2.733c.144-2.074.866-3.756 1.58-4.948q.18-.295.353-.552a6.51 6.51 0 0 0-4.666 5.5m10.181 1.5c-.144 2.074-.866 3.756-1.58 4.948q-.18.296-.353.552a6.51 6.51 0 0 0 4.666-5.5Zm2.733-1.5a6.51 6.51 0 0 0-4.666-5.5q.184.272.353.552c.714 1.192 1.436 2.874 1.58 4.948Z"/></svg>
+			<div class="text">English</div>
+			<div class="menu language-menu">
+				
+					<a lang="id-ID" data-url="/?lang=id-ID" class="item ">Bahasa Indonesia</a>
+				
+					<a lang="de-DE" data-url="/?lang=de-DE" class="item ">Deutsch</a>
+				
+					<a lang="en-US" data-url="/?lang=en-US" class="item active selected">English</a>
+				
+					<a lang="es-ES" data-url="/?lang=es-ES" class="item ">Español</a>
+				
+					<a lang="eo" data-url="/?lang=eo" class="item ">Esperanto</a>
+				
+					<a lang="fil" data-url="/?lang=fil" class="item ">Filipino</a>
+				
+					<a lang="fr-FR" data-url="/?lang=fr-FR" class="item ">Français</a>
+				
+					<a lang="it-IT" data-url="/?lang=it-IT" class="item ">Italiano</a>
+				
+					<a lang="lv-LV" data-url="/?lang=lv-LV" class="item ">Latviešu</a>
+				
+					<a lang="hu-HU" data-url="/?lang=hu-HU" class="item ">Magyar nyelv</a>
+				
+					<a lang="nl-NL" data-url="/?lang=nl-NL" class="item ">Nederlands</a>
+				
+					<a lang="pl-PL" data-url="/?lang=pl-PL" class="item ">Polski</a>
+				
+					<a lang="pt-PT" data-url="/?lang=pt-PT" class="item ">Português de Portugal</a>
+				
+					<a lang="pt-BR" data-url="/?lang=pt-BR" class="item ">Português do Brasil</a>
+				
+					<a lang="sl" data-url="/?lang=sl" class="item ">Slovenščina</a>
+				
+					<a lang="fi-FI" data-url="/?lang=fi-FI" class="item ">Suomi</a>
+				
+					<a lang="sv-SE" data-url="/?lang=sv-SE" class="item ">Svenska</a>
+				
+					<a lang="tr-TR" data-url="/?lang=tr-TR" class="item ">Türkçe</a>
+				
+					<a lang="cs-CZ" data-url="/?lang=cs-CZ" class="item ">Čeština</a>
+				
+					<a lang="el-GR" data-url="/?lang=el-GR" class="item ">Ελληνικά</a>
+				
+					<a lang="bg" data-url="/?lang=bg" class="item ">Български</a>
+				
+					<a lang="ru-RU" data-url="/?lang=ru-RU" class="item ">Русский</a>
+				
+					<a lang="uk-UA" data-url="/?lang=uk-UA" class="item ">Українська</a>
+				
+					<a lang="fa-IR" data-url="/?lang=fa-IR" class="item ">فارسی</a>
+				
+					<a lang="ml-IN" data-url="/?lang=ml-IN" class="item ">മലയാളം</a>
+				
+					<a lang="ja-JP" data-url="/?lang=ja-JP" class="item ">日本語</a>
+				
+					<a lang="zh-CN" data-url="/?lang=zh-CN" class="item ">简体中文</a>
+				
+					<a lang="zh-TW" data-url="/?lang=zh-TW" class="item ">繁體中文（台灣）</a>
+				
+					<a lang="zh-HK" data-url="/?lang=zh-HK" class="item ">繁體中文（香港）</a>
+				
+					<a lang="ko-KR" data-url="/?lang=ko-KR" class="item ">한국어</a>
+				
+			</div>
+		</div>
+	</div>
+</footer>
+
+
+	<script src="/assets/js/index.js?v=7.0.0-417-7f5de1e248~gitea-1.21.11" onerror="alert('Failed to load asset files from ' + this.src + '. Please make sure the asset files can be accessed.')"></script>
+
+	
+</body>
+</html>
 

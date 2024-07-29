@@ -16,7 +16,10 @@
     ../modules/loginManager
     ../modules/dwl
   ];
-  programs.dwl.enable = true;
+  programs.dwl = {
+    enable = true;
+    #patches = [ ../modules/dwl/patches/bar.patch ];
+  };
 
   zramSwap.enable = true;
   services.openssh.enable = true;

@@ -2,7 +2,7 @@
 let
   cfg = config.programs.dwl;
   dwlPackage = import ./package.nix {
-    inherit (cfg) patches;
+    #inherit (cfg) patches;
     inherit dwl-source;
   };
 in {
@@ -12,7 +12,7 @@ in {
       type = lib.types.package;
       default = dwlPackage;
     };
-    patches = lib.mkOption { default = [ ]; };
+    #patches = lib.mkOption { default = [ ]; };
   };
 
   config =
