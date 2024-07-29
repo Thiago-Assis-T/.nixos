@@ -1,11 +1,11 @@
-{ ... }:
-{
+{ ... }: {
   services.homepage-dashboard = {
     enable = true;
     settings = {
       title = "Server Dashboard";
       background = {
-        image = "https://plus.unsplash.com/premium_photo-1661945144631-730dc9775f71?q=80&w=2072&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D";
+        image =
+          "https://plus.unsplash.com/premium_photo-1661945144631-730dc9775f71?q=80&w=2072&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D";
         blur = "sm";
         saturate = "70";
         brightness = "60";
@@ -117,7 +117,8 @@
               widget = {
                 type = "jellyseerr";
                 url = "http://localhost:5055";
-                key = "MTcxNjY3NTkyNDEyODJjMzE3MDU1LTkyZTUtNDliNi05YjY0LTJjMWZlMGI4MjE4Yw==";
+                key =
+                  "MTcxNjY3NTkyNDEyODJjMzE3MDU1LTkyZTUtNDliNi05YjY0LTJjMWZlMGI4MjE4Yw==";
               };
             };
           }
@@ -134,18 +135,6 @@
                 type = "prowlarr";
                 url = "http://localhost:9696";
                 key = "421d7908397442a6b56f96c4321ef9ac";
-              };
-            };
-          }
-          {
-            "Bazarr" = {
-              icon = "bazarr.png";
-              href = "http://thiagoserver:6767";
-              description = "Subtitles Manager";
-              widget = {
-                type = "bazarr";
-                url = "http://localhost:6767";
-                key = "d5549ae1e21ca22884076efcb4458fb9";
               };
             };
           }
