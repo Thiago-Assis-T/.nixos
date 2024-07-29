@@ -14,7 +14,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    neorg-overlay.url = "github:nvim-neorg/nixpkgs-neorg-overlay";
+    #neorg-overlay.url = "github:nvim-neorg/nixpkgs-neorg-overlay";
 
     stylix = {
       url = "github:danth/stylix";

@@ -14,6 +14,9 @@ in {
       withNodeJs = true;
       withPython3 = true;
       extraPackages = with pkgs; [
+        fd
+        ripgrep
+
         nixd
         nixfmt-classic
 
@@ -64,6 +67,9 @@ in {
           type = "lua";
           config = builtins.readFile ./lua/lint.lua;
         }
+
+        pkgs.vimPlugins.telescope-file-browser-nvim
+        pkgs.vimPlugins.telescope-fzf-native-nvim
         {
           plugin = pkgs.vimPlugins.telescope-nvim;
           type = "lua";

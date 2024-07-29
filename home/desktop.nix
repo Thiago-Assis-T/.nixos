@@ -32,12 +32,6 @@
     username = "thiago";
     homeDirectory = "/home/thiago";
     stateVersion = "23.11";
-    packages = with pkgs; [
-      floorp
-      pavucontrol
-      freecad
-      #libreoffice-qt6-fresh
-      webcord-vencord
-    ];
+    packages = with pkgs; [ floorp pavucontrol freecad webcord-vencord ];
   };
 }
