@@ -6,9 +6,5 @@
       withNerdIcons = true;
       withPcre = true;
     };
-    dwl = pkgs.dwl.overrideAttrs {
-      version = "0.6";
-      #patches = inputs.dwl-barPatch;
-    };
   };
 }

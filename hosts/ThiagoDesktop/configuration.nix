@@ -14,8 +14,8 @@
     ../modules/powerManagement
     ../modules/stylix
     ../modules/loginManager
+    ../modules/dwl
   ];
-  environment.systemPackages = with pkgs; [ dwl ];
   zramSwap.enable = true;
   services.openssh.enable = true;
 
