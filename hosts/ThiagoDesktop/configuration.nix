@@ -16,6 +16,8 @@
     ../modules/loginManager
     ../modules/dwl
   ];
+  programs.dwl.enable = true;
+
   zramSwap.enable = true;
   services.openssh.enable = true;
 
