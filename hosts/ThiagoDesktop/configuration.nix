@@ -17,7 +17,7 @@
     ../modules/dwl
   ];
   programs.dwl = {
-    enable = false;
+    enable = true;
     #patches = [ ../modules/dwl/patches/bar.patch ];
   };
 

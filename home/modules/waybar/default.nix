@@ -1,14 +1,7 @@
-{
-  config,
-  lib,
-  pkgs,
-  ...
-}:
+{ config, lib, pkgs, ... }:
 
-let
-  cfg = config.programs.my-waybar;
-in
-{
+let cfg = config.programs.my-waybar;
+in {
   options.programs.my-waybar = {
     enable = lib.mkEnableOption (lib.mdDoc "my-waybar");
   };
@@ -27,10 +20,7 @@ in
           layer = "top";
           position = "top";
           spacing = 5;
-          modules-left = [
-            "hyprland/workspaces"
-            "hyprland/window"
-          ];
+          modules-left = [ "dwl/tags" "dwl/window" ];
           modules-center = [ "clock" ];
           clock = {
             interval = 1;
@@ -46,9 +36,7 @@ in
             "pulseaudio"
             "custom/notification"
           ];
-          tray = {
-            spacing = 8;
-          };
+          tray = { spacing = 8; };
           cpu = {
             interval = 1;
             format = "{usage}% ";
@@ -71,13 +59,7 @@ in
             format = "{volume}% {icon}   ";
             format-muted = "";
             on-click = "${pkgs.pavucontrol}/bin/pavucontrol";
-            format-icons = {
-              default = [
-                ""
-                ""
-                ""
-              ];
-            };
+            format-icons = { default = [ "" "" "" ]; };
           };
           battery = {
             bat = "BAT0";
@@ -87,13 +69,7 @@ in
               critical = 15;
             };
             format = "{capacity}% {icon}";
-            format-icons = [
-              ""
-              ""
-              ""
-              ""
-              ""
-            ];
+            format-icons = [ "" "" "" "" "" ];
             max-length = 25;
           };
           "custom/notification" = {
@@ -102,11 +78,14 @@ in
             format-icons = {
               notification = "  <span foreground='red'><sup></sup></span>";
               none = "  ";
-              dnd-notification = "   <span foreground='red'><sup></sup></span>";
+              dnd-notification =
+                "   <span foreground='red'><sup></sup></span>";
               dnd-none = "   ";
-              inhibited-notification = "  <span foreground='red'><sup></sup></span>";
+              inhibited-notification =
+                "  <span foreground='red'><sup></sup></span>";
               inhibited-none = "  ";
-              dnd-inhibited-notification = "   <span foreground='red'><sup></sup></span>";
+              dnd-inhibited-notification =
+                "   <span foreground='red'><sup></sup></span>";
               dnd-inhibited-none = "  ";
             };
             return-type = "json";
