@@ -13,7 +13,7 @@ in {
       enable = true;
       systemd = {
         enable = true;
-        target = "hyprland-session.target";
+        target = "graphical-session.target";
       };
       settings = {
         mainBar = {

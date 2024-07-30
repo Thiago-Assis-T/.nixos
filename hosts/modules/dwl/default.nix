@@ -22,12 +22,20 @@ in {
   };
 
   config = lib.mkIf cfg.enable {
-    environment.systemPackages = [ cfg.package ];
-    services.displayManager.sessionPackages = [ cfg.package ];
-    xdg.portal = {
-      enable = true;
-      extraPortals = [ cfg.portalPackage ];
-      configPackages = lib.mkDefault [ cfg.package ];
+    environment.systemPackages = [ cfg.package pkgs.wmenu ];
+    services.xserver.desktopManager.runXdgAutostartIfNone = true;
+    programs.dconf.enable = true;
+    xdg = {
+      autostart.enable = true;
+      sounds.enable = true;
+      portal = {
+        enable = true;
+        wlr.enable = true;
+        xdgOpenUsePortal = true;
+        configPackages = lib.mkDefault [ cfg.package ];
+        extraPortals = [ cfg.portalPackage ];
+      };
     };
+    services.displayManager.sessionPackages = [ cfg.package ];
   };
 }

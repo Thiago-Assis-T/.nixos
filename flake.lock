@@ -137,15 +137,15 @@
     "dwl-src": {
       "flake": false,
       "locked": {
-        "lastModified": 1700893691,
-        "narHash": "sha256-U/vqGE1dJKgEGTfPMw02z5KJbZLWY1vwDJWnJxT8urM=",
-        "rev": "f579dd86688c72d701cee70c428e2f2ccceba21c",
-        "revCount": 1076,
+        "lastModified": 1720910041,
+        "narHash": "sha256-fygUzEi4bgopesvHByfpatkLFYI98qozJOUBNM2t9Mg=",
+        "rev": "5a4839b1c8e1b171441a86a379ef30ddfb687421",
+        "revCount": 1193,
         "type": "git",
         "url": "https://codeberg.org/dwl/dwl"
       },
       "original": {
-        "rev": "f579dd86688c72d701cee70c428e2f2ccceba21c",
+        "rev": "5a4839b1c8e1b171441a86a379ef30ddfb687421",
         "type": "git",
         "url": "https://codeberg.org/dwl/dwl"
       }

@@ -6,5 +6,6 @@
       withNerdIcons = true;
       withPcre = true;
     };
+
   };
 }

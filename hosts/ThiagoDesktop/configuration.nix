@@ -19,10 +19,9 @@
   programs.dwl = {
     enable = true;
     patches = [
-      #../modules/dwl/patches/autostart.patch
-      ../modules/dwl/patches/ipc.patch
-      ../modules/dwl/patches/ipcpertag.patch
-      ../modules/dwl/patches/focus-tagset-output.patch
+      ../modules/dwl/patches/bar.patch
+      #../modules/dwl/patches/ipc.patch
+      #../modules/dwl/patches/focus-tagset-output.patch
     ];
   };
 
@@ -68,25 +67,6 @@
     extest.enable = true;
   };
 
-  programs.dconf.enable = true;
-  xdg = {
-    autostart.enable = true;
-    sounds.enable = true;
-    portal = {
-      enable = true;
-      wlr.enable = true;
-      xdgOpenUsePortal = true;
-      configPackages = with pkgs; [ xdg-desktop-portal-hyprland ];
-      extraPortals = with pkgs; [ xdg-desktop-portal-hyprland ];
-    };
-  };
-
-  programs.hyprland = {
-    enable = true;
-    xwayland.enable = true;
-  };
-
-  #services.getty.autologinUser = "thiago";
   nixpkgs.config = { allowUnfree = true; };
   hardware.graphics = {
     enable = true;
