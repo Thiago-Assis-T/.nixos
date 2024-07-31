@@ -24,6 +24,7 @@ static int log_level = WLR_ERROR;
 static const char *const autostart[] = {
         "wbg", "/home/thiago/.nixos/wallpapers/minimal/od_space01.png", NULL,
 				"waybar", NULL,
+				"swaync", NULL,
         NULL /* terminate */
 };
 
@@ -138,6 +139,9 @@ static const Key keys[] = {
 	/* modifier                  key                 function        argument */
 	{ MODKEY,                    XKB_KEY_r,          spawn,          {.v = menucmd} },
 	{ MODKEY,                    XKB_KEY_w,          spawn,          {.v = browsercmd} },
+	{ MODKEY,                    XKB_KEY_n,          spawn,          SHCMD("swaync-client -t") },
+	{ MODKEY|WLR_MODIFIER_SHIFT, XKB_KEY_P,          spawn,          SHCMD("grim -g \"$(slurp)\" - | wl-copy") },
+	{ MODKEY,										 XKB_KEY_p,          spawn,          SHCMD("grim - | wl-copy") },
 	{ MODKEY,										 XKB_KEY_Return,     spawn,          {.v = termcmd} },
 	{ MODKEY,                    XKB_KEY_b,          togglebar,      {0} },
 	{ MODKEY,                    XKB_KEY_j,          focusstack,     {.i = +1} },

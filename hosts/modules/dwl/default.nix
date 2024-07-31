@@ -22,7 +22,14 @@ in {
   };
 
   config = lib.mkIf cfg.enable {
-    environment.systemPackages = [ cfg.package pkgs.wmenu pkgs.wbg ];
+    environment.systemPackages = [
+      cfg.package
+      pkgs.wmenu
+      pkgs.wbg
+      pkgs.grim
+      pkgs.slurp
+      pkgs.wl-clipboard
+    ];
     services.xserver.desktopManager.runXdgAutostartIfNone = true;
     programs.dconf.enable = true;
     xdg = {
