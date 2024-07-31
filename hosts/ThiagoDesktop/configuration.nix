@@ -21,6 +21,7 @@
     patches = [
       ../modules/dwl/patches/ipc.patch
       ../modules/dwl/patches/focus-tagset-output.patch
+      ../modules/dwl/patches/autostart.patch
     ];
   };
 
