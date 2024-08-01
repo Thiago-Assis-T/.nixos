@@ -13,7 +13,17 @@
     ../modules/tailscale
     ../modules/powerManagement
     ../modules/stylix
+    ../modules/loginManager
+    ../modules/dwl
   ];
+  programs.dwl = {
+    enable = true;
+    patches = [
+      ../modules/dwl/patches/ipc.patch
+      ../modules/dwl/patches/focus-tagset-output.patch
+      ../modules/dwl/patches/autostart.patch
+    ];
+  };
 
   zramSwap.enable = true;
 
@@ -29,34 +39,6 @@
   time.timeZone = "America/Sao_Paulo";
 
   programs.dconf.enable = true;
-
-  xdg = {
-    autostart.enable = true;
-    sounds.enable = true;
-    portal = {
-      enable = true;
-      wlr.enable = true;
-      xdgOpenUsePortal = true;
-      configPackages = with pkgs; [ xdg-desktop-portal-hyprland ];
-      extraPortals = with pkgs; [
-        xdg-desktop-portal-hyprland
-        xdg-desktop-portal-wlr
-      ];
-    };
-  };
-
-  programs.hyprland = {
-    enable = true;
-    xwayland.enable = true;
-  };
-
-  services.displayManager = {
-    defaultSession = "hyprland";
-    sddm = {
-      wayland.enable = true;
-      enable = true;
-    };
-  };
 
   hardware.graphics = {
     enable = true;

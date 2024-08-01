@@ -1,3 +1,1 @@
-{ ... }: {
-  imports = [ ./nvim ./git ./shell ./hyprland ./waybar ./swaync ./kitty ./nnn ];
-}
+{ ... }: { imports = [ ./nvim ./git ./shell ./waybar ./swaync ./kitty ./nnn ]; }
