@@ -1,4 +1,4 @@
-{ pkgs, ... }: {
+{ inputs, pkgs, ... }: {
 
   imports = [ ./modules ];
 
@@ -32,5 +32,9 @@
     homeDirectory = "/home/thiago";
     stateVersion = "23.11";
     packages = with pkgs; [ floorp pavucontrol freecad webcord-vencord ];
+    file = {
+      "Pictures/wallpaper.png".source = "${inputs.wallpaper}";
+
+    };
   };
 }
