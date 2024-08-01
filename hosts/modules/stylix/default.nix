@@ -1,6 +1,6 @@
-{ pkgs, ... }:
+{ inputs, pkgs, ... }:
 let
-  inputImage = ../../../wallpapers/minimal/od_space01.png;
+  inputImage = inputs.wallpaper;
   #brightness = "-20";
   #contrast = "0";
   #fillColor = "black";

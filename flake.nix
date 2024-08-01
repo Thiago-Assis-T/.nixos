@@ -3,23 +3,34 @@
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
-
     home-manager = {
       url = "github:nix-community/home-manager/master";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-
     disko = {
       url = "github:nix-community/disko";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-
+    wallpaper = {
+      url =
+        "https://raw.githubusercontent.com/Narmis-E/onedark-wallpapers/main/minimal/od_space01.png";
+      flake = false;
+    };
     dwl-src = {
       url =
         "git+https://codeberg.org/dwl/dwl?rev=5a4839b1c8e1b171441a86a379ef30ddfb687421";
       flake = false;
     };
-
+    dwl-ipc-patch = {
+      url =
+        "https://codeberg.org/dwl/dwl-patches/raw/branch/main/patches/ipc/ipc.patch";
+      flake = false;
+    };
+    dwl-autostart-patch = {
+      url =
+        "https://codeberg.org/dwl/dwl-patches/raw/branch/main/patches/autostart/autostart.patch";
+      flake = false;
+    };
     stylix = {
       url = "github:danth/stylix";
       inputs.nixpkgs.follows = "nixpkgs";

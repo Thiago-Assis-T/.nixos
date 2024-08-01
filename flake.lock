@@ -121,17 +121,41 @@
         ]
       },
       "locked": {
-        "lastModified": 1722217815,
-        "narHash": "sha256-8r5AJ3n8WEDw3rsZLALSuFQ5kJyWOcssNZvPxYLr2yc=",
+        "lastModified": 1722476845,
+        "narHash": "sha256-7gZ8uf3qOox8Vrwd+p9EhUHHLhhK8lis/5KcXGmIaow=",
         "owner": "nix-community",
         "repo": "disko",
-        "rev": "1e6f8a7b4634fc051cc9361959bf414fcf17e094",
+        "rev": "7e1b215a0a96efb306ad6440bf706d2b307dc267",
         "type": "github"
       },
       "original": {
         "owner": "nix-community",
         "repo": "disko",
         "type": "github"
+      }
+    },
+    "dwl-autostart-patch": {
+      "flake": false,
+      "locked": {
+        "narHash": "sha256-67ib/RrrZXy5g4hFyJ//qT8/bprYcMjdDSAO+G8r3eI=",
+        "type": "file",
+        "url": "https://codeberg.org/dwl/dwl-patches/raw/branch/main/patches/autostart/autostart.patch"
+      },
+      "original": {
+        "type": "file",
+        "url": "https://codeberg.org/dwl/dwl-patches/raw/branch/main/patches/autostart/autostart.patch"
+      }
+    },
+    "dwl-ipc-patch": {
+      "flake": false,
+      "locked": {
+        "narHash": "sha256-FR5pNLI9KXeq/DcSC2twEupDKO7JW4URmSi1LS4Wotk=",
+        "type": "file",
+        "url": "https://codeberg.org/dwl/dwl-patches/raw/branch/main/patches/ipc/ipc.patch"
+      },
+      "original": {
+        "type": "file",
+        "url": "https://codeberg.org/dwl/dwl-patches/raw/branch/main/patches/ipc/ipc.patch"
       }
     },
     "dwl-src": {
@@ -260,6 +284,8 @@
     "root": {
       "inputs": {
         "disko": "disko",
+        "dwl-autostart-patch": "dwl-autostart-patch",
+        "dwl-ipc-patch": "dwl-ipc-patch",
         "dwl-src": "dwl-src",
         "home-manager": "home-manager",
         "nixpkgs": "nixpkgs",

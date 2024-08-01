@@ -18,11 +18,7 @@
   ];
   programs.dwl = {
     enable = true;
-    patches = [
-      ../modules/dwl/patches/ipc.patch
-      ../modules/dwl/patches/focus-tagset-output.patch
-      ../modules/dwl/patches/autostart.patch
-    ];
+    patches = [ inputs.dwl-ipc-patch inputs.dwl-autostart-patch ];
   };
 
   zramSwap.enable = true;
