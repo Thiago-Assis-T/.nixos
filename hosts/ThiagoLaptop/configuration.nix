@@ -58,10 +58,9 @@
     };
   };
 
-  hardware.opengl = {
+  hardware.graphics = {
     enable = true;
-    driSupport = true;
-    driSupport32Bit = true;
+    enable32Bit = true;
     extraPackages = with pkgs; [
       intel-media-driver
       intel-vaapi-driver
@@ -111,7 +110,7 @@
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.thiago = {
     isNormalUser = true;
-    extraGroups = [ "wheel" ]; # Enable ‘sudo’ for the user.
+    extraGroups = [ "video" "wheel" ]; # Enable ‘sudo’ for the user.
     packages = [ ];
   };
 
