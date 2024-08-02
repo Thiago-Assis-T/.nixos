@@ -13,6 +13,7 @@
     };
     wallpaper = {
       url =
+        #"https://raw.githubusercontent.com/Narmis-E/onedark-wallpapers/main/misc/od_current.png";
         "https://raw.githubusercontent.com/Narmis-E/onedark-wallpapers/main/minimal/od_space01.png";
       flake = false;
     };

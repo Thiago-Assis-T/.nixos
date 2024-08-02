@@ -21,6 +21,14 @@
     patches = [ inputs.dwl-ipc-patch inputs.dwl-autostart-patch ];
   };
 
+  programs.corectrl = {
+    enable = true;
+    gpuOverclock = {
+      enable = true;
+      ppfeaturemask = "0xffffffff";
+    };
+  };
+
   zramSwap.enable = true;
   services.openssh.enable = true;
 
