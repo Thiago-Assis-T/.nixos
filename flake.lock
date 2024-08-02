@@ -326,13 +326,13 @@
     "wallpaper": {
       "flake": false,
       "locked": {
-        "narHash": "sha256-0yiUgR5ifJU3k1jRkSnntoaZD2BrVErHS92VseepVl8=",
+        "narHash": "sha256-R/+hFhVDNSPTthoBcu4l6UodxMiMFAyBDXhJGb/1T5o=",
         "type": "file",
-        "url": "https://raw.githubusercontent.com/Narmis-E/onedark-wallpapers/main/minimal/od_space01.png"
+        "url": "https://raw.githubusercontent.com/Narmis-E/onedark-wallpapers/main/minimal/od_wave.png"
       },
       "original": {
         "type": "file",
-        "url": "https://raw.githubusercontent.com/Narmis-E/onedark-wallpapers/main/minimal/od_space01.png"
+        "url": "https://raw.githubusercontent.com/Narmis-E/onedark-wallpapers/main/minimal/od_wave.png"
       }
     }
   },

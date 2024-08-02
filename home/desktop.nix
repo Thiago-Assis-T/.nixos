@@ -31,7 +31,14 @@
     username = "thiago";
     homeDirectory = "/home/thiago";
     stateVersion = "23.11";
-    packages = with pkgs; [ floorp pavucontrol freecad webcord-vencord ];
+    packages = with pkgs; [
+      jellyfin-media-player
+      floorp
+      pavucontrol
+      freecad
+      webcord-vencord
+    ];
+
     file = {
       "Pictures/wallpaper.png".source = "${inputs.wallpaper}";
 
