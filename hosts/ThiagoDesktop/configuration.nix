@@ -18,7 +18,11 @@
   ];
   programs.dwl = {
     enable = true;
-    patches = [ inputs.dwl-ipc-patch inputs.dwl-autostart-patch ];
+    patches = [
+      #inputs.dwl-bar-patch
+      inputs.dwl-ipc-patch
+      inputs.dwl-autostart-patch
+    ];
   };
 
   programs.corectrl = {

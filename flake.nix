@@ -23,6 +23,11 @@
         "git+https://codeberg.org/dwl/dwl?rev=5a4839b1c8e1b171441a86a379ef30ddfb687421";
       flake = false;
     };
+    dwl-bar-patch = { # Broken!
+      url =
+        "https://codeberg.org/dwl/dwl-patches/raw/branch/main/patches/bar/bar.patch";
+      flake = false;
+    };
     dwl-ipc-patch = {
       url =
         "https://codeberg.org/dwl/dwl-patches/raw/branch/main/patches/ipc/ipc.patch";
