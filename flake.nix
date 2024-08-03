@@ -19,8 +19,7 @@
       flake = false;
     };
     dwl-src = {
-      url =
-        "git+https://codeberg.org/dwl/dwl?rev=5a4839b1c8e1b171441a86a379ef30ddfb687421";
+      url = "git+https://codeberg.org/ThiagoAssis/dwl?ref=personal-v0.6";
       flake = false;
     };
     dwl-bar-patch = { # Broken!

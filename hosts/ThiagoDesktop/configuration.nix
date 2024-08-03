@@ -16,10 +16,7 @@
     ../modules/loginManager
     ../modules/dwl
   ];
-  programs.dwl = {
-    enable = true;
-    patches = [ inputs.dwl-ipc-patch inputs.dwl-autostart-patch ];
-  };
+  programs.dwl = { enable = true; };
 
   programs.corectrl = {
     enable = true;

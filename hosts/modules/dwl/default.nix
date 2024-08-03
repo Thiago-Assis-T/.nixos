@@ -1,7 +1,7 @@
 { inputs, config, pkgs, lib, ... }:
 let
-  dwl-source = inputs.dwl-src;
   cfg = config.programs.dwl;
+  dwl-source = inputs.dwl-src;
   dwlPackage = import ./package.nix {
     inherit pkgs dwl-source;
     inherit (cfg) patches;
