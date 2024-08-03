@@ -4,4 +4,4 @@
   src = dwl-source;
   inherit patches;
   passthru.providedSessions = [ "dwl" ];
-})).override { conf = ./config.h; }
+})).override { configH = ./config.h; }
