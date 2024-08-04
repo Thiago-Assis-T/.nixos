@@ -1,24 +1,16 @@
-{ inputs, config, pkgs, lib, ... }:
-let
-  cfg = config.programs.dwl;
-  dwl-source = inputs.dwl-src;
-  dwlPackage = import ./package.nix {
-    inherit pkgs dwl-source;
-    inherit (cfg) patches;
-  };
+{ config, pkgs, lib, ... }:
+let cfg = config.programs.dwl;
 in {
   options.programs.dwl = {
     enable = lib.mkEnableOption "dwl";
     package = lib.mkOption {
       type = lib.types.package;
-      default = dwlPackage;
+      default = pkgs.dwl;
     };
     portalPackage = lib.mkOption {
       type = lib.types.package;
       default = pkgs.xdg-desktop-portal-wlr;
     };
-
-    patches = lib.mkOption { default = [ ]; };
   };
 
   config = lib.mkIf cfg.enable {
@@ -29,6 +21,7 @@ in {
       pkgs.grim
       pkgs.slurp
       pkgs.wl-clipboard
+      pkgs.slstatus
     ];
     services.xserver.desktopManager.runXdgAutostartIfNone = true;
     programs.dconf.enable = true;

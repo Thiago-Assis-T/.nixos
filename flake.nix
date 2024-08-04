@@ -22,21 +22,6 @@
       url = "git+https://codeberg.org/ThiagoAssis/dwl?ref=personal-v0.6";
       flake = false;
     };
-    dwl-bar-patch = { # Broken!
-      url =
-        "https://codeberg.org/dwl/dwl-patches/raw/branch/main/patches/bar/bar.patch";
-      flake = false;
-    };
-    dwl-ipc-patch = {
-      url =
-        "https://codeberg.org/dwl/dwl-patches/raw/branch/main/patches/ipc/ipc.patch";
-      flake = false;
-    };
-    dwl-autostart-patch = {
-      url =
-        "https://codeberg.org/dwl/dwl-patches/raw/branch/main/patches/autostart/autostart.patch";
-      flake = false;
-    };
     stylix = {
       url = "github:danth/stylix";
       inputs.nixpkgs.follows = "nixpkgs";
