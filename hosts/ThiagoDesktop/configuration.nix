@@ -18,6 +18,11 @@
   ];
   programs.dwl = { enable = true; };
 
+  programs.neovim = {
+    enable = true;
+    defaultEditor = true;
+  };
+
   programs.corectrl = {
     enable = true;
     gpuOverclock = {
