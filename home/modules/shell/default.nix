@@ -7,6 +7,10 @@ in {
     enable = lib.mkEnableOption (lib.mdDoc "my-shell");
   };
   config = lib.mkIf cfg.enable {
+    home.sessionVariables = {
+      TERM = "xterm-256color";
+
+    };
     programs = {
       btop.enable = true;
       fastfetch = {
