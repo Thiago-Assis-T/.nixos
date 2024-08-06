@@ -27,7 +27,6 @@ in {
     programs.dconf.enable = true;
     xdg = {
       autostart.enable = true;
-      sounds.enable = true;
       portal = {
         enable = true;
         wlr.enable = true;

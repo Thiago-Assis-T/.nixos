@@ -86,10 +86,7 @@
     audio.enable = true;
     pulse.enable = true;
     wireplumber.enable = true;
-    alsa = {
-      enable = true;
-      support32Bit = true;
-    };
+
   };
   security.polkit.enable = true;
   services.gnome.gnome-keyring.enable = true;

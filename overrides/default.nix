@@ -10,6 +10,11 @@
     dwl = (pkgs.dwl.overrideAttrs (finalAttrs: previousAttrs: {
       version = "v0.6";
       src = inputs.dwl-src;
+      patches = with inputs; [
+        dwl-swallow-patch
+        dwl-bar-patch
+        dwl-autostart-patch
+      ];
       buildInputs = previousAttrs.buildInputs
         ++ [ pkgs.libdrm pkgs.fcft pkgs.pixman ];
       passthru.providedSessions = [ "dwl" ];

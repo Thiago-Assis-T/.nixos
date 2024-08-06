@@ -36,10 +36,11 @@ static const char *const autostart[] = {
 
 /* NOTE: ALWAYS keep a rule declared even if you don't use rules (e.g leave at least one example) */
 static const Rule rules[] = {
-	/* app_id             title       tags mask     isfloating   monitor */
+	/* app_id             title       tags mask     isfloating  isterm  noswallow  monitor */
 	/* examples: */
-	{ "Gimp_EXAMPLE",     NULL,       0,            1,           -1 }, /* Start on currently visible tags floating, not tiled */
-	{ "firefox_EXAMPLE",  NULL,       1 << 8,       0,           -1 }, /* Start on ONLY tag "9" */
+	{ "Gimp_EXAMPLE",     NULL,       0,            1,          0,      0,         -1 }, /* Start on currently visible tags floating, not tiled */
+	{ "firefox_EXAMPLE",  NULL,       1 << 8,       0,          0,      0,         -1 }, /* Start on ONLY tag "9" */
+	{ "kitty",            NULL,       0,            0,          1,      1,         -1 }, /* make kitty swallow clients that are not foot */
 };
 
 /* layout(s) */
@@ -62,7 +63,7 @@ static const MonitorRule monrules[] = {
 	{ "eDP-1",    0.5f,  1,      2,    &layouts[0], WL_OUTPUT_TRANSFORM_NORMAL,   -1,  -1 },
 	*/
 	/* defaults */
-	{ NULL,       0.55f, 1,      1,    &layouts[0], WL_OUTPUT_TRANSFORM_NORMAL,   -1,  -1 },
+	{ "HDMI-A-1",       0.55f, 1,      1,    &layouts[0], WL_OUTPUT_TRANSFORM_NORMAL,   -1,  -1 },
 };
 
 /* keyboard */
@@ -136,51 +137,50 @@ static const enum libinput_config_tap_button_map button_map = LIBINPUT_CONFIG_TA
 
 /* commands */
 static const char *termcmd[] = { "kitty", NULL };
-static const char *browsercmd[] = { "floorp", NULL };
 static const char *menucmd[] = { "wmenu-run", NULL };
+static const char *browsercmd[] = { "floorp", NULL };
 
 static const Key keys[] = {
 	/* Note that Shift changes certain key codes: c -> C, 2 -> at, etc. */
 	/* modifier                  key                 function        argument */
-	{ MODKEY,                    XKB_KEY_r,          spawn,          {.v = menucmd} },
-	{ MODKEY,                    XKB_KEY_w,          spawn,          {.v = browsercmd} },
-	{ MODKEY,										 XKB_KEY_Return,     spawn,          {.v = termcmd} },
-	{ MODKEY,                    XKB_KEY_n,          spawn,          SHCMD("swaync-client -t") },
-	{ MODKEY|WLR_MODIFIER_SHIFT, XKB_KEY_P,          spawn,          SHCMD("grim -g \"$(slurp)\" - | wl-copy") },
-	{ MODKEY,										 XKB_KEY_p,          spawn,          SHCMD("grim - | wl-copy") },
-	{ MODKEY,                    XKB_KEY_b,          togglebar,      {0} },
-	{ MODKEY,                    XKB_KEY_j,          focusstack,     {.i = +1} },
-	{ MODKEY,                    XKB_KEY_k,          focusstack,     {.i = -1} },
-	{ MODKEY,                    XKB_KEY_i,          incnmaster,     {.i = +1} },
-	{ MODKEY,                    XKB_KEY_d,          incnmaster,     {.i = -1} },
-	{ MODKEY,                    XKB_KEY_h,          setmfact,       {.f = -0.05f} },
-	{ MODKEY,                    XKB_KEY_l,          setmfact,       {.f = +0.05f} },
-	{ MODKEY|WLR_MODIFIER_SHIFT, XKB_KEY_Return,     zoom,           {0} },
-	{ MODKEY,                    XKB_KEY_Tab,        view,           {0} },
-	{ MODKEY,										 XKB_KEY_q,          killclient,     {0} },
-	{ MODKEY,                    XKB_KEY_t,          setlayout,      {.v = &layouts[0]} },
-	{ MODKEY,                    XKB_KEY_f,          setlayout,      {.v = &layouts[1]} },
-	{ MODKEY,                    XKB_KEY_m,          setlayout,      {.v = &layouts[2]} },
-	{ MODKEY,                    XKB_KEY_space,      setlayout,      {0} },
-	{ MODKEY|WLR_MODIFIER_SHIFT, XKB_KEY_space,      togglefloating, {0} },
-	{ MODKEY,                    XKB_KEY_e,          togglefullscreen, {0} },
-	{ MODKEY,                    XKB_KEY_0,          view,           {.ui = ~0} },
-	{ MODKEY|WLR_MODIFIER_SHIFT, XKB_KEY_parenright, tag,            {.ui = ~0} },
-	{ MODKEY,                    XKB_KEY_comma,      focusmon,       {.i = WLR_DIRECTION_LEFT} },
-	{ MODKEY,                    XKB_KEY_period,     focusmon,       {.i = WLR_DIRECTION_RIGHT} },
-	{ MODKEY|WLR_MODIFIER_SHIFT, XKB_KEY_less,       tagmon,         {.i = WLR_DIRECTION_LEFT} },
-	{ MODKEY|WLR_MODIFIER_SHIFT, XKB_KEY_greater,    tagmon,         {.i = WLR_DIRECTION_RIGHT} },
-	TAGKEYS(          XKB_KEY_1, XKB_KEY_exclam,                     0),
-	TAGKEYS(          XKB_KEY_2, XKB_KEY_at,                         1),
-	TAGKEYS(          XKB_KEY_3, XKB_KEY_numbersign,                 2),
-	TAGKEYS(          XKB_KEY_4, XKB_KEY_dollar,                     3),
-	TAGKEYS(          XKB_KEY_5, XKB_KEY_percent,                    4),
-	TAGKEYS(          XKB_KEY_6, XKB_KEY_asciicircum,                5),
-	TAGKEYS(          XKB_KEY_7, XKB_KEY_ampersand,                  6),
-	TAGKEYS(          XKB_KEY_8, XKB_KEY_asterisk,                   7),
-	TAGKEYS(          XKB_KEY_9, XKB_KEY_parenleft,                  8),
-	{ MODKEY|WLR_MODIFIER_SHIFT, XKB_KEY_C,          quit,           {0} },
-
+ { MODKEY,                    XKB_KEY_r,          spawn,          {.v = menucmd} },
+ { MODKEY,                    XKB_KEY_w,          spawn,          {.v = browsercmd} },
+ { MODKEY,                                        XKB_KEY_Return,     spawn,          {.v = termcmd} },
+ { MODKEY,                    XKB_KEY_n,          spawn,          SHCMD("swaync-client -t") },
+ { MODKEY, 										XKB_KEY_p,          spawn,          SHCMD("grim -g \"$(slurp)\" - | wl-copy") },
+ { MODKEY|WLR_MODIFIER_SHIFT, XKB_KEY_P,          spawn,          SHCMD("grim - | wl-copy") },
+ { MODKEY,                    XKB_KEY_b,          togglebar,      {0} },
+ { MODKEY,                    XKB_KEY_j,          focusstack,     {.i = +1} },
+ { MODKEY,                    XKB_KEY_k,          focusstack,     {.i = -1} },
+ { MODKEY,                    XKB_KEY_i,          incnmaster,     {.i = +1} },
+ { MODKEY,                    XKB_KEY_d,          incnmaster,     {.i = -1} },
+ { MODKEY,                    XKB_KEY_h,          setmfact,       {.f = -0.05f} },
+ { MODKEY,                    XKB_KEY_l,          setmfact,       {.f = +0.05f} },
+ { MODKEY|WLR_MODIFIER_SHIFT, XKB_KEY_Return,     zoom,           {0} },
+ { MODKEY,                    XKB_KEY_Tab,        view,           {0} },
+ { MODKEY,                    XKB_KEY_q,          killclient,     {0} },
+ { MODKEY,                    XKB_KEY_t,          setlayout,      {.v = &layouts[0]} },
+ { MODKEY,                    XKB_KEY_f,          setlayout,      {.v = &layouts[1]} },
+ { MODKEY,                    XKB_KEY_m,          setlayout,      {.v = &layouts[2]} },
+ { MODKEY,                    XKB_KEY_space,      setlayout,      {0} },
+ { MODKEY|WLR_MODIFIER_SHIFT, XKB_KEY_space,      togglefloating, {0} },
+ { MODKEY,                    XKB_KEY_e,          togglefullscreen, {0} },
+ { MODKEY,                    XKB_KEY_0,          view,           {.ui = ~0} },
+ { MODKEY|WLR_MODIFIER_SHIFT, XKB_KEY_parenright, tag,            {.ui = ~0} },
+ { MODKEY,                    XKB_KEY_comma,      focusmon,       {.i = WLR_DIRECTION_LEFT} },
+ { MODKEY,                    XKB_KEY_period,     focusmon,       {.i = WLR_DIRECTION_RIGHT} },
+ { MODKEY|WLR_MODIFIER_SHIFT, XKB_KEY_less,       tagmon,         {.i = WLR_DIRECTION_LEFT} },
+ { MODKEY|WLR_MODIFIER_SHIFT, XKB_KEY_greater,    tagmon,         {.i = WLR_DIRECTION_RIGHT} },
+ TAGKEYS(          XKB_KEY_1, XKB_KEY_exclam,                     0),
+ TAGKEYS(          XKB_KEY_2, XKB_KEY_at,                         1),
+ TAGKEYS(          XKB_KEY_3, XKB_KEY_numbersign,                 2),
+ TAGKEYS(          XKB_KEY_4, XKB_KEY_dollar,                     3),
+ TAGKEYS(          XKB_KEY_5, XKB_KEY_percent,                    4),
+ TAGKEYS(          XKB_KEY_6, XKB_KEY_asciicircum,                5),
+ TAGKEYS(          XKB_KEY_7, XKB_KEY_ampersand,                  6),
+ TAGKEYS(          XKB_KEY_8, XKB_KEY_asterisk,                   7),
+ TAGKEYS(          XKB_KEY_9, XKB_KEY_parenleft,                  8),
+ { MODKEY|WLR_MODIFIER_SHIFT, XKB_KEY_C,          quit,           {0} },
 	/* Ctrl-Alt-Backspace and Ctrl-Alt-Fx used to be handled by X server */
 	{ WLR_MODIFIER_CTRL|WLR_MODIFIER_ALT,XKB_KEY_Terminate_Server, quit, {0} },
 	/* Ctrl-Alt-Fx is used to switch to another VT, if you don't know what a VT is

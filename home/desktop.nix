@@ -5,7 +5,6 @@
   programs.my-nvim.enable = true;
   programs.my-shell.enable = true;
   programs.my-git.enable = true;
-  programs.my-waybar.enable = true;
   programs.my-swaync.enable = true;
   programs.my-kitty.enable = true;
   programs.my-nnn.enable = true;
