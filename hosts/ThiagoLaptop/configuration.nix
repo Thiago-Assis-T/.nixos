@@ -29,7 +29,6 @@
 
   programs.light.enable = true;
   networking.hostName = "ThiagoLaptop"; # Define your hostname.
-  programs.nm-applet.enable = true;
 
   systemd.services.NetworkManager-wait-online.enable = false;
 

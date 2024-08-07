@@ -35,8 +35,6 @@
   zramSwap.enable = true;
   services.openssh.enable = true;
 
-  programs.nm-applet.enable = true;
-
   services.xserver.excludePackages = with pkgs; [ xterm ];
   services.xserver.displayManager.lightdm.enable = false;
 
