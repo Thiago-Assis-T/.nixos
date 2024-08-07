@@ -37,6 +37,7 @@
       pavucontrol
       freecad
       webcord-vencord
+      youtube-music
     ];
 
     file = {
