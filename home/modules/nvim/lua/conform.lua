@@ -1,7 +1,7 @@
 require("conform").setup({
 	formatters_by_ft = {
 		lua = { "stylua" },
-		nix = { "nixfmt" },
+		--nix = { "nixfmt" },
 	},
 	notify_on_error = false,
 	format_on_save = {
