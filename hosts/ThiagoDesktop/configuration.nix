@@ -15,6 +15,7 @@
     ../modules/stylix
     ../modules/loginManager
     ../modules/dwl
+    ../modules/printing
   ];
   programs.dwl = { enable = true; };
 
