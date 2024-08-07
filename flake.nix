@@ -22,7 +22,8 @@
     };
     dwl-src = {
       url =
-        "git+https://codeberg.org/dwl/dwl?rev=5a4839b1c8e1b171441a86a379ef30ddfb687421";
+				#"git+https://codeberg.org/dwl/dwl?rev=5a4839b1c8e1b171441a86a379ef30ddfb687421";
+				"git+https://codeberg.org/dwl/dwl?ref=0.7";
       #"git+https://codeberg.org/ThiagoAssis/dwl?ref=personal-v0.6";
       flake = false;
     };
@@ -37,7 +38,7 @@
     };
     dwl-bar-patch = {
       url =
-        "https://codeberg.org/dwl/dwl-patches/raw/branch/main/patches/bar/bar-0.6.patch";
+        "https://codeberg.org/dwl/dwl-patches/raw/branch/main/patches/bar/bar-0.7.patch";
       flake = false;
     };
     stylix = {

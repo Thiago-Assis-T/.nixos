@@ -149,27 +149,28 @@
     "dwl-bar-patch": {
       "flake": false,
       "locked": {
-        "narHash": "sha256-7Q2DGlJ2BrEkRM7Bh2Er47Wx2buB/KGzWMWuH5F08vY=",
+        "narHash": "sha256-+tNr0uI3jBuNOxPiTqiFNSfmw02mQpFm6wCwk72A4s4=",
         "type": "file",
-        "url": "https://codeberg.org/dwl/dwl-patches/raw/branch/main/patches/bar/bar-0.6.patch"
+        "url": "https://codeberg.org/dwl/dwl-patches/raw/branch/main/patches/bar/bar-0.7.patch"
       },
       "original": {
         "type": "file",
-        "url": "https://codeberg.org/dwl/dwl-patches/raw/branch/main/patches/bar/bar-0.6.patch"
+        "url": "https://codeberg.org/dwl/dwl-patches/raw/branch/main/patches/bar/bar-0.7.patch"
       }
     },
     "dwl-src": {
       "flake": false,
       "locked": {
-        "lastModified": 1720910041,
-        "narHash": "sha256-fygUzEi4bgopesvHByfpatkLFYI98qozJOUBNM2t9Mg=",
-        "rev": "5a4839b1c8e1b171441a86a379ef30ddfb687421",
-        "revCount": 1193,
+        "lastModified": 1722967407,
+        "narHash": "sha256-7SoCITrbMrlfL4Z4hVyPpjB9RrrjLXHP9C5t1DVXBBA=",
+        "ref": "0.7",
+        "rev": "74e45c4014ae7048ecbb76eb6f54034b8b479480",
+        "revCount": 1241,
         "type": "git",
         "url": "https://codeberg.org/dwl/dwl"
       },
       "original": {
-        "rev": "5a4839b1c8e1b171441a86a379ef30ddfb687421",
+        "ref": "0.7",
         "type": "git",
         "url": "https://codeberg.org/dwl/dwl"
       }
