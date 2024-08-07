@@ -134,6 +134,18 @@
         "type": "github"
       }
     },
+    "dwl-alwayscenter-patch": {
+      "flake": false,
+      "locked": {
+        "narHash": "sha256-lZ12iihgadvw7X+2E1k9rRHzYPJS1gBMFDxqnpkcKuw=",
+        "type": "file",
+        "url": "https://codeberg.org/dwl/dwl-patches/raw/branch/main/patches/alwayscenter/alwayscenter.patch"
+      },
+      "original": {
+        "type": "file",
+        "url": "https://codeberg.org/dwl/dwl-patches/raw/branch/main/patches/alwayscenter/alwayscenter.patch"
+      }
+    },
     "dwl-bar-patch": {
       "flake": false,
       "locked": {
@@ -508,6 +520,7 @@
     "root": {
       "inputs": {
         "disko": "disko",
+        "dwl-alwayscenter-patch": "dwl-alwayscenter-patch",
         "dwl-bar-patch": "dwl-bar-patch",
         "dwl-src": "dwl-src",
         "dwl-swallow-patch": "dwl-swallow-patch",

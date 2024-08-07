@@ -26,6 +26,10 @@
       #"git+https://codeberg.org/ThiagoAssis/dwl?ref=personal-v0.6";
       flake = false;
     };
+		dwl-alwayscenter-patch = {
+			url = "https://codeberg.org/dwl/dwl-patches/raw/branch/main/patches/alwayscenter/alwayscenter.patch";
+			flake = false;
+		};
     dwl-swallow-patch = {
       url =
         "https://codeberg.org/dwl/dwl-patches/raw/branch/main/patches/swallow/swallow.patch";
