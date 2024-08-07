@@ -27,6 +27,12 @@ in {
       extraLuaConfig = builtins.readFile ./lua/extraConfig.lua;
       plugins = [
         pkgs.vimPlugins.plenary-nvim
+        pkgs.vimPlugins.neorg-telescope
+        {
+          plugin = pkgs.vimPlugins.neorg;
+          type = "lua";
+          config = builtins.readFile ./lua/neorg.lua;
+        }
         {
           plugin = pkgs.vimPlugins.nvim-treesitter.withAllGrammars;
           type = "lua";
