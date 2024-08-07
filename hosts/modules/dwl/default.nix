@@ -1,5 +1,22 @@
 { config, pkgs, lib, ... }:
-let cfg = config.programs.dwl;
+let
+  cfg = config.programs.dwl;
+  grabMedia = pkgs.writeShellScriptBin "grabMedia" ''
+    # Get the current status of playerctl
+    status=$(${pkgs.playerctl}/bin/playerctl status)
+
+    # Check if the status is "Playing"
+    if [ "$status" = "Playing" ]; then
+    # Fetch metadata using playerctl
+    artist=$(${pkgs.playerctl}/bin/playerctl metadata artist)
+    title=$(${pkgs.playerctl}/bin/playerctl metadata title)
+
+    # Print the song and artist
+    echo " [ $title - $artist] "
+    else
+    echo " "
+    fi
+  '';
 in {
   options.programs.dwl = {
     enable = lib.mkEnableOption "dwl";
@@ -23,6 +40,8 @@ in {
       pkgs.wl-clipboard
       pkgs.slstatus
       pkgs.wlogout
+      pkgs.playerctl
+      grabMedia
     ];
     services.xserver.desktopManager.runXdgAutostartIfNone = true;
     programs.dconf.enable = true;
