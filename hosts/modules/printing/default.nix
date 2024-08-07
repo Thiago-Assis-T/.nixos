@@ -1,5 +1,6 @@
 { pkgs, ... }: {
   services.system-config-printer.enable = true;
+  programs.system-config-printer.enable = true;
   services.printing = {
     enable = true;
     webInterface = false;
