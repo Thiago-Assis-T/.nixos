@@ -2,8 +2,15 @@
 let
   cfg = config.programs.dwl;
   scripts = {
-    dwlStart = pkgs.writeShellScriptBin "dwlStart"
-      "	# Starts the wallpaper daemon\n	exec wbg /home/thiago/Pictures/wallpaper &\n\n	# Starts the notification\n	exec swaync &\n\n	# Wlsunset for the screen light\n	exec wlsunset -l 22.8 -L 43.1 &\n	 \n";
+    dwlStart = pkgs.writeShellScriptBin "dwlStart" ''
+         # Starts the wallpaper daemon
+       	exec wbg /home/thiago/Pictures/wallpaper &
+       	# Starts the notification
+      	exec swaync &
+      	# Wlsunset for the screen light
+       	exec wlsunset -l 22.8 -L 43.1 &
+				 
+    '';
     grabMedia = pkgs.writeShellScriptBin "grabMedia" ''
       # Get the current status of playerctl
       status=$(${pkgs.playerctl}/bin/playerctl status)
@@ -51,6 +58,7 @@ in {
     services.xserver.desktopManager.runXdgAutostartIfNone = true;
     programs.dconf.enable = true;
     xdg = {
+			mime.enable = true;
       autostart.enable = true;
       portal = {
         enable = true;

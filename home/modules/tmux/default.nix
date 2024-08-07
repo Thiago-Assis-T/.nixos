@@ -11,7 +11,7 @@ in {
       baseIndex = 1;
       clock24 = true;
       newSession = true;
-      terminal = "xterm-256color";
+      terminal = "kitty";
       prefix = "C-p";
       plugins = [{
         plugin = pkgs.tmuxPlugins.sysstat;

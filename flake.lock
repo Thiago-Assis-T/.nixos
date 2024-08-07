@@ -134,18 +134,6 @@
         "type": "github"
       }
     },
-    "dwl-autostart-patch": {
-      "flake": false,
-      "locked": {
-        "narHash": "sha256-67ib/RrrZXy5g4hFyJ//qT8/bprYcMjdDSAO+G8r3eI=",
-        "type": "file",
-        "url": "https://codeberg.org/dwl/dwl-patches/raw/branch/main/patches/autostart/autostart.patch"
-      },
-      "original": {
-        "type": "file",
-        "url": "https://codeberg.org/dwl/dwl-patches/raw/branch/main/patches/autostart/autostart.patch"
-      }
-    },
     "dwl-bar-patch": {
       "flake": false,
       "locked": {
@@ -520,7 +508,6 @@
     "root": {
       "inputs": {
         "disko": "disko",
-        "dwl-autostart-patch": "dwl-autostart-patch",
         "dwl-bar-patch": "dwl-bar-patch",
         "dwl-src": "dwl-src",
         "dwl-swallow-patch": "dwl-swallow-patch",

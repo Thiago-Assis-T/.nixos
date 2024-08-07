@@ -8,8 +8,7 @@ in {
   };
   config = lib.mkIf cfg.enable {
     home.sessionVariables = {
-      TERM = "xterm-256color";
-
+      TERM = "kitty";
     };
     programs = {
       btop.enable = true;

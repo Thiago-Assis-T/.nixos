@@ -36,11 +36,6 @@
         "https://codeberg.org/dwl/dwl-patches/raw/branch/main/patches/bar/bar-0.6.patch";
       flake = false;
     };
-    dwl-autostart-patch = {
-      url =
-        "https://codeberg.org/dwl/dwl-patches/raw/branch/main/patches/autostart/autostart.patch";
-      flake = false;
-    };
     stylix = {
       url = "github:danth/stylix";
       inputs.nixpkgs.follows = "nixpkgs";

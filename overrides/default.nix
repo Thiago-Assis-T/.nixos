@@ -10,11 +10,7 @@
     dwl = (pkgs.dwl.overrideAttrs (finalAttrs: previousAttrs: {
       version = "v0.6";
       src = inputs.dwl-src;
-      patches = with inputs; [
-        dwl-swallow-patch
-        dwl-bar-patch
-        dwl-autostart-patch
-      ];
+      patches = with inputs; [ dwl-swallow-patch dwl-bar-patch ];
       buildInputs = previousAttrs.buildInputs
         ++ [ pkgs.libdrm pkgs.fcft pkgs.pixman ];
       passthru.providedSessions = [ "dwl" ];
@@ -23,7 +19,7 @@
           [Desktop Entry]
           Name=dwl
           Comment=dwm for Wayland
-          Exec=slstatus -s | dwl
+          Exec=slstatus -s | dwl -s "dwlStart <&-"
           Type=Application
         '';
       in ''

@@ -41,7 +41,7 @@
     ];
 
     file = {
-      "Pictures/wallpaper.png".source = "${inputs.wallpaper}";
+      "Pictures/wallpaper".source = "${inputs.wallpaper}";
 
     };
   };
