@@ -9,6 +9,7 @@
   programs.my-kitty.enable = true;
   programs.my-nnn.enable = true;
 
+  programs.wlogout.enable = true;
   gtk = {
     enable = true;
     iconTheme = {

@@ -145,7 +145,8 @@ static const Key keys[] = {
 	/* modifier                  key                 function        argument */
  { MODKEY,                    XKB_KEY_r,          spawn,          {.v = menucmd} },
  { MODKEY,                    XKB_KEY_w,          spawn,          {.v = browsercmd} },
- { MODKEY,                                        XKB_KEY_Return,     spawn,          {.v = termcmd} },
+ { MODKEY,                    XKB_KEY_Return,     spawn,          {.v = termcmd} },
+ { MODKEY,                    XKB_KEY_Escape,     spawn,          SHCMD("wlogout -s") },
  { MODKEY,                    XKB_KEY_n,          spawn,          SHCMD("swaync-client -t") },
  { MODKEY, 										XKB_KEY_p,          spawn,          SHCMD("grim -g \"$(slurp)\" - | wl-copy") },
  { MODKEY|WLR_MODIFIER_SHIFT, XKB_KEY_P,          spawn,          SHCMD("grim - | wl-copy") },

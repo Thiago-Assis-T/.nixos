@@ -22,6 +22,7 @@ in {
       pkgs.slurp
       pkgs.wl-clipboard
       pkgs.slstatus
+      pkgs.wlogout
     ];
     services.xserver.desktopManager.runXdgAutostartIfNone = true;
     programs.dconf.enable = true;
