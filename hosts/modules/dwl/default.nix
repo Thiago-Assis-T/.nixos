@@ -73,6 +73,6 @@ in {
         extraPortals = [ cfg.portalPackage ];
       };
     };
-    #services.displayManager.sessionPackages = [ cfg.package ];
+    services.displayManager.sessionPackages = [ cfg.package ];
   };
 }
