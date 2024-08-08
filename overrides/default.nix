@@ -10,9 +10,13 @@
     dwl = (pkgs.dwl.overrideAttrs (finalAttrs: previousAttrs: {
       version = "v0.7";
       src = inputs.dwl-src;
-			patches = with inputs; [dwl-alwayscenter-patch dwl-swallow-patch dwl-bar-patch ];
+      patches = with inputs; [
+        dwl-alwayscenter-patch
+        dwl-swallow-patch
+        dwl-bar-patch
+      ];
       buildInputs = previousAttrs.buildInputs
-				++ [pkgs.wlroots_0_18 pkgs.libdrm pkgs.fcft pkgs.pixman ];
+        ++ [ pkgs.wlroots_0_18 pkgs.libdrm pkgs.fcft pkgs.pixman ];
       passthru.providedSessions = [ "dwl" ];
       postInstall = let
         dwlSession = ''

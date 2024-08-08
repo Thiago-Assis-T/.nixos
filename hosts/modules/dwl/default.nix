@@ -2,17 +2,16 @@
 let
   cfg = config.programs.dwl;
   scripts = {
-		screenAreaShot = pkgs.writeShellScriptBin "screenAreaShot" ''
-		 ${pkgs.grim}/bin/grim -g "$(${pkgs.slurp}/bin/slurp)" - | ${pkgs.wl-clipboard}/bin/wl-copy 
-		'';
+    screenAreaShot = pkgs.writeShellScriptBin "screenAreaShot"
+      " ${pkgs.grim}/bin/grim -g \"$(${pkgs.slurp}/bin/slurp)\" - | ${pkgs.wl-clipboard}/bin/wl-copy \n";
     dwlStart = pkgs.writeShellScriptBin "dwlStart" ''
-         # Starts the wallpaper daemon
-       	exec ${pkgs.wbg}/bin/wbg /home/thiago/Pictures/wallpaper &
-       	# Starts the notification
-      	exec ${pkgs.swaynotificationcenter}/bin/swaync &
-      	# Wlsunset for the screen light
-       	exec ${pkgs.wlsunset}/bin/wlsunset -l 22.8 -L 43.1 &
-				 
+               # Starts the wallpaper daemon
+             	exec ${pkgs.wbg}/bin/wbg /home/thiago/Pictures/wallpaper &
+             	# Starts the notification
+            	exec ${pkgs.swaynotificationcenter}/bin/swaync &
+            	# Wlsunset for the screen light
+             	exec ${pkgs.wlsunset}/bin/wlsunset -l 22.8 -L 43.1 &
+      				 
     '';
     grabMedia = pkgs.writeShellScriptBin "grabMedia" ''
       # Get the current status of playerctl
@@ -54,17 +53,17 @@ in {
       pkgs.wl-clipboard
       pkgs.slstatus
       pkgs.wlogout
-			pkgs.wlsunset
-			pkgs.swaynotificationcenter
+      pkgs.wlsunset
+      pkgs.swaynotificationcenter
       pkgs.playerctl
       scripts.grabMedia
       scripts.dwlStart
-			scripts.screenAreaShot
+      scripts.screenAreaShot
     ];
     services.xserver.desktopManager.runXdgAutostartIfNone = true;
     programs.dconf.enable = true;
     xdg = {
-			mime.enable = true;
+      mime.enable = true;
       autostart.enable = true;
       portal = {
         enable = true;
@@ -74,6 +73,6 @@ in {
         extraPortals = [ cfg.portalPackage ];
       };
     };
-    services.displayManager.sessionPackages = [ cfg.package ];
+    #services.displayManager.sessionPackages = [ cfg.package ];
   };
 }
