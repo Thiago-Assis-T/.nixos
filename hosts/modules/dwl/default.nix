@@ -7,11 +7,11 @@ let
 		'';
     dwlStart = pkgs.writeShellScriptBin "dwlStart" ''
          # Starts the wallpaper daemon
-       	exec wbg /home/thiago/Pictures/wallpaper &
+       	exec ${pkgs.wbg}/bin/wbg /home/thiago/Pictures/wallpaper &
        	# Starts the notification
-      	exec swaync &
+      	exec ${pkgs.swaynotificationcenter}/bin/swaync &
       	# Wlsunset for the screen light
-       	exec wlsunset -l 22.8 -L 43.1 &
+       	exec ${pkgs.wlsunset}/bin/wlsunset -l 22.8 -L 43.1 &
 				 
     '';
     grabMedia = pkgs.writeShellScriptBin "grabMedia" ''
@@ -54,6 +54,8 @@ in {
       pkgs.wl-clipboard
       pkgs.slstatus
       pkgs.wlogout
+			pkgs.wlsunset
+			pkgs.swaynotificationcenter
       pkgs.playerctl
       scripts.grabMedia
       scripts.dwlStart

@@ -14,6 +14,8 @@ in {
       withNodeJs = true;
       withPython3 = true;
       extraPackages = with pkgs; [
+        clang-tools
+
         fd
         ripgrep
 
@@ -42,6 +44,14 @@ in {
           plugin = pkgs.vimPlugins.gitsigns-nvim;
           type = "lua";
           config = ''require("gitsigns").setup() '';
+        }
+        pkgs.vimPlugins.luasnip
+        pkgs.vimPlugins.friendly-snippets
+        {
+          plugin = pkgs.vimPlugins.nvim-cmp;
+          type = "lua";
+          config = builtins.readFile ./lua/cmp.lua;
+
         }
         {
           plugin = pkgs.vimPlugins.nvim-lspconfig;

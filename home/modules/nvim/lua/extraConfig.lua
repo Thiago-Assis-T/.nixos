@@ -1,4 +1,5 @@
 vim.g.mapleader = " "
+vim.opt.clipboard = 'unnamedplus'
 vim.g.maplocalleader = " "
 vim.opt.termguicolors = true
 vim.g.have_nerd_font = true
