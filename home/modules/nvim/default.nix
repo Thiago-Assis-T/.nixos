@@ -14,6 +14,7 @@ in {
       withNodeJs = true;
       withPython3 = true;
       extraPackages = with pkgs; [
+        clang
         clang-tools
 
         fd
@@ -47,6 +48,7 @@ in {
         }
         pkgs.vimPlugins.luasnip
         pkgs.vimPlugins.friendly-snippets
+				pkgs.vimPlugins.cmp-nvim-lsp
         {
           plugin = pkgs.vimPlugins.nvim-cmp;
           type = "lua";

@@ -20,6 +20,7 @@ in {
         '';
       }];
       extraConfig = ''
+        set-option -g default-terminal "screen-256color"
         set-option -g escape-time 10
         set -g status-right-length 43
         bind r source-file /home/thiago/.config/tmux/tmux.conf \; display-message "Config reloaded..."
