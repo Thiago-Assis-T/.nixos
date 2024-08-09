@@ -2,8 +2,6 @@
 let
   cfg = config.programs.dwl;
   scripts = {
-    screenAreaShot = pkgs.writeShellScriptBin "screenAreaShot"
-      " ${pkgs.grim}/bin/grim -g \"$(${pkgs.slurp}/bin/slurp)\" - | ${pkgs.wl-clipboard}/bin/wl-copy \n";
     dwlStart = pkgs.writeShellScriptBin "dwlStart" ''
                # Starts the wallpaper daemon
              	exec ${pkgs.wbg}/bin/wbg /home/thiago/Pictures/wallpaper &
@@ -58,7 +56,6 @@ in {
       pkgs.playerctl
       scripts.grabMedia
       scripts.dwlStart
-      scripts.screenAreaShot
     ];
     services.xserver.desktopManager.runXdgAutostartIfNone = true;
     programs.dconf.enable = true;

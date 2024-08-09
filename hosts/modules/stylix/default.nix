@@ -20,7 +20,7 @@ in {
       package = pkgs.rose-pine-cursor;
       size = 24;
     };
-    opacity = { terminal = 0.8; };
+    opacity = { terminal = 0.9; };
     fonts = {
       sizes = { terminal = 10; };
       monospace = {
