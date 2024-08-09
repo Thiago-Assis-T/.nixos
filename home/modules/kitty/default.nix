@@ -1,9 +1,7 @@
 { config, lib, ... }:
 
-let
-  cfg = config.programs.my-kitty;
-in
-{
+let cfg = config.programs.my-kitty;
+in {
   options.programs.my-kitty = {
     enable = lib.mkEnableOption (lib.mdDoc "my-kitty");
   };
@@ -14,7 +12,6 @@ in
       shellIntegration.enableBashIntegration = true;
       extraConfig = ''
         linux_display_server wayland
-
       '';
     };
   };
