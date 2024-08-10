@@ -66,6 +66,10 @@ lspconfig.lua_ls.setup({
 		},
 	},
 })
+
+lspconfig.bash_ls.setup({
+	capabilities = capabilities,
+})
 lspconfig.nixd.setup({
 	capabilities = capabilities,
 })

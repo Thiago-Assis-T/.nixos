@@ -7,9 +7,7 @@ in {
     enable = lib.mkEnableOption (lib.mdDoc "my-shell");
   };
   config = lib.mkIf cfg.enable {
-    home.sessionVariables = {
-      TERM = "kitty";
-    };
+    home.sessionVariables = { TERM = "kitty"; };
     programs = {
       btop.enable = true;
       fastfetch = {
@@ -26,6 +24,7 @@ in {
           ls = "nnn -eH";
           nnn = "nnn -e";
         };
+        #bashrcExtra = builtins.readFile ./bashrcExtra.sh;
       };
       starship = {
         enable = true;

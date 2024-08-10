@@ -14,6 +14,10 @@ in {
       withNodeJs = true;
       withPython3 = true;
       extraPackages = with pkgs; [
+        bash-language-server
+        shellcheck
+        beautysh
+
         clang
         clang-tools
 
@@ -48,7 +52,7 @@ in {
         }
         pkgs.vimPlugins.luasnip
         pkgs.vimPlugins.friendly-snippets
-				pkgs.vimPlugins.cmp-nvim-lsp
+        pkgs.vimPlugins.cmp-nvim-lsp
         {
           plugin = pkgs.vimPlugins.nvim-cmp;
           type = "lua";

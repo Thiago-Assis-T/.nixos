@@ -3,6 +3,7 @@ require("conform").setup({
 		lua = { "stylua" },
 		nix = { "nixfmt" },
 		c = { "clang-format" },
+		bash = { "beautysh" },
 	},
 	notify_on_error = false,
 	format_on_save = {
