@@ -9,6 +9,8 @@
   programs.my-kitty.enable = true;
   programs.my-tmux.enable = true;
 
+  programs.nnn = { enable = true; };
+
   gtk = {
     enable = true;
     iconTheme = {
@@ -31,6 +33,7 @@
     homeDirectory = "/home/thiago";
     stateVersion = "23.11";
     packages = with pkgs; [
+      pistol
       jellyfin-media-player
       floorp
       pavucontrol

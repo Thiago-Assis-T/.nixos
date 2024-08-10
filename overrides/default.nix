@@ -3,6 +3,10 @@
     intel-vaapi-driver =
       pkgs.intel-vaapi-driver.override { enableHybridCodec = true; };
     slstatus = pkgs.slstatus.override { conf = ./configs/slstatus.h; };
+    nnn = pkgs.nnn.override {
+      withNerdIcons = true;
+      withPcre = true;
+    };
     dwl = (pkgs.dwl.overrideAttrs (finalAttrs: previousAttrs: {
       version = "v0.7";
       src = inputs.dwl-src;
