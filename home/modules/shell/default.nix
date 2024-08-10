@@ -19,12 +19,8 @@ in {
       bash = {
         enable = true;
         enableCompletion = true;
-        shellAliases = {
-          cat = "bat";
-          ls = "nnn -eH";
-          nnn = "nnn -e";
-        };
-        #bashrcExtra = builtins.readFile ./bashrcExtra.sh;
+        shellAliases = { cat = "bat"; };
+        bashrcExtra = builtins.readFile ./bashrcExtra.sh;
       };
       starship = {
         enable = true;

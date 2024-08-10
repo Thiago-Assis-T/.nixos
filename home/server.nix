@@ -5,7 +5,6 @@
   programs.my-nvim.enable = true;
   programs.my-shell.enable = true;
   programs.my-git.enable = true;
-  programs.my-nnn.enable = true;
   programs.my-tmux.enable = true;
 
   home = {

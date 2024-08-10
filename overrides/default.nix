@@ -2,10 +2,6 @@
   nixpkgs.config.packageOverrides = pkgs: {
     intel-vaapi-driver =
       pkgs.intel-vaapi-driver.override { enableHybridCodec = true; };
-    nnn = pkgs.nnn.override {
-      withNerdIcons = true;
-      withPcre = true;
-    };
     slstatus = pkgs.slstatus.override { conf = ./configs/slstatus.h; };
     dwl = (pkgs.dwl.overrideAttrs (finalAttrs: previousAttrs: {
       version = "v0.7";

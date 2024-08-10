@@ -1,1 +1,1 @@
-{ ... }: { imports = [ ./tmux ./nvim ./git ./shell ./swaync ./kitty ./nnn ]; }
+{ ... }: { imports = [ ./tmux ./nvim ./git ./shell ./swaync ./kitty ]; }

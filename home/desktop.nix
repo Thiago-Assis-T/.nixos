@@ -7,7 +7,6 @@
   programs.my-git.enable = true;
   programs.my-swaync.enable = true;
   programs.my-kitty.enable = true;
-  programs.my-nnn.enable = true;
   programs.my-tmux.enable = true;
 
   gtk = {
