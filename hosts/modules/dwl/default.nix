@@ -3,13 +3,12 @@ let
   cfg = config.programs.dwl;
   scripts = {
     dwlStart = pkgs.writeShellScriptBin "dwlStart" ''
-               # Starts the wallpaper daemon
-             	exec ${pkgs.wbg}/bin/wbg /home/thiago/Pictures/wallpaper &
-             	# Starts the notification
-            	exec ${pkgs.swaynotificationcenter}/bin/swaync &
-            	# Wlsunset for the screen light
-             	exec ${pkgs.wlsunset}/bin/wlsunset -l 22.8 -L 43.1 &
-      				 
+       # Starts the wallpaper daemon
+      exec ${pkgs.wbg}/bin/wbg /home/thiago/Pictures/wallpaper &
+      # Starts the notification
+      exec ${pkgs.swaynotificationcenter}/bin/swaync &
+      # Wlsunset for the screen light
+      exec ${pkgs.wlsunset}/bin/wlsunset -l 22.8 -L 43.1 &
     '';
     grabMedia = pkgs.writeShellScriptBin "grabMedia" ''
       # Get the current status of playerctl
