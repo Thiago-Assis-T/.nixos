@@ -24,6 +24,11 @@
       url = "git+https://codeberg.org/dwl/dwl?ref=0.7";
       flake = false;
     };
+    dwl-bar-systray-patch = {
+      url =
+        "https://codeberg.org/dwl/dwl-patches/raw/branch/main/patches/bar-systray/bar-systray-0.7.patch";
+      flake = false;
+    };
     dwl-alwayscenter-patch = {
       url =
         "https://codeberg.org/dwl/dwl-patches/raw/branch/main/patches/alwayscenter/alwayscenter.patch";

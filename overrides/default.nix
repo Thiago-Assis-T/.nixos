@@ -14,9 +14,16 @@
         dwl-alwayscenter-patch
         dwl-swallow-patch
         dwl-bar-patch
+        #dwl-bar-systray-patch
       ];
-      buildInputs = previousAttrs.buildInputs
-        ++ [ pkgs.wlroots_0_18 pkgs.libdrm pkgs.fcft pkgs.pixman ];
+      buildInputs = previousAttrs.buildInputs ++ [
+        pkgs.wlroots_0_18
+        pkgs.libdrm
+        pkgs.fcft
+        pkgs.pixman
+        #pkgs.gtk4
+        #pkgs.gtk4-layer-shell
+      ];
       passthru.providedSessions = [ "dwl" ];
       postInstall = let
         dwlSession = ''
