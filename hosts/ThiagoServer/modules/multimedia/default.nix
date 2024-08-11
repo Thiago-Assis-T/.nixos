@@ -40,7 +40,7 @@
       openFirewall = true;
     };
     bazarr = {
-      enable = false;
+      enable = true;
       group = "multimedia";
       user = "multimedia";
       openFirewall = true;

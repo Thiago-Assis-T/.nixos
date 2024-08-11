@@ -139,6 +139,18 @@
             };
           }
           {
+            "Bazarr" = {
+              icon = "bazarr.png";
+              href = "http://thiagoserver:6767";
+              description = "Movies Manager";
+              widget = {
+                type = "bazarr";
+                url = "http://localhost:6767";
+                key = "125fd690836751bc8cb9e92098ac677b";
+              };
+            };
+          }
+          {
             "Deluge" = {
               icon = "deluge.png";
               href = "http://thiagoserver:8112";
