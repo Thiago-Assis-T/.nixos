@@ -29,7 +29,7 @@ in {
 
         lua-language-server
         stylua
-        #lua54Packages.luacheck
+        #luajitPackages.luacheck
       ];
       extraLuaConfig = builtins.readFile ./lua/extraConfig.lua;
       plugins = [

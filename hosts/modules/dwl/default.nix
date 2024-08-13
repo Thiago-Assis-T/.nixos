@@ -48,7 +48,6 @@ in {
       pkgs.grim
       pkgs.slurp
       pkgs.wl-clipboard
-      pkgs.slstatus
       pkgs.wlogout
       pkgs.wlsunset
       pkgs.swaynotificationcenter

@@ -17,6 +17,7 @@
     ../modules/dwl
   ];
   programs.dwl = { enable = true; };
+  environment.systemPackages = with pkgs; [ slstatusLaptop ];
 
   zramSwap.enable = true;
 
