@@ -16,7 +16,11 @@
     ../modules/loginManager
     ../modules/dwl
   ];
-  programs.dwl = { enable = true; };
+  programs.dwl = {
+    enable = true;
+    package = pkgs.dwlLaptop;
+
+  };
   environment.systemPackages = with pkgs; [ slstatusLaptop ];
 
   zramSwap.enable = true;
