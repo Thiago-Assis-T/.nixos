@@ -24,7 +24,11 @@
     "gcctune-znver3"
   ];
   nixpkgs = {
-    config = { allowUnfree = true; };
+    config = {
+      allowUnfree = true;
+      allowBroken = true;
+
+    };
     hostPlatform = {
       system = "x86_64-linux";
       config = "x86_64-unknown-linux-gnu";
