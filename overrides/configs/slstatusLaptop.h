@@ -66,12 +66,11 @@ static const char unknown_str[] = "n/a";
  */
 static const struct arg args[] = {
 	/* function format          argument */
-	{ run_command,   "%s",               "grabMedia"},
-	{ cpu_perc,      "[ %s%] ",         NULL},
-	{ ram_perc,      "[ %s%] ",         NULL},
-	{ battery_perc,  "[󰁹 %s%- ",         "BAT0"},
-	{ disk_perc,  	 "[ %s%] ",				 "/" },
-	{ run_command,   "[ %s] ", 	       "wpctl get-volume @DEFAULT_SINK@ | sed -E 's/Volume: ([0-9.]+)/\\1/' | awk '{printf \"%.0f%%\\n\", $1 * 100}'"},
-	{ datetime,   	 "[󰸘 %s",            "%d/%m" },
-	{ datetime,   	 "  %s]",           "%H:%M" },
+	{ run_command,         "%s",               "grabMedia"},
+	{ cpu_perc,            "[ %s%] ",         NULL},
+	{ ram_perc,            "[ %s%] ",         NULL},
+	{ battery_perc,        "[󰁹 %s%] ",          "BAT0"},
+	{ run_command,         "[ %s] ", 	       "wpctl get-volume @DEFAULT_SINK@ | sed -E 's/Volume: ([0-9.]+)/\\1/' | awk '{printf \"%.0f%%\\n\", $1 * 100}'"},
+	{ datetime,   	       "[󰸘 %s",            "%d/%m" },
+	{ datetime,   	       "  %s]",           "%H:%M" },
 };
