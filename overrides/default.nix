@@ -24,6 +24,7 @@
         #pkgs.gtk4
         #pkgs.gtk4-layer-shell
       ];
+      enableParallelBuilding = true;
       passthru.providedSessions = [ "dwl" ];
       postInstall = let
         dwlSession = ''

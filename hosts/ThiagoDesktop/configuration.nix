@@ -69,6 +69,7 @@
     enable = true;
     extraCompatPackages = with pkgs; [ proton-ge-bin ];
     extest.enable = true;
+    localNetworkGameTransfers.openFirewall = true;
   };
 
   nixpkgs.config = { allowUnfree = true; };

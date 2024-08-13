@@ -33,6 +33,7 @@
     homeDirectory = "/home/thiago";
     stateVersion = "23.11";
     packages = with pkgs; [
+      zathura
       libreoffice-qt6-fresh
       pistol
       jellyfin-media-player
