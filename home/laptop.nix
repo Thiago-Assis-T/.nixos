@@ -31,6 +31,7 @@
     homeDirectory = "/home/thiago";
     stateVersion = "23.11";
     packages = with pkgs; [
+      webcord
       youtube-music
       jellyfin-media-player
       floorp

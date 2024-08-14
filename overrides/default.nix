@@ -58,15 +58,16 @@ in {
         dwl-alwayscenter-patch
         dwl-swallow-patch
         dwl-bar-patch
-        #dwl-bar-systray-patch
+        dwl-bar-systray-patch
       ];
       buildInputs = previousAttrs.buildInputs ++ [
         pkgs.wlroots_0_18
         pkgs.libdrm
         pkgs.fcft
         pkgs.pixman
-        #pkgs.gtk4
-        #pkgs.gtk4-layer-shell
+        pkgs.gtk4
+        pkgs.gtk4-layer-shell
+        statusnotifier-systray-gtk4
       ];
       enableParallelBuilding = true;
       passthru.providedSessions = [ "dwl" ];
