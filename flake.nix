@@ -24,6 +24,10 @@
       url = "git+https://codeberg.org/dwl/dwl?ref=0.7";
       flake = false;
     };
+    statusnotifier-systray-gtk4-src = {
+      url = "git+https://codeberg.org/janetski/statusnotifier-systray-gtk4";
+      flake = false;
+    };
     dwl-bar-systray-patch = {
       url =
         "https://codeberg.org/dwl/dwl-patches/raw/branch/main/patches/bar-systray/bar-systray-0.7.patch";

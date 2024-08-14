@@ -541,8 +541,25 @@
         "home-manager": "home-manager",
         "neorg-overlay": "neorg-overlay",
         "nixpkgs": "nixpkgs_4",
+        "statusnotifier-systray-gtk4-src": "statusnotifier-systray-gtk4-src",
         "stylix": "stylix",
         "wallpaper": "wallpaper"
+      }
+    },
+    "statusnotifier-systray-gtk4-src": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1723597848,
+        "narHash": "sha256-LilOKp62ZH9VoGPQxzfjLhvFa1V90WwLp2ArmlWCRLg=",
+        "ref": "refs/heads/main",
+        "rev": "9409f93fb7f81d9ae1d574dd6b01f5b6fdff61bd",
+        "revCount": 4,
+        "type": "git",
+        "url": "https://codeberg.org/janetski/statusnotifier-systray-gtk4"
+      },
+      "original": {
+        "type": "git",
+        "url": "https://codeberg.org/janetski/statusnotifier-systray-gtk4"
       }
     },
     "stylix": {
