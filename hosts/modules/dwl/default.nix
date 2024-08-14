@@ -10,7 +10,7 @@ let
       # Wlsunset for the screen light
       exec ${pkgs.wlsunset}/bin/wlsunset -l 22.8 -L 43.1 &
 
-      exec ${pkgs.gnome_polkit}/libexec/polkit-gnome-authentication-agent-1 &
+      exec ${pkgs.polkit_gnome}/libexec/polkit-gnome-authentication-agent-1 &
     '';
     grabMedia = pkgs.writeShellScriptBin "grabMedia" ''
       # Get the current status of playerctl
@@ -54,6 +54,7 @@ in {
       pkgs.wlsunset
       pkgs.swaynotificationcenter
       pkgs.playerctl
+      pkgs.polkit_gnome
       scripts.grabMedia
       scripts.dwlStart
     ];
