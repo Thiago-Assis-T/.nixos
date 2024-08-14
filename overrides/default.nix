@@ -1,4 +1,13 @@
-{ inputs, ... }: {
+{ inputs, pkgs, ... }:
+
+let
+
+  statusnotifier-systray-gtk4 =
+    pkgs.callPackage ./packages/statusnotifier-systray-gtk4.nix {
+      source = inputs.statusnotifier-systray-gtk4-src;
+    };
+
+in {
   nixpkgs.config.packageOverrides = pkgs: {
     intel-vaapi-driver =
       pkgs.intel-vaapi-driver.override { enableHybridCodec = true; };
@@ -9,10 +18,6 @@
     slstatus = pkgs.slstatus.override { conf = ./configs/slstatus.h; };
     slstatusLaptop =
       pkgs.slstatus.override { conf = ./configs/slstatusLaptop.h; };
-    statusnotifier-systray-gtk4 =
-      pkgs.callPackage ./packages/statusnotifier-systray-gtk4.nix {
-        source = inputs.statusnotifier-systray-gtk4-src;
-      };
     dwl = (pkgs.dwl.overrideAttrs (finalAttrs: previousAttrs: {
       version = "v0.7";
       src = inputs.dwl-src;
@@ -29,7 +34,7 @@
         pkgs.pixman
         pkgs.gtk4
         pkgs.gtk4-layer-shell
-        pkgs.statusnotifier-systray-gtk4
+        statusnotifier-systray-gtk4
       ];
       enableParallelBuilding = true;
       passthru.providedSessions = [ "dwl" ];
