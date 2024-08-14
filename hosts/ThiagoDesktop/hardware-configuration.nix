@@ -12,7 +12,6 @@
     [ "amdgpu" "xhci_pci" "ahci" "nvme" "usbhid" "usb_storage" "sd_mod" ];
   boot.initrd.kernelModules = [ ];
   boot.kernelModules = [ "kvm-amd" ];
-  hardware.enableAllFirmware = true;
   boot.kernelParams = [ "amd_pstate=active" "amd_pstate_epp=performance" ];
 
   networking.useDHCP = lib.mkDefault true;
@@ -36,6 +35,15 @@
       #gcc.tune = "znver3";
     };
   };
-  hardware.cpu.amd.updateMicrocode =
-    lib.mkDefault config.hardware.enableRedistributableFirmware;
+  hardware = {
+    enableAllFirmware = true;
+    hardware.graphics = {
+      enable = true;
+      enable32Bit = true;
+      extraPackages = with pkgs; [ amdvlk rocmPackages.clr.icd ];
+      extraPackages32 = with pkgs; [ driversi686Linux.amdvlk ];
+    };
+    cpu.amd.updateMicrocode =
+      lib.mkDefault config.hardware.enableRedistributableFirmware;
+  };
 }

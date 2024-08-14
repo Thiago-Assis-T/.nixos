@@ -19,19 +19,6 @@
   ];
   programs.dwl = { enable = true; };
 
-  services.gvfs.enable = true;
-  services.udisks2.enable = true;
-
-  programs.thunar = {
-    enable = true;
-    plugins = with pkgs.xfce; [
-      thunar-media-tags-plugin
-      thunar-archive-plugin
-      thunar-volman
-    ];
-
-  };
-
   programs.neovim = {
     enable = true;
     defaultEditor = true;
@@ -83,13 +70,6 @@
     extraCompatPackages = with pkgs; [ proton-ge-bin ];
     extest.enable = true;
     localNetworkGameTransfers.openFirewall = true;
-  };
-
-  hardware.graphics = {
-    enable = true;
-    enable32Bit = true;
-    extraPackages = with pkgs; [ amdvlk rocmPackages.clr.icd ];
-    extraPackages32 = with pkgs; [ driversi686Linux.amdvlk ];
   };
 
   security.rtkit.enable = true;

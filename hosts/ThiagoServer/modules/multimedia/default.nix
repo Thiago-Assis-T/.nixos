@@ -1,16 +1,5 @@
 { pkgs, ... }: {
 
-  hardware.graphics = {
-    enable = true;
-    enable32Bit = true;
-    extraPackages = with pkgs; [
-      intel-media-driver
-      intel-vaapi-driver
-      vaapiVdpau
-      libvdpau-va-gl
-      intel-compute-runtime
-    ];
-  };
   users.groups.multimedia = { };
   users.users.thiago.extraGroups = [ "multimedia" ];
   users.users.multimedia = { isNormalUser = true; };

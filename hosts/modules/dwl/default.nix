@@ -3,12 +3,14 @@ let
   cfg = config.programs.dwl;
   scripts = {
     dwlStart = pkgs.writeShellScriptBin "dwlStart" ''
-       # Starts the wallpaper daemon
+      # Starts the wallpaper daemon
       exec ${pkgs.wbg}/bin/wbg /home/thiago/Pictures/wallpaper &
       # Starts the notification
       exec ${pkgs.swaynotificationcenter}/bin/swaync &
       # Wlsunset for the screen light
       exec ${pkgs.wlsunset}/bin/wlsunset -l 22.8 -L 43.1 &
+
+      exec ${pkgs.gnome_polkit}/libexec/polkit-gnome-authentication-agent-1 &
     '';
     grabMedia = pkgs.writeShellScriptBin "grabMedia" ''
       # Get the current status of playerctl
@@ -55,6 +57,17 @@ in {
       scripts.grabMedia
       scripts.dwlStart
     ];
+    services.gvfs.enable = true;
+    services.udisks2.enable = true;
+
+    programs.thunar = {
+      enable = true;
+      plugins = with pkgs.xfce; [
+        thunar-media-tags-plugin
+        thunar-archive-plugin
+        thunar-volman
+      ];
+    };
     services.xserver.desktopManager.runXdgAutostartIfNone = true;
     programs.dconf.enable = true;
     xdg = {
