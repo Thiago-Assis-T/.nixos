@@ -16,9 +16,9 @@
     ../modules/loginManager
     ../modules/dwl
     ../modules/printing
+    ../modules/docs
   ];
   programs.dwl = { enable = true; };
-
   environment.systemPackages = with pkgs; [ slstatus ];
 
   programs.corectrl = {
@@ -26,17 +26,6 @@
     gpuOverclock = {
       enable = true;
       ppfeaturemask = "0xffffffff";
-    };
-  };
-
-  documentation = {
-    enable = true;
-    dev.enable = true;
-    doc.enable = true;
-    info.enable = true;
-    man = {
-      enable = true;
-      generateCaches = true;
     };
   };
 
