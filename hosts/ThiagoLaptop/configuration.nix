@@ -15,11 +15,11 @@
     ../modules/stylix
     ../modules/loginManager
     ../modules/dwl
+    ../modules/printing
   ];
   programs.dwl = {
     enable = true;
     package = pkgs.dwlLaptop;
-
   };
   environment.systemPackages = with pkgs; [ slstatusLaptop ];
 
@@ -36,18 +36,6 @@
   time.timeZone = "America/Sao_Paulo";
 
   programs.dconf.enable = true;
-
-  hardware.graphics = {
-    enable = true;
-    enable32Bit = true;
-    extraPackages = with pkgs; [
-      intel-media-driver
-      intel-vaapi-driver
-      vaapiVdpau
-      libvdpau-va-gl
-      intel-compute-runtime
-    ];
-  };
 
   environment.sessionVariables.NIXOS_OZONE_WL = 1;
   networking.networkmanager = {
@@ -74,10 +62,7 @@
   console = {
     font = "Lat2-Terminus16";
     keyMap = "br-abnt2";
-    #useXkbConfig = true; # use xkb.options in tty.
   };
-  # Enable CUPS to print documents.
-  # services.printing.enable = true;
 
   # Enable touchpad support (enabled default in most desktopManager).
   services.libinput.enable = true;
@@ -93,14 +78,6 @@
   services.openssh.enable = true;
 
   networking.firewall.enable = true;
-
-  system.autoUpgrade = {
-    enable = true;
-    dates = "02:00";
-    flake = inputs.self.outPath;
-    randomizedDelaySec = "45min";
-    flags = [ "--update-input" "nixpkgs" "-L" ];
-  };
 
   system.stateVersion = "24.05"; # Did you read the comment?
 }
