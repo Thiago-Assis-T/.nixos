@@ -19,6 +19,8 @@
   ];
   programs.dwl = { enable = true; };
 
+  environment.systemPackages = with pkgs; [ slstatus ];
+
   programs.corectrl = {
     enable = true;
     gpuOverclock = {
