@@ -61,6 +61,12 @@ in {
     services.gvfs.enable = true;
     services.udisks2.enable = true;
 
+    environment.sessionVariables.NIXOS_OZONE_WL = 1;
+
+    programs.neovim = {
+      enable = true;
+      defaultEditor = true;
+    };
     programs.thunar = {
       enable = true;
       plugins = with pkgs.xfce; [

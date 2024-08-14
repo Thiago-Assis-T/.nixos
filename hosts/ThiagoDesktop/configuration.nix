@@ -19,11 +19,6 @@
   ];
   programs.dwl = { enable = true; };
 
-  programs.neovim = {
-    enable = true;
-    defaultEditor = true;
-  };
-
   programs.corectrl = {
     enable = true;
     gpuOverclock = {
@@ -78,7 +73,6 @@
     audio.enable = true;
     pulse.enable = true;
     wireplumber.enable = true;
-
   };
   security.polkit.enable = true;
   services.gnome.gnome-keyring.enable = true;
@@ -89,7 +83,6 @@
   services.fwupd.enable = true;
 
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
-  environment.sessionVariables.NIXOS_OZONE_WL = 1;
   networking.hostName = "ThiagoDesktop"; # Define your hostname.
   networking.networkmanager = {
     enable = true;
@@ -111,14 +104,6 @@
     isNormalUser = true;
     extraGroups = [ "wheel" ]; # Enable ‘sudo’ for the user.
     packages = [ ];
-  };
-
-  system.autoUpgrade = {
-    enable = true;
-    dates = "02:00";
-    flake = inputs.self.outPath;
-    randomizedDelaySec = "45min";
-    flags = [ "--update-input" "nixpkgs" "-L" ];
   };
 
   system.stateVersion = "23.11"; # Did you read the comment?
