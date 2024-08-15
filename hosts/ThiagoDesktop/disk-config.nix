@@ -28,9 +28,7 @@
                 # unless their parent is mounted
                 subvolumes = {
                   # Subvolume name is different from mountpoint
-                  "/" = {
-                    mountpoint = "/";
-                  };
+                  "/" = { mountpoint = "/"; };
                   # Subvolume name is the same as the mountpoint
                   "/home" = {
                     mountOptions = [ "compress=zstd" ];
@@ -44,21 +42,16 @@
                   # Subvolume for the swapfile
                   "/swap" = {
                     mountpoint = "/.swapvol";
-                    swap = {
-                      swapfile.size = "35G";
-                    };
+                    swap = { swapfile.size = "35G"; };
                   };
                 };
-
                 mountpoint = "/";
-                };
               };
             };
           };
         };
       };
     };
-
-
+  };
 }
 
