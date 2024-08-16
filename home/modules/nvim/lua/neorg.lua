@@ -7,6 +7,24 @@ require("nvim-treesitter.configs").setup({
 require("neorg").setup({
 	load = {
 		["core.defaults"] = {},
+		["core.concealer"] = {},
+		["core.dirman"] = {
+			config = {
+				workspaces = {
+					personal = "~/Notes/Personal",
+					college = "~/Notes/College",
+					study = "~/Notes/Study",
+					journal = "~/Notes/journal",
+				},
+				index = "index.norg",
+			},
+		},
+
+		["core.journal"] = {
+			config = {
+				workspace = "journal",
+			},
+		},
 		["core.integrations.telescope"] = {
 			config = {
 				insert_file_link = {
