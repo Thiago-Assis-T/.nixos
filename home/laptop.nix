@@ -19,7 +19,13 @@
 
   xdg = {
     enable = true;
-    mime.enable = true;
+    mimeApps = {
+      enable = true;
+      defaultApplications = {
+        "application/pdf" = [ "org.pwmt.zathura-pdf-mupdf.desktop" ];
+        "text/plain" = [ "neovim.desktop" ];
+      };
+    };
     portal = {
       xdgOpenUsePortal = true;
       extraPortals = with pkgs; [ xdg-desktop-portal-wlr ];

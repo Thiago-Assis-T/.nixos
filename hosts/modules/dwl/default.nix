@@ -55,6 +55,7 @@ in {
       pkgs.swaynotificationcenter
       pkgs.playerctl
       pkgs.polkit_gnome
+      pkgs.zathura
       scripts.grabMedia
       scripts.dwlStart
     ];
@@ -78,7 +79,13 @@ in {
     services.xserver.desktopManager.runXdgAutostartIfNone = true;
     programs.dconf.enable = true;
     xdg = {
-      mime.enable = true;
+      mime = {
+        enable = true;
+        defaultApplications = {
+          "application/pdf" = "org.pwmt.zathura-pdf-mupdf.desktop";
+          "text/plain" = "neovim.desktop";
+        };
+      };
       autostart.enable = true;
       portal = {
         enable = true;
