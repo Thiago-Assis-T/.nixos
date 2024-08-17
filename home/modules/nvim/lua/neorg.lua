@@ -8,21 +8,27 @@ require("neorg").setup({
 	load = {
 		["core.defaults"] = {},
 		["core.concealer"] = {},
+		["core.integrations.nvim-cmp"] = {},
+		["core.completion"] = {
+			config = {
+				engine = "nvim-cmp",
+				name = "[Neorg]",
+			},
+		},
+		["core.journal"] = {
+			config = {
+				workspace = "journal",
+			},
+		},
 		["core.dirman"] = {
 			config = {
 				workspaces = {
 					personal = "~/Notes/Personal",
 					college = "~/Notes/College",
 					study = "~/Notes/Study",
-					journal = "~/Notes/journal",
 				},
+				default_workspace = "personal",
 				index = "index.norg",
-			},
-		},
-
-		["core.journal"] = {
-			config = {
-				workspace = "journal",
 			},
 		},
 		["core.integrations.telescope"] = {
