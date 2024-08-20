@@ -64,11 +64,18 @@
     };
   };
 
+  programs.gamescope = {
+    enable = true;
+    capSysNice = true;
+  };
+
+  hardware.steam-hardware.enable = true;
   programs.steam = {
     enable = true;
     extraCompatPackages = with pkgs; [ proton-ge-bin ];
     extest.enable = true;
     localNetworkGameTransfers.openFirewall = true;
+    gamescopeSession.enable = true;
   };
 
   security.rtkit.enable = true;

@@ -56,6 +56,7 @@ in {
       pkgs.playerctl
       pkgs.polkit_gnome
       pkgs.zathura
+      pkgs.file-roller
       scripts.grabMedia
       scripts.dwlStart
     ];
