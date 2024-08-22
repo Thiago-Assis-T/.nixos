@@ -2,7 +2,7 @@
 # your system. Help is available in the configuration.nix(5) man page, on
 # https://search.nixos.org/options and in the NixOS manual (`nixos-help`).
 
-{ inputs, pkgs, lib, ... }:
+{ pkgs, lib, ... }:
 
 {
   imports = [
@@ -17,7 +17,6 @@
     ../modules/dwl
     ../modules/printing
     ../modules/docs
-    ../modules/gpu
   ];
   programs.dwl = { enable = true; };
   environment.systemPackages = with pkgs; [ slstatus ];
