@@ -42,7 +42,7 @@
       enable = true;
       enable32Bit = true;
       extraPackages = with pkgs; [
-        vpl-gpu-rt
+        intel-media-sdk
         intel-media-driver
         intel-vaapi-driver
         vaapiVdpau
