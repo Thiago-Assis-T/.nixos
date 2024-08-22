@@ -17,10 +17,15 @@
     ../modules/dwl
     ../modules/printing
     ../modules/docs
+    ../modules/gpu
   ];
   programs.dwl = { enable = true; };
   environment.systemPackages = with pkgs; [ slstatus ];
-
+  programs.gpu = {
+    enable = true;
+    amd = true;
+    intel = false;
+  };
   programs.corectrl = {
     enable = true;
     gpuOverclock = {

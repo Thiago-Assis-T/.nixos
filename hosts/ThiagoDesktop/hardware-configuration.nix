@@ -10,7 +10,7 @@
 
   boot.initrd.availableKernelModules =
     [ "amdgpu" "xhci_pci" "ahci" "nvme" "usbhid" "usb_storage" "sd_mod" ];
-  boot.initrd.kernelModules = [ ];
+  boot.initrd.kernelModules = [ "amdgpu" ];
   boot.kernelModules = [ "kvm-amd" ];
   boot.kernelParams = [ "amd_pstate=active" "amd_pstate_epp=performance" ];
 
@@ -35,14 +35,14 @@
       #gcc.tune = "znver3";
     };
   };
+  graphics = {
+    enable = true;
+    enable32Bit = true;
+    extraPackages = with pkgs; [ amdvlk rocmPackages.clr.icd ];
+    extraPackages32 = with pkgs; [ driversi686Linux.amdvlk ];
+  };
   hardware = {
     enableAllFirmware = true;
-    graphics = {
-      enable = true;
-      enable32Bit = true;
-      extraPackages = with pkgs; [ amdvlk rocmPackages.clr.icd ];
-      extraPackages32 = with pkgs; [ driversi686Linux.amdvlk ];
-    };
     cpu.amd.updateMicrocode =
       lib.mkDefault config.hardware.enableRedistributableFirmware;
   };
