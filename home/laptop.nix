@@ -37,6 +37,7 @@
     homeDirectory = "/home/thiago";
     stateVersion = "23.11";
     packages = with pkgs; [
+      libreoffice-qt6-fresh
       webcord
       youtube-music
       jellyfin-media-player
