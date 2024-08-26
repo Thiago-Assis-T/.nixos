@@ -45,6 +45,7 @@ in {
   config = lib.mkIf cfg.enable {
     environment.systemPackages = [
       cfg.package
+      pkgs.mangohud
       pkgs.wmenu
       pkgs.wbg
       pkgs.grim

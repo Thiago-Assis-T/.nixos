@@ -11,6 +11,11 @@
 
   programs.nnn = { enable = true; };
 
+  programs.mangohud = {
+    enable = true;
+    enableSessionWide = true;
+    #settings = { full = true; };
+  };
   gtk = {
     enable = true;
     iconTheme = {
