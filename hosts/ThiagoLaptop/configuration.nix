@@ -52,7 +52,6 @@
   };
   security.polkit.enable = true;
   services.gnome.gnome-keyring.enable = true;
-  services.seatd.enable = true;
 
   # Select internationalisation properties.
   i18n.defaultLocale = "en_CA.UTF-8";
