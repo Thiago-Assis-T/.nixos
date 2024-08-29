@@ -14,11 +14,11 @@
     };
     wallpaper = {
       url =
-        "https://raw.githubusercontent.com/Narmis-E/onedark-wallpapers/main/minimal/od_ometer.png";
-      #"https://raw.githubusercontent.com/Narmis-E/onedark-wallpapers/main/misc/od_current.png";
-      #"https://raw.githubusercontent.com/Narmis-E/onedark-wallpapers/main/minimal/od_space01.png";
-      #"https://raw.githubusercontent.com/Narmis-E/onedark-wallpapers/main/minimal/od_wave.png";
-      #"https://raw.githubusercontent.com/Narmis-E/onedark-wallpapers/main/misc/od_waves.jpg";
+        #"https://raw.githubusercontent.com/Narmis-E/onedark-wallpapers/main/minimal/od_ometer.png";
+        #"https://raw.githubusercontent.com/Narmis-E/onedark-wallpapers/main/misc/od_current.png";
+        #"https://raw.githubusercontent.com/Narmis-E/onedark-wallpapers/main/minimal/od_space01.png";
+        #"https://raw.githubusercontent.com/Narmis-E/onedark-wallpapers/main/misc/od_waves.jpg";
+        "https://raw.githubusercontent.com/Narmis-E/onedark-wallpapers/main/minimal/od_wave.png";
       flake = false;
     };
     dwl-src = {
