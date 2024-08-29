@@ -40,11 +40,11 @@ in {
           type = "lua";
           config = builtins.readFile ./lua/neorg.lua;
         }
-        {
-          plugin = pkgs.vimPlugins.nvim-treesitter.withAllGrammars;
-          type = "lua";
-          config = builtins.readFile ./lua/treesitter.lua;
-        }
+        #{
+        #  plugin = pkgs.vimPlugins.nvim-treesitter.withAllGrammars;
+        #  type = "lua";
+        #  config = builtins.readFile ./lua/treesitter.lua;
+        #}
         {
           plugin = pkgs.vimPlugins.gitsigns-nvim;
           type = "lua";
