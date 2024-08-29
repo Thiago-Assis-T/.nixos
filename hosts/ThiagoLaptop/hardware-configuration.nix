@@ -17,6 +17,17 @@
     "kernel.sched_cfs_bandwidth_slice_us" = 3000;
     "net.ipv4.tcp_fin_timeout" = 5;
     "vm.max_map_count" = 2147483642;
+    "vm.dirty_background_ratio" = 5;
+    "vm.overcommit_memory" = 2;
+    "fs.file-max" = 2097152;
+    "net.ipv4.ip_local_port_range" = "1024 65535";
+    "net.ipv4.tcp_fastopen" = 3;
+    "net.ipv4.tcp_keepalive_time" = 600;
+    "net.ipv4.tcp_keepalive_probes" = 5;
+    "net.ipv4.tcp_keepalive_intvl" = 15;
+    "net.ipv4.ip_forward" = 0;
+    "net.ipv4.tcp_syncookies" = 1;
+    "net.ipv4.icmp_echo_ignore_broadcasts" = 1;
   };
 
   # Enables DHCP on each ethernet and wireless interface. In case of scripted networking
