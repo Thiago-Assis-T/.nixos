@@ -14,6 +14,11 @@
   boot.extraModulePackages = [ ];
   boot.blacklistedKernelModules = [ ];
   boot.kernelParams = [ "intal_pstate=active" ];
+  boot.kernel.sysctl = {
+    "kernel.sched_cfs_bandwidth_slice_us" = 3000;
+    "net.ipv4.tcp_fin_timeout" = 5;
+    "vm.max_map_count" = 2147483642;
+  };
 
   services.logind.lidSwitch = "ignore";
   services.logind.lidSwitchDocked = "ignore";

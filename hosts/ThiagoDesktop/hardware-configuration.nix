@@ -17,6 +17,11 @@
     "amd_pstate=active"
     "amd_pstate_epp=performance"
   ];
+  boot.kernel.sysctl = {
+    "kernel.sched_cfs_bandwidth_slice_us" = 3000;
+    "net.ipv4.tcp_fin_timeout" = 5;
+    "vm.max_map_count" = 2147483642;
+  };
 
   networking.useDHCP = lib.mkDefault true;
   nix.settings.system-features = [

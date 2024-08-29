@@ -13,6 +13,11 @@
   boot.kernelModules = [ ];
   boot.extraModulePackages = [ ];
   boot.kernelParams = [ "intal_pstate=active" ];
+  boot.kernel.sysctl = {
+    "kernel.sched_cfs_bandwidth_slice_us" = 3000;
+    "net.ipv4.tcp_fin_timeout" = 5;
+    "vm.max_map_count" = 2147483642;
+  };
 
   # Enables DHCP on each ethernet and wireless interface. In case of scripted networking
   # (the default) this is the recommended approach. When using systemd-networkd it's
