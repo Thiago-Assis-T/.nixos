@@ -5,7 +5,7 @@
   };
   services = {
     thermald.enable = true;
-    tlp.enable = true;
+    tlp.enable = false;
     power-profiles-daemon.enable = false;
     system76-scheduler = {
       enable = true;
@@ -17,7 +17,7 @@
         charger = {
           governor = "performance";
           energy_performance_preference = "performance";
-          turbo = "auto";
+          turbo = "always";
         };
         battery = {
           governor = "powersave";
