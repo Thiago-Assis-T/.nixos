@@ -12,7 +12,11 @@
     [ "amdgpu" "xhci_pci" "ahci" "nvme" "usbhid" "usb_storage" "sd_mod" ];
   boot.initrd.kernelModules = [ "amdgpu" ];
   boot.kernelModules = [ "kvm-amd" ];
-  boot.kernelParams = [ "amd_pstate=active" "amd_pstate_epp=performance" ];
+  boot.kernelParams = [
+    "amdgpu.ppfeaturemask=0xffffffff"
+    "amd_pstate=active"
+    "amd_pstate_epp=performance"
+  ];
 
   networking.useDHCP = lib.mkDefault true;
   nix.settings.system-features = [
