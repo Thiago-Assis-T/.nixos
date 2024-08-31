@@ -14,7 +14,7 @@
     autoUpdateApps.enable = true;
     extraApps = {
       inherit (config.services.nextcloud.package.packages.apps)
-        deck cospend contacts calendar tasks notes;
+        office deck cospend contacts calendar tasks notes;
     };
     config = {
       adminpassFile = "/etc/nextcloud-admin-pass";
