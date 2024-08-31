@@ -1,11 +1,6 @@
-{
-  inputs,
-  config,
-  pkgs,
-  lib,
+{ inputs, config, pkgs, lib,
 
-  ...
-}:
+... }:
 
 {
   imports = [
@@ -17,6 +12,7 @@
     ../modules/stylix
     ./modules/multimedia
     ./modules/homepage-dashboard
+    ./modules/nextcloud
   ];
 
   zramSwap.enable = true;
@@ -35,7 +31,8 @@
     };
   };
   networking.hostName = "ThiagoServer"; # Define your hostname.
-  networking.networkmanager.enable = true; # Easiest to use and most distros use this by default.
+  networking.networkmanager.enable =
+    true; # Easiest to use and most distros use this by default.
   networking.useDHCP = lib.mkDefault true;
   networking.firewall.enable = true;
   networking.networkmanager.wifi.powersave = false;
@@ -45,10 +42,7 @@
   # Set your time zone.
   time.timeZone = "America/Sao_Paulo";
 
-  nix.settings.experimental-features = [
-    "nix-command"
-    "flakes"
-  ];
+  nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
   console = {
     font = "Lat2-Terminus16";
@@ -69,11 +63,7 @@
     dates = "02:00";
     flake = inputs.self.outPath;
     randomizedDelaySec = "45min";
-    flags = [
-      "--update-input"
-      "nixpkgs"
-      "-L"
-    ];
+    flags = [ "--update-input" "nixpkgs" "-L" ];
   };
 
   system.stateVersion = "23.11"; # Did you read the comment?

@@ -19,7 +19,7 @@
     "net.ipv4.tcp_fin_timeout" = 5;
     "vm.max_map_count" = 2147483642;
     "vm.dirty_background_ratio" = 5;
-    "vm.overcommit_memory" = 2;
+    "vm.overcommit_memory" = lib.mkForce 2;
     "fs.file-max" = 2097152;
     "net.ipv4.ip_local_port_range" = "1024 65535";
     "net.ipv4.tcp_fastopen" = 3;
