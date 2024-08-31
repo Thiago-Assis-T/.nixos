@@ -19,7 +19,11 @@
     ../modules/docs
   ];
   programs.dwl = { enable = true; };
-  environment.systemPackages = with pkgs; [ slstatus ];
+  environment.systemPackages = with pkgs; [ lact slstatus ];
+
+  systemd.packages = with pkgs; [ lact ];
+  systemd.services.lactd.wantedBy = [ "multi-user.target" ];
+
   programs.corectrl = {
     enable = true;
     gpuOverclock = {
