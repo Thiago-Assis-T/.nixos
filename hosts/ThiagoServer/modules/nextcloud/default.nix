@@ -7,6 +7,7 @@
       image = "collabora/code:latest";
       ports = [ "9980:9980" ];
       environment = {
+        domain = "thiagoserver";
         extra_params = "--o:ssl.enable=false --o:ssl.termination=false";
       };
       extraOptions = [ "--cap-add" "MKNOD" ];
@@ -20,7 +21,7 @@
     database.createLocally = true;
     maxUploadSize = "16G";
     configureRedis = true;
-    hostName = "localhost";
+    hostName = "thiagoserver";
     extraAppsEnable = true;
     autoUpdateApps.enable = true;
     extraApps = {
