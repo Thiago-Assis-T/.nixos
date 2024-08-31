@@ -1,4 +1,5 @@
 { ... }: {
+  networking.firewall.allowedTCPPorts = [ 8082 ];
   services.homepage-dashboard = {
     enable = true;
     settings = {
@@ -70,7 +71,7 @@
           {
             "Jellyfin" = {
               icon = "jellyfin.png";
-              href = "http://thiagoserver:8096";
+              href = "https://jellyfin.thiagohome.com";
               description = "Media Server";
               widget = {
                 type = "jellyfin";
