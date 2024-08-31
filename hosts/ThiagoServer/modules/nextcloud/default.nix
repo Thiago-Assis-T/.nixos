@@ -4,6 +4,8 @@
   services.nextcloud = {
     enable = true;
     package = pkgs.nextcloud29;
+    enableImagemagick = true;
+    #datadir = "/mnt/nextcloud-file";
     database.createLocally = true;
     maxUploadSize = "16G";
     configureRedis = true;
