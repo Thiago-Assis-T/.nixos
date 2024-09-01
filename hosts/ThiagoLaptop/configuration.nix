@@ -16,6 +16,7 @@
     ../modules/dwl
     ../modules/printing
   ];
+
   programs.dwl = {
     enable = true;
     package = pkgs.dwlLaptop;
