@@ -27,7 +27,12 @@
     extraApps = {
       inherit (config.services.nextcloud.package.packages.apps)
         spreed richdocuments deck contacts calendar tasks notes;
-
+      skyprint = pkgs.fetchNextcloudApp {
+        sha256 = "sha256-axgTj8VUbVqtJj0TFXX/UGtVZ8+KLYsQPEQEbzjiUhI=";
+        url =
+          "https://github.com/CGessinger/nextcloud-skyprint/releases/download/v0.1.6/skyprint.tar.gz";
+        license = "gpl3";
+      };
     };
     config = {
       adminpassFile = "/etc/nextcloud-admin-pass";

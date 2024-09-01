@@ -10,6 +10,7 @@
     ../modules/tailscale
     ../modules/powerManagement
     ../modules/stylix
+    ../modules/printing
     ./modules/multimedia
     ./modules/homepage-dashboard
     ./modules/nextcloud
