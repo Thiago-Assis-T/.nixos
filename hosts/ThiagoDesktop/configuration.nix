@@ -12,7 +12,6 @@
     ../modules/bootloader
     ../modules/tailscale
     ../modules/powerManagement
-    ../modules/stylix
     ../modules/loginManager
     ../modules/dwl
     ../modules/printing

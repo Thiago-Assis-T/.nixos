@@ -49,10 +49,6 @@
         "https://codeberg.org/dwl/dwl-patches/raw/branch/main/patches/bar/bar-0.7.patch";
       flake = false;
     };
-    stylix = {
-      url = "github:danth/stylix";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
 
   };
   outputs = inputs@{ nixpkgs, disko, home-manager, ... }: {
@@ -63,7 +59,6 @@
           ./hosts/ThiagoDesktop/configuration.nix
           disko.nixosModules.disko
           home-manager.nixosModules.home-manager
-          inputs.stylix.nixosModules.stylix
           (import ./overlays)
           (import ./overrides)
           {
@@ -82,7 +77,6 @@
           ./hosts/ThiagoServer/configuration.nix
           disko.nixosModules.disko
           home-manager.nixosModules.home-manager
-          inputs.stylix.nixosModules.stylix
           (import ./overlays)
           (import ./overrides)
           {
@@ -101,7 +95,6 @@
           ./hosts/ThiagoLaptop/configuration.nix
           disko.nixosModules.disko
           home-manager.nixosModules.home-manager
-          inputs.stylix.nixosModules.stylix
           (import ./overlays)
           (import ./overrides)
           {
