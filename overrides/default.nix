@@ -9,6 +9,7 @@ let
 
 in {
   nixpkgs.config.packageOverrides = pkgs: {
+    nerdfonts = pkgs.nerdfonts.override { fonts = [ "JetBrainsMono" ]; };
     intel-vaapi-driver =
       pkgs.intel-vaapi-driver.override { enableHybridCodec = true; };
     nnn = pkgs.nnn.override {
