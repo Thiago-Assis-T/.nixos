@@ -55,8 +55,14 @@
 
   # Select internationalisation properties.
   i18n.defaultLocale = "en_CA.UTF-8";
-  fonts.fontconfig.enable = true;
-  fonts.fontconfig.antialias = true;
+  fonts = {
+    fonts = with pkgs; [ nerdfonts ];
+    fontconfig = {
+      enable = true;
+      antialias = true;
+      defaultFonts = { monospace = [ "JetBrainsMono" ]; };
+    };
+  };
   fonts.fontDir.enable = true;
   console = {
     font = "Lat2-Terminus16";

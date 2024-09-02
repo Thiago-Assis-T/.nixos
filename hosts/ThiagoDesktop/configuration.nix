@@ -102,9 +102,15 @@
   };
   time.timeZone = "America/Sao_Paulo";
   i18n.defaultLocale = "en_CA.UTF-8";
-  fonts.fontconfig.enable = true;
-  fonts.fontconfig.antialias = true;
-  fonts.fontDir.enable = true;
+  fonts = {
+    fonts = with pkgs; [ nerdfonts ];
+    fontconfig = {
+      enable = true;
+      antialias = true;
+      defaultFonts = { monospace = [ "JetBrainsMono" ]; };
+    };
+
+  };
   console = {
     font = "Lat2-Terminus16";
     keyMap = "br-abnt2";

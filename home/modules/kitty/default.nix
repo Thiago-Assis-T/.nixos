@@ -11,6 +11,8 @@ in {
       enable = true;
       shellIntegration.enableBashIntegration = true;
       extraConfig = ''
+        font_family JetBrainsMono Nerd Font
+
         linux_display_server wayland
         # Colors
 
