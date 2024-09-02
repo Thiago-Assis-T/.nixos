@@ -52,6 +52,20 @@
       #gcc.tune = "skylake";
     };
   };
+
+  services.xserver.videoDrivers = [ "nvidia" ];
+  environment.noXlibs = true;
+  hardware.nvidia = {
+    modesetting.enable = true;
+    powerManagement.enable = true;
+    open = false;
+    package = config.boot.kernelPackages.nvidiaPackages.beta;
+    prime = {
+      sync.enable = true;
+      intelBusId = "PCI:0:2:0";
+      nvidiaBusId = "PCI:01:0:0";
+    };
+  };
   hardware = {
     enableAllFirmware = true;
     graphics = {

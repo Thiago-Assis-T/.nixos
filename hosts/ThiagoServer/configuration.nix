@@ -18,18 +18,6 @@
   zramSwap.enable = true;
 
   systemd.services.NetworkManager-wait-online.enable = false;
-  services.xserver.videoDrivers = [ "nvidia" ];
-  hardware.nvidia = {
-    modesetting.enable = true;
-    powerManagement.enable = true;
-    open = false;
-    package = config.boot.kernelPackages.nvidiaPackages.beta;
-    prime = {
-      sync.enable = true;
-      intelBusId = "PCI:0:2:0";
-      nvidiaBusId = "PCI:01:0:0";
-    };
-  };
   networking.hostName = "ThiagoServer"; # Define your hostname.
   networking.networkmanager.enable =
     true; # Easiest to use and most distros use this by default.
