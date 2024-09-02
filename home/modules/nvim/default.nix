@@ -33,6 +33,7 @@ in {
       ];
       extraLuaConfig = builtins.readFile ./lua/extraConfig.lua;
       plugins = [
+        pkgs.vimPlugins.onedarkpro-nvim
         pkgs.vimPlugins.plenary-nvim
         pkgs.vimPlugins.neorg-telescope
         {

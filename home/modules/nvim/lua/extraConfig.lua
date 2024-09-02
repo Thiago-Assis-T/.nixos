@@ -11,6 +11,8 @@ vim.opt.shiftwidth = 2
 vim.opt.updatetime = 300
 vim.opt.scrolloff = 10
 
+vim.cmd("colorscheme onedark")
+
 vim.api.nvim_create_autocmd("TextYankPost", {
 	desc = "Highlight when yanking (copying) text",
 	group = vim.api.nvim_create_augroup("kickstart-highlight-yank", { clear = true }),
