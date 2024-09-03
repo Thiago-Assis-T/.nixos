@@ -19,11 +19,10 @@
 
   systemd.services.NetworkManager-wait-online.enable = false;
   networking.hostName = "ThiagoServer"; # Define your hostname.
-  networking.networkmanager.enable =
-    true; # Easiest to use and most distros use this by default.
+  #networking.networkmanager.enable = true; # Easiest to use and most distros use this by default.
   networking.useDHCP = lib.mkDefault true;
   networking.firewall.enable = true;
-  networking.networkmanager.wifi.powersave = false;
+  #networking.networkmanager.wifi.powersave = false;
 
   services.fwupd.enable = true;
 

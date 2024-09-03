@@ -19,7 +19,7 @@
     "net.ipv4.tcp_fin_timeout" = 5;
     "vm.max_map_count" = 2147483642;
     "vm.dirty_background_ratio" = 5;
-    "vm.overcommit_memory" = lib.mkForce 2;
+    #"vm.overcommit_memory" = lib.mkForce 2;
     "fs.file-max" = 2097152;
     "net.ipv4.ip_local_port_range" = "1024 65535";
     "net.ipv4.tcp_fastopen" = 3;
@@ -53,31 +53,29 @@
     };
   };
 
-  services.xserver.videoDrivers = [ "nvidia" ];
-  environment.noXlibs = true;
-  hardware.nvidia = {
-    modesetting.enable = true;
-    powerManagement.enable = true;
-    open = false;
-    package = config.boot.kernelPackages.nvidiaPackages.beta;
-    prime = {
-      sync.enable = true;
-      intelBusId = "PCI:0:2:0";
-      nvidiaBusId = "PCI:01:0:0";
-    };
-  };
+  #services.xserver.videoDrivers = [ "nvidia" ];
+  #environment.noXlibs = true;
+  #hardware.nvidia = {
+  #  modesetting.enable = true;
+  #  powerManagement.enable = true;
+  #  open = false;
+  #  package = config.boot.kernelPackages.nvidiaPackages.beta;
+  #  prime = {
+  #    sync.enable = true;
+  #    intelBusId = "PCI:0:2:0";
+  #    nvidiaBusId = "PCI:01:0:0";
+  #  };
+  #};
   hardware = {
     enableAllFirmware = true;
     graphics = {
       enable = true;
       enable32Bit = true;
       extraPackages = with pkgs; [
-        intel-media-sdk
         intel-media-driver
-        intel-vaapi-driver
-        vaapiVdpau
-        libvdpau-va-gl
-        intel-compute-runtime
+        intel-compute-runtime # OpenCL filter support (hardware tonemapping and subtitle burn-in)
+        intel-media-sdk # QSV up to 11th gen
+
       ];
     };
     cpu.intel.updateMicrocode =
