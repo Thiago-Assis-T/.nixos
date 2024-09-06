@@ -20,6 +20,8 @@
   programs.dwl = { enable = true; };
   environment.systemPackages = with pkgs; [ slstatus ];
 
+  programs.nix-ld.enable = true;
+
   programs.corectrl = {
     enable = true;
     gpuOverclock = {
