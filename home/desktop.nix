@@ -41,7 +41,6 @@
       zathura
       libreoffice-qt6-fresh
       pistol
-      jellyfin-media-player
       floorp
       pavucontrol
       freecad
