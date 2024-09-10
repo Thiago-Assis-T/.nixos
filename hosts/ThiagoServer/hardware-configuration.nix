@@ -48,8 +48,9 @@
     hostPlatform = {
       system = "x86_64-linux";
       config = "x86_64-unknown-linux-gnu";
-      #gcc.arch = "skylake";
-      #gcc.tune = "skylake";
+      #config = "x86_64-unknown-linux-musl";
+      gcc.arch = "skylake";
+      gcc.tune = "skylake";
     };
   };
 
