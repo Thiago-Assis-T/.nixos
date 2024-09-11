@@ -1,12 +1,9 @@
 { inputs, pkgs, ... }:
-
 let
-
   statusnotifier-systray-gtk4 =
     pkgs.callPackage ./packages/statusnotifier-systray-gtk4.nix {
       source = inputs.statusnotifier-systray-gtk4-src;
     };
-
 in {
   nixpkgs.config.packageOverrides = pkgs: {
     #nerdfonts = pkgs.nerdfonts.override { fonts = [ "JetBrainsMono" ]; };
@@ -86,5 +83,13 @@ in {
         echo "${dwlSession}" > $out/share/wayland-sessions/dwl.desktop
       '';
     })).override { configH = ./configs/dwlLaptop.h; };
+    haskellPackages = pkgs.haskellPackages.override {
+      overrides = hsSelf: hsSuper: {
+        cryptonite = pkgs.haskell.lib.overrideCabal hsSuper.cryptonite
+          (oa: { doCheck = false; });
+        x509-validation = pkgs.haskell.lib.overrideCabal hsSuper.x509-validation
+          (oa: { doCheck = false; });
+      };
+    };
   };
 }
