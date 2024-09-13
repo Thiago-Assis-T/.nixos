@@ -18,6 +18,11 @@
     #              "test_validate_transcendentals"
     #            ];
     #          });
+    #          meson = pyprev.scipy.overridePythonAttrs (oldAttrs: {
+    #            doCheck = false;
+    #            doInstallCheck = false;
+    #            dontCheck = true;
+    #          });
     #          scipy = pyprev.scipy.overridePythonAttrs (oldAttrs: {
     #            doCheck = false;
     #            doInstallCheck = false;
