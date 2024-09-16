@@ -55,8 +55,9 @@
 
   # Select internationalisation properties.
   i18n.defaultLocale = "en_CA.UTF-8";
+
   fonts = {
-    fonts = with pkgs; [ nerdfonts ];
+    packages = with pkgs; [ nerdfonts ];
     fontconfig = {
       enable = true;
       antialias = true;
