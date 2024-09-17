@@ -50,8 +50,8 @@
     dates = "02:00";
     flake = inputs.self.outPath;
     randomizedDelaySec = "45min";
-    flags = [ "--update-input" "nixpkgs" "-L" ];
+    flags = [ "--update-input" "nixpkgs" "--no-write-lock-file" "-L" ];
   };
 
-  system.stateVersion = "23.11"; # Did you read the comment?
+  system.stateVersion = "23.11";
 }
