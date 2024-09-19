@@ -60,6 +60,19 @@
   services.xserver.videoDrivers = [ "amdgpu" ];
   hardware = {
     enableAllFirmware = true;
+    amdgpu.amdvlk = {
+      enable = true;
+      supportExperimental.enable = true;
+      support32Bit.enable = true;
+      settings = {
+        AllowVkPipelineCachingToDisk = 1;
+        EnableVmAlwaysValid = 1;
+        IFH = 0;
+        IdleAfterSubmitGpuMask = 1;
+        ShaderCacheMode = 1;
+      };
+
+    };
     graphics = {
       enable = true;
       enable32Bit = true;

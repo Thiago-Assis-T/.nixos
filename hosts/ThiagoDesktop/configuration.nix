@@ -22,14 +22,6 @@
 
   programs.nix-ld.enable = true;
 
-  programs.corectrl = {
-    enable = true;
-    gpuOverclock = {
-      enable = true;
-      ppfeaturemask = "0xffffffff";
-    };
-  };
-
   zramSwap.enable = true;
   services.openssh.enable = true;
 
@@ -49,7 +41,6 @@
         softrealtime = "on";
       };
 
-      # Warning: GPU optimisations have the potential to damage hardware
       gpu = {
         apply_gpu_optimisations = "accept-responsibility";
         gpu_device = 1;

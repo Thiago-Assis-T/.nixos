@@ -46,6 +46,7 @@
       freecad
       webcord-vencord
       youtube-music
+      cpu-x
     ];
 
     file = {

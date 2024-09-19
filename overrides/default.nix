@@ -86,6 +86,8 @@ in {
     })).override { configH = ./configs/dwlLaptop.h; };
     haskellPackages = pkgs.haskellPackages.override {
       overrides = hsSelf: hsSuper: {
+        tls =
+          pkgs.haskell.lib.overrideCabal hsSuper.tls (oa: { doCheck = false; });
         crypton = pkgs.haskell.lib.overrideCabal hsSuper.crypton
           (oa: { doCheck = false; });
         crypton-x509-validation =
