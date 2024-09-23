@@ -6,7 +6,6 @@ let
     };
 in {
   nixpkgs.config.packageOverrides = pkgs: {
-    #nerdfonts = pkgs.nerdfonts.override { fonts = [ "JetBrainsMono" ]; };
     openldap = pkgs.openldap.overrideAttrs { doCheck = false; };
     redis = pkgs.redis.overrideAttrs { doCheck = false; };
     intel-vaapi-driver =

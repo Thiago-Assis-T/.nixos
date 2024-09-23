@@ -39,11 +39,10 @@
     stateVersion = "23.11";
     packages = with pkgs; [
       zathura
-      libreoffice-qt6-fresh
       pistol
       floorp
       pavucontrol
-      freecad
+      freecad-wayland
       webcord-vencord
       youtube-music
       cpu-x

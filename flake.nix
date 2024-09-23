@@ -63,7 +63,6 @@
           {
             home-manager = {
               useGlobalPkgs = true;
-              useUserPackages = true;
               extraSpecialArgs = { inherit inputs; };
               users.thiago = import ./home/desktop.nix;
             };
@@ -81,7 +80,6 @@
           {
             home-manager = {
               useGlobalPkgs = true;
-              useUserPackages = true;
               extraSpecialArgs = { inherit inputs; };
               users.thiago = import ./home/server.nix;
             };
@@ -99,7 +97,6 @@
           {
             home-manager = {
               useGlobalPkgs = true;
-              useUserPackages = true;
               extraSpecialArgs = { inherit inputs; };
               users.thiago = import ./home/laptop.nix;
             };
