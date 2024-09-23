@@ -46,13 +46,12 @@
     config = {
       allowUnfree = true;
       allowBroken = true;
-
     };
     hostPlatform = {
       system = "x86_64-linux";
       config = "x86_64-unknown-linux-gnu";
-      gcc.arch = "znver3";
-      gcc.tune = "znver3";
+      #gcc.arch = "znver3";
+      #gcc.tune = "znver3";
     };
   };
 
