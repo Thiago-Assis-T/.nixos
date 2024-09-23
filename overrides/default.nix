@@ -6,8 +6,6 @@ let
     };
 in {
   nixpkgs.config.packageOverrides = pkgs: {
-    openldap = pkgs.openldap.overrideAttrs { doCheck = false; };
-    redis = pkgs.redis.overrideAttrs { doCheck = false; };
     intel-vaapi-driver =
       pkgs.intel-vaapi-driver.override { enableHybridCodec = true; };
     nnn = pkgs.nnn.override {
@@ -83,22 +81,5 @@ in {
         echo "${dwlSession}" > $out/share/wayland-sessions/dwl.desktop
       '';
     })).override { configH = ./configs/dwlLaptop.h; };
-    haskellPackages = pkgs.haskellPackages.override {
-      overrides = hsSelf: hsSuper: {
-        tls =
-          pkgs.haskell.lib.overrideCabal hsSuper.tls (oa: { doCheck = false; });
-        crypton = pkgs.haskell.lib.overrideCabal hsSuper.crypton
-          (oa: { doCheck = false; });
-        crypton-x509-validation =
-          pkgs.haskell.lib.overrideCabal hsSuper.crypton-x509-validation
-          (oa: { doCheck = false; });
-        typist = pkgs.haskell.lib.overrideCabal hsSuper.typist
-          (oa: { doCheck = false; });
-        cryptonite = pkgs.haskell.lib.overrideCabal hsSuper.cryptonite
-          (oa: { doCheck = false; });
-        x509-validation = pkgs.haskell.lib.overrideCabal hsSuper.x509-validation
-          (oa: { doCheck = false; });
-      };
-    };
   };
 }
