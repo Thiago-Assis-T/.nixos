@@ -12,7 +12,7 @@
     ../modules/printing
     ./modules/multimedia
     ./modules/homepage-dashboard
-    ./modules/nextcloud
+    #./modules/nextcloud
   ];
 
   zramSwap.enable = true;
