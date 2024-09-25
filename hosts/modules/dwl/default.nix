@@ -8,7 +8,7 @@ let
       # Starts the notification
       exec ${pkgs.swaynotificationcenter}/bin/swaync &
       # Wlsunset for the screen light
-      exec ${pkgs.wlsunset}/bin/wlsunset -l 22.8 -L 43.1 &
+      #exec ${pkgs.wlsunset}/bin/wlsunset -l 22.8 -L 43.1 &
 
       exec ${pkgs.polkit_gnome}/libexec/polkit-gnome-authentication-agent-1 &
     '';

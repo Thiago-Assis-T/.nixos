@@ -46,6 +46,7 @@
       webcord-vencord
       youtube-music
       cpu-x
+      libreoffice-qt6-fresh
     ];
 
     file = {
