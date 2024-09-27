@@ -43,7 +43,8 @@
       floorp
       pavucontrol
       freecad-wayland
-      webcord-vencord
+      #webcord-vencord
+      discord-canary
       youtube-music
       cpu-x
       libreoffice-qt6-fresh
