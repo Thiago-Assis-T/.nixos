@@ -14,6 +14,10 @@ in {
       withNodeJs = true;
       withPython3 = true;
       extraPackages = with pkgs; [
+        python312Packages.python-lsp-server
+        pylint
+        black
+
         bash-language-server
         shellcheck
         beautysh
@@ -35,11 +39,11 @@ in {
       plugins = [
         pkgs.vimPlugins.onedarkpro-nvim
         pkgs.vimPlugins.plenary-nvim
-        #{
-        #  plugin = pkgs.vimPlugins.nvim-treesitter.withAllGrammars;
-        #  type = "lua";
-        #  config = builtins.readFile ./lua/treesitter.lua;
-        #}
+        {
+          plugin = pkgs.vimPlugins.nvim-treesitter.withAllGrammars;
+          type = "lua";
+          config = builtins.readFile ./lua/treesitter.lua;
+        }
         {
           plugin = pkgs.vimPlugins.gitsigns-nvim;
           type = "lua";

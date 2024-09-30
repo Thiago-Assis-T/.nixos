@@ -73,6 +73,9 @@ lspconfig.bashls.setup({
 lspconfig.nixd.setup({
 	capabilities = capabilities,
 })
+lspconfig.pylsp.setup({
+	capabilities = capabilities,
+})
 lspconfig.clangd.setup({
 	capabilities = capabilities,
 })
