@@ -69,11 +69,6 @@ in {
           config = "require'nvim-web-devicons'.setup {} ";
         }
         {
-          plugin = pkgs.vimPlugins.nvim-web-devicons;
-          type = "lua";
-          config = "require'nvim-web-devicons'.setup {} ";
-        }
-        {
           plugin = pkgs.vimPlugins.lualine-nvim;
           type = "lua";
           config = builtins.readFile ./lua/lualine.lua;
