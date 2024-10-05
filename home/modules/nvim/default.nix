@@ -1,6 +1,13 @@
-{ config, pkgs, lib, ... }:
-let cfg = config.programs.my-nvim;
-in {
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}:
+let
+  cfg = config.programs.my-nvim;
+in
+{
   options.programs.my-nvim = {
     enable = lib.mkEnableOption (lib.mdDoc "my-nvim");
   };
@@ -29,16 +36,24 @@ in {
         ripgrep
 
         nixd
-        nixfmt-classic
+        nixfmt-rfc-style
 
         lua-language-server
         stylua
         luajitPackages.luacheck
+
+        texliveFull
       ];
       extraLuaConfig = builtins.readFile ./lua/extraConfig.lua;
       plugins = [
         pkgs.vimPlugins.onedarkpro-nvim
         pkgs.vimPlugins.plenary-nvim
+        {
+          plugin = pkgs.vimPlugins.vimtex;
+          type = "lua";
+          config = builtins.readFile ./lua/vimtex.lua;
+
+        }
         {
           plugin = pkgs.vimPlugins.nvim-treesitter.withAllGrammars;
           type = "lua";
