@@ -2,12 +2,14 @@
 
   imports = [ ./modules ];
 
-  programs.my-nvim.enable = true;
-  programs.my-shell.enable = true;
-  programs.my-git.enable = true;
-  programs.my-swaync.enable = true;
-  programs.my-kitty.enable = true;
-  programs.my-tmux.enable = true;
+  programs = {
+    my-nvim.enable = true;
+    my-shell.enable = true;
+    my-git.enable = true;
+    my-swaync.enable = true;
+    my-kitty.enable = true;
+    my-tmux.enable = true;
+  };
 
   programs.nnn = { enable = true; };
 
@@ -38,7 +40,6 @@
     homeDirectory = "/home/thiago";
     stateVersion = "23.11";
     packages = with pkgs; [
-      zathura
       pistol
       floorp
       pavucontrol
