@@ -43,6 +43,10 @@ in
         luajitPackages.luacheck
 
         texliveFull
+        ltex-ls
+        texlab
+        xdotool
+        pstree
       ];
       extraLuaConfig = builtins.readFile ./lua/extraConfig.lua;
       plugins = [
@@ -65,6 +69,7 @@ in
           config = ''require("gitsigns").setup() '';
         }
         pkgs.vimPlugins.luasnip
+        pkgs.vimPlugins.cmp_luasnip
         pkgs.vimPlugins.friendly-snippets
         pkgs.vimPlugins.cmp-nvim-lsp
         {

@@ -66,7 +66,7 @@ lspconfig.lua_ls.setup({
 		},
 	},
 })
-
+lspconfig.texlab.setup({})
 lspconfig.bashls.setup({
 	capabilities = capabilities,
 })

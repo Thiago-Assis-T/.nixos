@@ -4,6 +4,7 @@ require("conform").setup({
 		nix = { "nixfmt" },
 		c = { "clang-format" },
 		bash = { "beautysh" },
+		latex = { "latexindent" },
 	},
 	notify_on_error = false,
 	format_on_save = {
