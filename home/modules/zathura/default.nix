@@ -1,7 +1,9 @@
 { config, lib, ... }:
-let cfg = config.programs.my-git;
+let
+  cfg = config.programs.my-git;
 
-in {
+in
+{
 
   options.programs.my-zathura = {
     enable = lib.mkEnableOption (lib.mdDoc "my-zathura");
@@ -9,8 +11,7 @@ in {
   config = lib.mkIf cfg.enable {
     programs.zathura = {
       enable = true;
-      extraConfig = builtins.readFile ./zathurarc;
-
+      #extraConfig = builtins.readFile ./zathurarc;
     };
 
   };
