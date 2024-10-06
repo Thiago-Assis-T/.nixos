@@ -50,6 +50,15 @@ in
       ];
       extraLuaConfig = builtins.readFile ./lua/extraConfig.lua;
       plugins = [
+        pkgs.vimPlugins.nvim-dap-ui
+        pkgs.vimPlugins.nvim-dap-virtual-text
+        pkgs.vimPlugins.nvim-nio
+        {
+          plugin = pkgs.vimPlugins.nvim-dap;
+          type = "lua";
+          config = builtins.readFile ./lua/debugger.lua;
+        }
+
         pkgs.vimPlugins.onedarkpro-nvim
         pkgs.vimPlugins.plenary-nvim
         {
