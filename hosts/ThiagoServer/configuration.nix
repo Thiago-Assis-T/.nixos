@@ -1,6 +1,11 @@
-{ inputs, config, pkgs, lib,
+{
+  inputs,
+  config,
+  pkgs,
+  lib,
 
-... }:
+  ...
+}:
 
 {
   imports = [
@@ -12,7 +17,6 @@
     ../modules/printing
     ./modules/multimedia
     ./modules/homepage-dashboard
-    #./modules/nextcloud
   ];
 
   zramSwap.enable = true;
@@ -29,7 +33,10 @@
   # Set your time zone.
   time.timeZone = "America/Sao_Paulo";
 
-  nix.settings.experimental-features = [ "nix-command" "flakes" ];
+  nix.settings.experimental-features = [
+    "nix-command"
+    "flakes"
+  ];
 
   console = {
     font = "Lat2-Terminus16";
