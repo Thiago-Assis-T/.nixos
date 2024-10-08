@@ -1,4 +1,5 @@
-{ inputs, pkgs, ... }: {
+{ inputs, pkgs, ... }:
+{
 
   imports = [ ./modules ];
 
@@ -11,7 +12,9 @@
     my-tmux.enable = true;
   };
 
-  programs.nnn = { enable = true; };
+  programs.nnn = {
+    enable = true;
+  };
 
   programs.mangohud = {
     enable = true;
@@ -44,8 +47,8 @@
       floorp
       pavucontrol
       freecad-wayland
-      #webcord-vencord
-      discord-canary
+      webcord-vencord
+      #discord-canary
       youtube-music
       cpu-x
       libreoffice-qt6-fresh
