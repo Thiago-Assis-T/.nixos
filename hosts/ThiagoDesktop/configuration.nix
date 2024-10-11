@@ -2,7 +2,12 @@
 # your system. Help is available in the configuration.nix(5) man page, on
 # https://search.nixos.org/options and in the NixOS manual (`nixos-help`).
 
-{ inputs, pkgs, lib, ... }:
+{
+  inputs,
+  pkgs,
+  lib,
+  ...
+}:
 
 {
   imports = [
@@ -17,7 +22,13 @@
     ../modules/printing
     ../modules/docs
   ];
-  programs.dwl = { enable = true; };
+  environment.etc."mdadm.conf".text = ''
+    MAILADDR root
+  '';
+
+  programs.dwl = {
+    enable = true;
+  };
   environment.systemPackages = with pkgs; [ slstatus ];
 
   programs.nix-ld.enable = true;
@@ -48,10 +59,8 @@
       };
 
       custom = {
-        start = ''
-          ${pkgs.libnotify}/bin/notify-send  -a Gamemode Gamemode "Gamemode has started."'';
-        end = ''
-          ${pkgs.libnotify}/bin/notify-send  -a Gamemode Gamemode "Gamemode has ended."'';
+        start = ''${pkgs.libnotify}/bin/notify-send  -a Gamemode Gamemode "Gamemode has started."'';
+        end = ''${pkgs.libnotify}/bin/notify-send  -a Gamemode Gamemode "Gamemode has ended."'';
       };
     };
   };
@@ -84,11 +93,16 @@
 
   services.fwupd.enable = true;
 
-  nix.settings.experimental-features = [ "nix-command" "flakes" ];
+  nix.settings.experimental-features = [
+    "nix-command"
+    "flakes"
+  ];
   networking.hostName = "ThiagoDesktop"; # Define your hostname.
   networking.networkmanager = {
     enable = true;
-    wifi = { powersave = false; };
+    wifi = {
+      powersave = false;
+    };
   };
   time.timeZone = "America/Sao_Paulo";
   i18n.defaultLocale = "en_CA.UTF-8";
@@ -97,7 +111,9 @@
     fontconfig = {
       enable = true;
       antialias = true;
-      defaultFonts = { monospace = [ "JetBrainsMono" ]; };
+      defaultFonts = {
+        monospace = [ "JetBrainsMono" ];
+      };
     };
 
   };
