@@ -5,6 +5,7 @@ require("conform").setup({
 		c = { "clang-format" },
 		bash = { "beautysh" },
 		latex = { "latexindent" },
+		python = { "yapf" },
 	},
 	notify_on_error = false,
 	format_on_save = {

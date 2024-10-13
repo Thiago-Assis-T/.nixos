@@ -23,7 +23,7 @@ in
       extraPackages = with pkgs; [
         python312Packages.python-lsp-server
         pylint
-        black
+        yapf
 
         bash-language-server
         shellcheck
