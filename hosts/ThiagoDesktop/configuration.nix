@@ -139,8 +139,6 @@
       "--update-input"
       "nixpkgs"
       "--no-write-lock-file"
-      "--max-jobs"
-      "1"
       "-L"
     ];
   };
