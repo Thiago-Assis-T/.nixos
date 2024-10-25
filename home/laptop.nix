@@ -1,4 +1,5 @@
-{ inputs, pkgs, ... }: {
+{ inputs, pkgs, ... }:
+{
 
   imports = [ ./modules ];
 
@@ -43,6 +44,7 @@
       jellyfin-media-player
       floorp
       pavucontrol
+      popsicle
     ];
 
     file = {
