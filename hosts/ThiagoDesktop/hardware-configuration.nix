@@ -4,81 +4,49 @@
 { config, lib, pkgs, modulesPath, ... }:
 
 {
-  imports = [ (modulesPath + "/installer/scan/not-detected.nix") ];
+  imports =
+    [ (modulesPath + "/installer/scan/not-detected.nix")
+    ];
 
-  boot.kernelPackages = pkgs.linuxPackages_zen;
-
-  boot.initrd.availableKernelModules =
-    [ "amdgpu" "xhci_pci" "ahci" "nvme" "usbhid" "usb_storage" "sd_mod" ];
-  boot.initrd.kernelModules = [ "amdgpu" ];
+  boot.initrd.availableKernelModules = [ "xhci_pci" "ahci" "nvme" "usbhid" "usb_storage" "sd_mod" ];
+  boot.initrd.kernelModules = [ ];
   boot.kernelModules = [ "kvm-amd" ];
-  boot.kernelParams = [
-    "amdgpu.ppfeaturemask=0xffffffff"
-    "amd_pstate=active"
-    "amd_pstate_epp=performance"
-  ];
-  boot.kernel.sysctl = {
-    "kernel.sched_cfs_bandwidth_slice_us" = 3000;
-    "net.ipv4.tcp_fin_timeout" = 5;
-    "vm.max_map_count" = 2147483642;
-    "vm.dirty_background_ratio" = 5;
-    "vm.overcommit_memory" = 2;
-    "fs.file-max" = 2097152;
-    "net.ipv4.ip_local_port_range" = "1024 65535";
-    "net.ipv4.tcp_fastopen" = 3;
-    "net.ipv4.tcp_keepalive_time" = 600;
-    "net.ipv4.tcp_keepalive_probes" = 5;
-    "net.ipv4.tcp_keepalive_intvl" = 15;
-    "net.ipv4.ip_forward" = 0;
-    "net.ipv4.tcp_syncookies" = 1;
-    "net.ipv4.icmp_echo_ignore_broadcasts" = 1;
-  };
+  boot.extraModulePackages = [ ];
 
+  fileSystems."/" =
+    { device = "/dev/disk/by-uuid/db0a4425-5d2b-4e01-976b-9b93bd84d1a6";
+      fsType = "btrfs";
+      options = [ "subvol=root""compress=zstd" ];
+    };
+
+  fileSystems."/home" =
+    { device = "/dev/disk/by-uuid/db0a4425-5d2b-4e01-976b-9b93bd84d1a6";
+      fsType = "btrfs";
+      options = [ "subvol=home""compress=zstd" ];
+    };
+
+  fileSystems."/nix" =
+    { device = "/dev/disk/by-uuid/db0a4425-5d2b-4e01-976b-9b93bd84d1a6";
+      fsType = "btrfs";
+      options = [ "subvol=nix""compress=zstd""noatime" ];
+    };
+
+  fileSystems."/boot" =
+    { device = "/dev/disk/by-uuid/12CE-A600";
+      fsType = "vfat";
+      options = [ "fmask=0022" "dmask=0022" ];
+    };
+
+  swapDevices = [ ];
+
+  # Enables DHCP on each ethernet and wireless interface. In case of scripted networking
+  # (the default) this is the recommended approach. When using systemd-networkd it's
+  # still possible to use this option, but it's recommended to use it in conjunction
+  # with explicit per-interface declarations with `networking.interfaces.<interface>.useDHCP`.
   networking.useDHCP = lib.mkDefault true;
-  nix.settings.system-features = [
-    "nixos-test"
-    "benchmark"
-    "big-parallel"
-    "gccarch-znver3"
-    "gcctune-znver3"
-  ];
-  nixpkgs = {
-    config = {
-      allowUnfree = true;
-      allowBroken = true;
-    };
-    hostPlatform = {
-      system = "x86_64-linux";
-      config = "x86_64-unknown-linux-gnu";
-      #gcc.arch = "znver3";
-      #gcc.tune = "znver3";
-    };
-  };
+  # networking.interfaces.enp8s0.useDHCP = lib.mkDefault true;
+  # networking.interfaces.wlp7s0.useDHCP = lib.mkDefault true;
 
-  services.xserver.enable = true;
-  services.xserver.videoDrivers = [ "amdgpu" ];
-  hardware = {
-    enableAllFirmware = true;
-    amdgpu.amdvlk = {
-      enable = true;
-      supportExperimental.enable = true;
-      support32Bit.enable = true;
-      settings = {
-        AllowVkPipelineCachingToDisk = 1;
-        EnableVmAlwaysValid = 1;
-        IFH = 0;
-        IdleAfterSubmitGpuMask = 1;
-        ShaderCacheMode = 1;
-      };
-
-    };
-    graphics = {
-      enable = true;
-      enable32Bit = true;
-      extraPackages = with pkgs; [ amdvlk ];
-      extraPackages32 = with pkgs; [ driversi686Linux.amdvlk ];
-    };
-    cpu.amd.updateMicrocode =
-      lib.mkDefault config.hardware.enableRedistributableFirmware;
-  };
+  nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
+  hardware.cpu.amd.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
 }

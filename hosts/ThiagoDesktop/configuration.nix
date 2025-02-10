@@ -2,146 +2,139 @@
 # your system. Help is available in the configuration.nix(5) man page, on
 # https://search.nixos.org/options and in the NixOS manual (`nixos-help`).
 
-{
-  inputs,
-  pkgs,
-  lib,
-  ...
-}:
+{ config, lib, pkgs, ... }:
 
 {
-  imports = [
-    # Include the results of the hardware scan.
-    ./hardware-configuration.nix
-    ./disk-config.nix
-    ../modules/bootloader
-    ../modules/tailscale
-    ../modules/powerManagement
-    ../modules/loginManager
-    ../modules/dwl
-    ../modules/printing
-    ../modules/docs
-  ];
-  environment.etc."mdadm.conf".text = ''
-    MAILADDR root
-  '';
+  imports =
+    [ # Include the results of the hardware scan.
+      ../modules/bootloader
+      ../modules/powerManagement
+      ./hardware-configuration.nix
+    ];
 
-  programs.dwl = {
-    enable = true;
-  };
-  environment.systemPackages = with pkgs; [ slstatus ];
-
-  programs.nix-ld.enable = true;
 
   zramSwap.enable = true;
-  services.openssh.enable = true;
 
-  services.xserver.excludePackages = with pkgs; [ xterm ];
-  services.xserver.displayManager.lightdm.enable = false;
+  services.btrfs.autoScrub = {
+    enable = true;
+    interval = "weekly";
+    fileSystems = [ "/" ];
+  };
 
+  nix.settings.experimental-features = [ "nix-command" "flakes" ];
+ 
+  networking.hostName = "ThiagoDesktop"; # Define your hostname.
+  # Pick only one of the below networking options.
+  # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
+  networking.networkmanager.enable = true;  # Easiest to use and most distros use this by default.
   systemd.services.NetworkManager-wait-online.enable = false;
 
-  programs.gamemode = {
-    enable = true;
-    enableRenice = true;
-    settings = {
-      general = {
-        renice = 10;
-        desiredgov = "performance";
-        igpu_desiredgov = "performance";
-        softrealtime = "on";
-      };
-
-      gpu = {
-        apply_gpu_optimisations = "accept-responsibility";
-        gpu_device = 1;
-        amd_performance_level = "high";
-      };
-
-      custom = {
-        start = ''${pkgs.libnotify}/bin/notify-send  -a Gamemode Gamemode "Gamemode has started."'';
-        end = ''${pkgs.libnotify}/bin/notify-send  -a Gamemode Gamemode "Gamemode has ended."'';
-      };
-    };
-  };
-
-  programs.gamescope = {
-    enable = true;
-    capSysNice = true;
-  };
-
-  hardware.steam-hardware.enable = true;
-  programs.steam = {
-    enable = true;
-    extraCompatPackages = with pkgs; [ proton-ge-bin ];
-    extest.enable = true;
-    localNetworkGameTransfers.openFirewall = true;
-    gamescopeSession.enable = true;
-  };
-
-  security.rtkit.enable = true;
-  services.pipewire = {
-    enable = true;
-    audio.enable = true;
-    pulse.enable = true;
-    wireplumber.enable = true;
-  };
-  security.polkit.enable = true;
-  services.gnome.gnome-keyring.enable = true;
-
-  powerManagement.powertop.enable = lib.mkForce false;
-
-  services.fwupd.enable = true;
-
-  nix.settings.experimental-features = [
-    "nix-command"
-    "flakes"
-  ];
-  networking.hostName = "ThiagoDesktop"; # Define your hostname.
-  networking.networkmanager = {
-    enable = true;
-    wifi = {
-      powersave = false;
-    };
-  };
+  # Set your time zone.
   time.timeZone = "America/Sao_Paulo";
-  i18n.defaultLocale = "en_CA.UTF-8";
-  fonts = {
-    packages = with pkgs; [ nerdfonts ];
-    fontconfig = {
-      enable = true;
-      antialias = true;
-      defaultFonts = {
-        monospace = [ "JetBrainsMono" ];
-      };
-    };
 
-  };
+  # Configure network proxy if necessary
+  # networking.proxy.default = "http://user:password@proxy:port/";
+  # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
+
+  # Select internationalisation properties.
+  i18n.defaultLocale = "en_US.UTF-8";
   console = {
     font = "Lat2-Terminus16";
     keyMap = "br-abnt2";
+  #   useXkbConfig = true; # use xkb.options in tty.
   };
+
+  # Enable the X11 windowing system.
   services.xserver.enable = true;
-  services.xserver.xkb.layout = "br";
+  services.displayManager.sddm.enable = true;
+  services.desktopManager.plasma6.enable = true;
 
-  users.users.thiago = {
-    isNormalUser = true;
-    extraGroups = [ "wheel" ]; # Enable ‘sudo’ for the user.
-    packages = [ ];
+
+  
+
+  # Configure keymap in X11
+  services.xserver.xkb = {
+    layout = "br";
+    variant = "abnt2";
   };
 
-  system.autoUpgrade = {
+  # Enable CUPS to print documents.
+  services.printing.enable = true;
+
+  # Enable sound.
+  # hardware.pulseaudio.enable = true;
+  # OR
+  security.rtkit.enable = true;
+  services.pipewire = {
     enable = true;
-    dates = "02:00";
-    flake = inputs.self.outPath;
-    randomizedDelaySec = "45min";
-    flags = [
-      "--update-input"
-      "nixpkgs"
-      "--no-write-lock-file"
-      "-L"
+    pulse.enable = true;
+  };
+
+  # Enable touchpad support (enabled default in most desktopManager).
+  services.libinput.enable = true;
+
+  # Define a user account. Don't forget to set a password with ‘passwd’.
+  users.users.thiago = {
+    name = "Thiago";
+    isNormalUser = true;
+    extraGroups = [ "wheel" "networkmanager" ]; # Enable ‘sudo’ for the user.
+    packages = with pkgs; [
     ];
   };
 
-  system.stateVersion = "23.11"; # Did you read the comment?
+  nixpkgs.config.allowUnfree = true;
+
+  programs.firefox.enable = true;
+
+  # List packages installed in system profile. To search, run:
+  # $ nix search wget
+  # environment.systemPackages = with pkgs; [
+  #   vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
+  #   wget
+  # ];
+
+  # Some programs need SUID wrappers, can be configured further or are
+  # started in user sessions.
+  # programs.mtr.enable = true;
+  # programs.gnupg.agent = {
+  #   enable = true;
+  #   enableSSHSupport = true;
+  # };
+
+  # List services that you want to enable:
+
+  # Enable the OpenSSH daemon.
+  # services.openssh.enable = true;
+
+  # Open ports in the firewall.
+  # networking.firewall.allowedTCPPorts = [ ... ];
+  # networking.firewall.allowedUDPPorts = [ ... ];
+  # Or disable the firewall altogether.
+  networking.firewall.enable = true;
+
+  # Copy the NixOS configuration file and link it from the resulting system
+  # (/run/current-system/configuration.nix). This is useful in case you
+  # accidentally delete configuration.nix.
+  # system.copySystemConfiguration = true;
+
+  # This option defines the first version of NixOS you have installed on this particular machine,
+  # and is used to maintain compatibility with application data (e.g. databases) created on older NixOS versions.
+  #
+  # Most users should NEVER change this value after the initial install, for any reason,
+  # even if you've upgraded your system to a new NixOS release.
+  #
+  # This value does NOT affect the Nixpkgs version your packages and OS are pulled from,
+  # so changing it will NOT upgrade your system - see https://nixos.org/manual/nixos/stable/#sec-upgrading for how
+  # to actually do that.
+  #
+  # This value being lower than the current NixOS release does NOT mean your system is
+  # out of date, out of support, or vulnerable.
+  #
+  # Do NOT change this value unless you have manually inspected all the changes it would make to your configuration,
+  # and migrated your data accordingly.
+  #
+  # For more information, see `man configuration.nix` or https://nixos.org/manual/nixos/stable/options#opt-system.stateVersion .
+  system.stateVersion = "24.11"; # Did you read the comment?
+
 }
+
