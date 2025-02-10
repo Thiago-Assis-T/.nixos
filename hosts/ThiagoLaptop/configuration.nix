@@ -96,10 +96,10 @@
     extraGroups = [ "networkmanager" "wheel" ];
     packages = with pkgs; [
       (freecad-wayland.override { ifcSupport = true; })
+      librecad
       git
       neovim
-      kdePackages.kate
-    #  thunderbird
+      thunderbird
     ];
   };
 
