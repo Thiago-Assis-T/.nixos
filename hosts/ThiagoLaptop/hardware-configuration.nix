@@ -4,31 +4,30 @@
 { config, lib, pkgs, modulesPath, ... }:
 
 {
-  imports = [ (modulesPath + "/installer/scan/not-detected.nix") ];
-  boot.kernelPackages = pkgs.linuxPackages_zen;
+  imports =
+    [ (modulesPath + "/installer/scan/not-detected.nix")
+    ];
 
-  boot.initrd.availableKernelModules =
-    [ "xhci_pci" "ahci" "usb_storage" "sd_mod" "rtsx_usb_sdmmc" ];
+  boot.initrd.availableKernelModules = [ "xhci_pci" "ahci" "usb_storage" "sd_mod" "rtsx_usb_sdmmc" ];
   boot.initrd.kernelModules = [ ];
   boot.kernelModules = [ ];
+  boot.kernelPackages = pkgs.linuxPackages_lqx;
   boot.extraModulePackages = [ ];
-  boot.kernelParams = [ "intal_pstate=active" ];
-  boot.kernel.sysctl = {
-    "kernel.sched_cfs_bandwidth_slice_us" = 3000;
-    "net.ipv4.tcp_fin_timeout" = 5;
-    "vm.max_map_count" = 2147483642;
-    "vm.dirty_background_ratio" = 5;
-    "vm.overcommit_memory" = 2;
-    "fs.file-max" = 2097152;
-    "net.ipv4.ip_local_port_range" = "1024 65535";
-    "net.ipv4.tcp_fastopen" = 3;
-    "net.ipv4.tcp_keepalive_time" = 600;
-    "net.ipv4.tcp_keepalive_probes" = 5;
-    "net.ipv4.tcp_keepalive_intvl" = 15;
-    "net.ipv4.ip_forward" = 0;
-    "net.ipv4.tcp_syncookies" = 1;
-    "net.ipv4.icmp_echo_ignore_broadcasts" = 1;
-  };
+
+  fileSystems."/" =
+    { device = "/dev/disk/by-uuid/2ff1800d-648f-45d4-a449-e602187fc8f1";
+      fsType = "ext4";
+    };
+
+  fileSystems."/boot" =
+    { device = "/dev/disk/by-uuid/090A-CE61";
+      fsType = "vfat";
+      options = [ "fmask=0077" "dmask=0077" ];
+    };
+
+  swapDevices =
+    [ { device = "/dev/disk/by-uuid/73ee551f-7d60-410d-ab36-e74d1e598863"; }
+    ];
 
   # Enables DHCP on each ethernet and wireless interface. In case of scripted networking
   # (the default) this is the recommended approach. When using systemd-networkd it's
@@ -38,46 +37,6 @@
   # networking.interfaces.enp2s0.useDHCP = lib.mkDefault true;
   # networking.interfaces.wlp1s0.useDHCP = lib.mkDefault true;
 
-  nix.settings.system-features = [
-    "nixos-test"
-    "benchmark"
-    "big-parallel"
-    "gccarch-skylake"
-    "gcctune-skylake"
-  ];
-
-  nixpkgs = {
-    config = {
-      allowUnfree = true;
-      localSystem = {
-        system = "x86_64-linux";
-        gcc.arch = "skylake";
-        gcc.tune = "skylake";
-      };
-    };
-    hostPlatform = {
-      system = "x86_64-linux";
-      config = "x86_64-unknown-linux-gnu";
-      #gcc.arch = "skylake";
-      #gcc.tune = "skylake";
-    };
-  };
-
-  hardware = {
-    enableAllFirmware = true;
-    graphics = {
-      enable = true;
-      enable32Bit = true;
-      extraPackages = with pkgs; [
-        intel-media-sdk
-        intel-media-driver
-        intel-vaapi-driver
-        vaapiVdpau
-        libvdpau-va-gl
-        intel-compute-runtime
-      ];
-    };
-    cpu.intel.updateMicrocode =
-      lib.mkDefault config.hardware.enableRedistributableFirmware;
-  };
+  nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
+  hardware.cpu.intel.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
 }

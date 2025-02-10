@@ -104,19 +104,18 @@
           };
           modules = [
             ./hosts/ThiagoLaptop/configuration.nix
-            disko.nixosModules.disko
-            home-manager.nixosModules.home-manager
+            #home-manager.nixosModules.home-manager
             (import ./overlays)
             (import ./overrides)
-            {
-              home-manager = {
-                useGlobalPkgs = true;
-                extraSpecialArgs = {
-                  inherit inputs;
-                };
-                users.thiago = import ./home/laptop.nix;
-              };
-            }
+            #{
+            #  home-manager = {
+            #    useGlobalPkgs = true;
+            #    extraSpecialArgs = {
+            #      inherit inputs;
+            #    };
+            #    users.thiago = import ./home/laptop.nix;
+            #  };
+            #}
           ];
         };
       };
