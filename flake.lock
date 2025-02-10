@@ -1,90 +1,5 @@
 {
   "nodes": {
-    "disko": {
-      "inputs": {
-        "nixpkgs": [
-          "nixpkgs"
-        ]
-      },
-      "locked": {
-        "lastModified": 1738765162,
-        "narHash": "sha256-3Z40qHaFScWUCVQrGc4Y+RdoPsh1R/wIh+AN4cTXP0I=",
-        "owner": "nix-community",
-        "repo": "disko",
-        "rev": "ff3568858c54bd306e9e1f2886f0f781df307dff",
-        "type": "github"
-      },
-      "original": {
-        "owner": "nix-community",
-        "repo": "disko",
-        "type": "github"
-      }
-    },
-    "dwl-alwayscenter-patch": {
-      "flake": false,
-      "locked": {
-        "narHash": "sha256-lZ12iihgadvw7X+2E1k9rRHzYPJS1gBMFDxqnpkcKuw=",
-        "type": "file",
-        "url": "https://codeberg.org/dwl/dwl-patches/raw/branch/main/patches/alwayscenter/alwayscenter.patch"
-      },
-      "original": {
-        "type": "file",
-        "url": "https://codeberg.org/dwl/dwl-patches/raw/branch/main/patches/alwayscenter/alwayscenter.patch"
-      }
-    },
-    "dwl-bar-patch": {
-      "flake": false,
-      "locked": {
-        "narHash": "sha256-MJvkWG5ubzAHscZ5xQVGdDZG/5midvagADbp/lr7aaE=",
-        "type": "file",
-        "url": "https://codeberg.org/dwl/dwl-patches/raw/branch/main/patches/bar/bar-0.7.patch"
-      },
-      "original": {
-        "type": "file",
-        "url": "https://codeberg.org/dwl/dwl-patches/raw/branch/main/patches/bar/bar-0.7.patch"
-      }
-    },
-    "dwl-bar-systray-patch": {
-      "flake": false,
-      "locked": {
-        "narHash": "sha256-VmqZapzTo4MuSOygZeuONnwtBp+99O+5WSGIeDUSMuI=",
-        "type": "file",
-        "url": "https://codeberg.org/dwl/dwl-patches/raw/branch/main/patches/bar-systray/bar-systray-0.7.patch"
-      },
-      "original": {
-        "type": "file",
-        "url": "https://codeberg.org/dwl/dwl-patches/raw/branch/main/patches/bar-systray/bar-systray-0.7.patch"
-      }
-    },
-    "dwl-src": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1724821641,
-        "narHash": "sha256-eh5dJ6rnwjqiUXzffhAN5pQ8JUxZEJuJS4G2Dod+wgk=",
-        "ref": "0.7",
-        "rev": "cfc80c8f44ef47b8da903687f075382a1432ae04",
-        "revCount": 1243,
-        "type": "git",
-        "url": "https://codeberg.org/dwl/dwl"
-      },
-      "original": {
-        "ref": "0.7",
-        "type": "git",
-        "url": "https://codeberg.org/dwl/dwl"
-      }
-    },
-    "dwl-swallow-patch": {
-      "flake": false,
-      "locked": {
-        "narHash": "sha256-BJ1ByC4iv3U8PF+YBoTkmYhI6y1psW0D6TKUck1Klwc=",
-        "type": "file",
-        "url": "https://codeberg.org/dwl/dwl-patches/raw/branch/main/patches/swallow/swallow.patch"
-      },
-      "original": {
-        "type": "file",
-        "url": "https://codeberg.org/dwl/dwl-patches/raw/branch/main/patches/swallow/swallow.patch"
-      }
-    },
     "home-manager": {
       "inputs": {
         "nixpkgs": [
@@ -124,44 +39,8 @@
     },
     "root": {
       "inputs": {
-        "disko": "disko",
-        "dwl-alwayscenter-patch": "dwl-alwayscenter-patch",
-        "dwl-bar-patch": "dwl-bar-patch",
-        "dwl-bar-systray-patch": "dwl-bar-systray-patch",
-        "dwl-src": "dwl-src",
-        "dwl-swallow-patch": "dwl-swallow-patch",
         "home-manager": "home-manager",
-        "nixpkgs": "nixpkgs",
-        "statusnotifier-systray-gtk4-src": "statusnotifier-systray-gtk4-src",
-        "wallpaper": "wallpaper"
-      }
-    },
-    "statusnotifier-systray-gtk4-src": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1734001115,
-        "narHash": "sha256-X4TFaGff6MoNSfvIvcKwKrqTye0WqdggwQxcMe8kxqc=",
-        "ref": "refs/heads/main",
-        "rev": "0d3d8432ede0174cf247214f75905b1eb67a2035",
-        "revCount": 8,
-        "type": "git",
-        "url": "https://codeberg.org/janetski/statusnotifier-systray-gtk4"
-      },
-      "original": {
-        "type": "git",
-        "url": "https://codeberg.org/janetski/statusnotifier-systray-gtk4"
-      }
-    },
-    "wallpaper": {
-      "flake": false,
-      "locked": {
-        "narHash": "sha256-0yiUgR5ifJU3k1jRkSnntoaZD2BrVErHS92VseepVl8=",
-        "type": "file",
-        "url": "https://raw.githubusercontent.com/Narmis-E/onedark-wallpapers/main/minimal/od_space01.png"
-      },
-      "original": {
-        "type": "file",
-        "url": "https://raw.githubusercontent.com/Narmis-E/onedark-wallpapers/main/minimal/od_space01.png"
+        "nixpkgs": "nixpkgs"
       }
     }
   },

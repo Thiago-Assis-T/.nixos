@@ -49,9 +49,6 @@
   services.displayManager.sddm.enable = true;
   services.desktopManager.plasma6.enable = true;
 
-
-  
-
   # Configure keymap in X11
   services.xserver.xkb = {
     layout = "br";
@@ -79,6 +76,12 @@
     isNormalUser = true;
     extraGroups = [ "wheel" "networkmanager" ]; # Enable ‘sudo’ for the user.
     packages = with pkgs; [
+      (freecad-wayland.override { ifcSupport = true; })
+      librecad
+      git
+      neovim
+      ani-cli
+      manga-cli
     ];
   };
 

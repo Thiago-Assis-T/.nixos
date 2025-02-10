@@ -11,6 +11,12 @@
       enable = true;
       useStockConfig = true;
     };
+    scx = {
+      enable = true;
+      scheduler = "scx_lavd";
+      extraArgs = [ "--autopilot" ]; 
+
+    };
     auto-cpufreq = {
       enable = true;
       settings = {

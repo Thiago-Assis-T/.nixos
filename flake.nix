@@ -43,7 +43,6 @@
           };
           modules = [
             ./hosts/ThiagoServer/configuration.nix
-            disko.nixosModules.disko
             home-manager.nixosModules.home-manager
             (import ./overlays)
             (import ./overrides)
@@ -65,8 +64,8 @@
           modules = [
             ./hosts/ThiagoLaptop/configuration.nix
             #home-manager.nixosModules.home-manager
-            (import ./overlays)
-            (import ./overrides)
+            #(import ./overlays)
+            #(import ./overrides)
             #{
             #  home-manager = {
             #    useGlobalPkgs = true;
