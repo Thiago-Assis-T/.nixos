@@ -72,7 +72,6 @@
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.thiago = {
-    name = "Thiago";
     isNormalUser = true;
     extraGroups = [ "wheel" "networkmanager" ]; # Enable ‘sudo’ for the user.
     packages = with pkgs; [
@@ -82,6 +81,7 @@
       neovim
       ani-cli
       manga-cli
+      libreoffice-qt6-fresh
     ];
   };
 
