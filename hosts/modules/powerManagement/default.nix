@@ -1,7 +1,7 @@
 { ... }: {
   powerManagement = {
     enable = true;
-    powertop.enable = true;
+    powertop.enable = false;
   };
   services = {
     thermald.enable = true;

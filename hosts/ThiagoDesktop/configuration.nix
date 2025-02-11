@@ -57,6 +57,12 @@
 
   # Enable CUPS to print documents.
   services.printing.enable = true;
+  services.avahi = {
+    enable = true;
+    nssmdns4 = true;
+    openFirewall = true;
+  };
+
 
   # Enable sound.
   # hardware.pulseaudio.enable = true;
@@ -72,6 +78,7 @@
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.thiago = {
+    description = "Thiago";
     isNormalUser = true;
     extraGroups = [ "wheel" "networkmanager" ]; # Enable ‘sudo’ for the user.
     packages = with pkgs; [
