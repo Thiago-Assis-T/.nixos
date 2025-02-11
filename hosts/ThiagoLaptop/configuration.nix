@@ -100,6 +100,7 @@
       git
       neovim
       thunderbird
+      libreoffice-qt6-fresh
     ];
   };
 
