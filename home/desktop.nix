@@ -7,7 +7,7 @@
     username = "thiago";
     homeDirectory = "/home/thiago";
     stateVersion = "23.11";
-    packages = with pkgs; [
+    packages = [
     ];
 
   };

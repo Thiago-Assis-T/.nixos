@@ -1,7 +1,9 @@
-{ ... }: {
-  imports = [ 
-  ./nvim 
-  ./git 
-  ./shell 
+{ ... }:
+{
+  imports = [
+    ./nvim
+    ./git
+    ./shell
+    ./wezterm
   ];
 }

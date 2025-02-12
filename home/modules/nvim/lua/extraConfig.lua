@@ -13,6 +13,11 @@ vim.opt.scrolloff = 10
 
 vim.cmd("colorscheme onedark")
 
+vim.api.nvim_set_hl(0, "Normal", { bg = "none", ctermbg = "none" })
+vim.api.nvim_set_hl(0, "NormalNC", { bg = "none", ctermbg = "none" })
+vim.api.nvim_set_hl(0, "WinSeparator", { bg = "none", ctermbg = "none" })
+vim.api.nvim_set_hl(0, "SignColumn", { bg = "none", ctermbg = "none" })
+
 vim.api.nvim_create_autocmd("TextYankPost", {
 	desc = "Highlight when yanking (copying) text",
 	group = vim.api.nvim_create_augroup("kickstart-highlight-yank", { clear = true }),
