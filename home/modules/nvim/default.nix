@@ -3,15 +3,7 @@
   pkgs,
   lib,
   ...
-}:
-let
-  cfg = config.programs.my-nvim;
-in
-{
-  options.programs.my-nvim = {
-    enable = lib.mkEnableOption (lib.mdDoc "my-nvim");
-  };
-  config = lib.mkIf cfg.enable {
+}:{
     programs.neovim = {
       enable = true;
       defaultEditor = true;
@@ -122,6 +114,5 @@ in
           config = builtins.readFile ./lua/telescope.lua;
         }
       ];
-    };
-  };
+      };
 }

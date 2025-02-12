@@ -23,18 +23,18 @@
           };
           modules = [
             ./hosts/ThiagoDesktop/configuration.nix
-            #home-manager.nixosModules.home-manager
+            home-manager.nixosModules.home-manager
             #(import ./overlays)
             #(import ./overrides)
-            #{
-            #  home-manager = {
-            #    useGlobalPkgs = true;
-            #    extraSpecialArgs = {
-            #      inherit inputs;
-            #    };
-            #    users.thiago = import ./home/desktop.nix;
-            #  };
-            #}
+            {
+              home-manager = {
+                useGlobalPkgs = true;
+                extraSpecialArgs = {
+                  inherit inputs;
+                };
+                users.thiago = import ./home/desktop.nix;
+              };
+            }
           ];
         };
         ThiagoServer = nixpkgs.lib.nixosSystem {

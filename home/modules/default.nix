@@ -1,3 +1,7 @@
 { ... }: {
-  imports = [ ./zathura ./tmux ./nvim ./git ./shell ./swaync ./kitty ];
+  imports = [ 
+  ./nvim 
+  ./git 
+  ./shell 
+  ];
 }

@@ -1,13 +1,7 @@
 { config, lib, ... }:
 
-let cfg = config.programs.my-shell;
-
-in {
-  options.programs.my-shell = {
-    enable = lib.mkEnableOption (lib.mdDoc "my-shell");
-  };
-  config = lib.mkIf cfg.enable {
-    home.sessionVariables = { TERM = "kitty"; };
+{
+    #home.sessionVariables = { TERM = "kitty"; };
     programs = {
       btop.enable = true;
       fastfetch = {
@@ -35,5 +29,4 @@ in {
         enableBashIntegration = true;
       };
     };
-  };
 }

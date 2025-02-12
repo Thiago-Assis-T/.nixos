@@ -1,14 +1,5 @@
 { config, lib, ... }:
-let
-  cfg = config.programs.my-git;
-in
-
 {
-
-  options.programs.my-git = {
-    enable = lib.mkEnableOption (lib.mdDoc "my-git");
-  };
-  config = lib.mkIf cfg.enable {
     programs.git = {
       enable = true;
       userName = "Thiago-Assis-T";
@@ -34,5 +25,4 @@ in
         }
       ];
     };
-  };
 }
