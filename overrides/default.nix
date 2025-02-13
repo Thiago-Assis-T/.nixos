@@ -1,6 +1,6 @@
 { ... }:
 {
   nixpkgs.config.packageOverrides = pkgs: {
-    freecad = (pkgs.freecad-wayland.override { ifcSupport = true; });
+    freecad-wayland = (pkgs.freecad-wayland.override { ifcSupport = true; });
   };
 }

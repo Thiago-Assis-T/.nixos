@@ -8,8 +8,7 @@
     homeDirectory = "/home/thiago";
     stateVersion = "23.11";
     packages = with pkgs; [
-
-      freecad
+      freecad-wayland
       librecad
       ani-cli
       manga-cli
