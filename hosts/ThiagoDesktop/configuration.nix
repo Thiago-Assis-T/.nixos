@@ -12,9 +12,11 @@
     # Include the results of the hardware scan.
     ../modules/bootloader
     ../modules/powerManagement
+    ../modules/printing
     ./hardware-configuration.nix
   ];
 
+  services.fwupd.enable = true;
   nixpkgs = {
     config = {
       allowUnfree = true;
@@ -75,14 +77,6 @@
   services.xserver.xkb = {
     layout = "br";
     variant = "abnt2";
-  };
-
-  # Enable CUPS to print documents.
-  services.printing.enable = true;
-  services.avahi = {
-    enable = true;
-    nssmdns4 = true;
-    openFirewall = true;
   };
 
   # Enable sound.
