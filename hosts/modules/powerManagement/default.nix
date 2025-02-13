@@ -1,4 +1,5 @@
-{ ... }: {
+{ ... }:
+{
   powerManagement = {
     enable = true;
     powertop.enable = false;
@@ -6,7 +7,7 @@
   services = {
     thermald.enable = true;
     tlp.enable = false;
-    power-profiles-daemon.enable = false;
+    power-profiles-daemon.enable = true;
     system76-scheduler = {
       enable = true;
       useStockConfig = true;
@@ -14,11 +15,11 @@
     scx = {
       enable = true;
       scheduler = "scx_lavd";
-      extraArgs = [ "--autopilot" ]; 
+      extraArgs = [ "--autopilot" ];
 
     };
     auto-cpufreq = {
-      enable = true;
+      enable = false;
       settings = {
         charger = {
           governor = "performance";
