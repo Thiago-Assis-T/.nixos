@@ -1,4 +1,5 @@
-{ ... }: {
+{ ... }:
+{
   # Use the systemd-boot EFI boot loader.
   boot = {
     plymouth.enable = true;
@@ -9,6 +10,7 @@
         memtest86.enable = true;
         configurationLimit = 5;
       };
+      timeout = 2;
     };
   };
 }
