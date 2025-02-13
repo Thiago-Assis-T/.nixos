@@ -2,17 +2,41 @@
 # your system. Help is available in the configuration.nix(5) man page, on
 # https://search.nixos.org/options and in the NixOS manual (`nixos-help`).
 
-{ config, lib, pkgs, ... }:
+{
+  pkgs,
+  ...
+}:
 
 {
-  imports =
-    [ # Include the results of the hardware scan.
-      ../modules/bootloader
-      ../modules/powerManagement
-      ./hardware-configuration.nix
-    ];
+  imports = [
+    # Include the results of the hardware scan.
+    ../modules/bootloader
+    ../modules/powerManagement
+    ./hardware-configuration.nix
+  ];
 
-
+  nixpkgs = {
+    config = {
+      allowUnfree = true;
+    };
+    hostPlatform = {
+      system = "x86_64-linux";
+    };
+  };
+  nix = {
+    gc = {
+      automatic = true;
+      dates = "weekly";
+      randomizedDelaySec = "25min";
+    };
+    settings = {
+      auto-optimise-store = true;
+      experimental-features = [
+        "nix-command"
+        "flakes"
+      ];
+    };
+  };
   zramSwap.enable = true;
 
   services.btrfs.autoScrub = {
@@ -21,12 +45,10 @@
     fileSystems = [ "/" ];
   };
 
-  nix.settings.experimental-features = [ "nix-command" "flakes" ];
- 
   networking.hostName = "ThiagoDesktop"; # Define your hostname.
   # Pick only one of the below networking options.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
-  networking.networkmanager.enable = true;  # Easiest to use and most distros use this by default.
+  networking.networkmanager.enable = true; # Easiest to use and most distros use this by default.
   systemd.services.NetworkManager-wait-online.enable = false;
 
   # Set your time zone.
@@ -41,7 +63,7 @@
   console = {
     font = "Lat2-Terminus16";
     keyMap = "br-abnt2";
-  #   useXkbConfig = true; # use xkb.options in tty.
+    #   useXkbConfig = true; # use xkb.options in tty.
   };
 
   # Enable the X11 windowing system.
@@ -63,7 +85,6 @@
     openFirewall = true;
   };
 
-
   # Enable sound.
   # hardware.pulseaudio.enable = true;
   # OR
@@ -80,71 +101,16 @@
   users.users.thiago = {
     description = "Thiago";
     isNormalUser = true;
-    extraGroups = [ "wheel" "networkmanager" ]; # Enable ‘sudo’ for the user.
+    extraGroups = [
+      "wheel"
+      "networkmanager"
+    ]; # Enable ‘sudo’ for the user.
     packages = with pkgs; [
-      (freecad-wayland.override { ifcSupport = true; })
-      librecad
-      git
-      neovim
-      ani-cli
-      manga-cli
-      libreoffice-qt6-fresh
     ];
   };
 
-  nixpkgs.config.allowUnfree = true;
-
   programs.firefox.enable = true;
-
-  # List packages installed in system profile. To search, run:
-  # $ nix search wget
-  # environment.systemPackages = with pkgs; [
-  #   vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
-  #   wget
-  # ];
-
-  # Some programs need SUID wrappers, can be configured further or are
-  # started in user sessions.
-  # programs.mtr.enable = true;
-  # programs.gnupg.agent = {
-  #   enable = true;
-  #   enableSSHSupport = true;
-  # };
-
-  # List services that you want to enable:
-
-  # Enable the OpenSSH daemon.
-  # services.openssh.enable = true;
-
-  # Open ports in the firewall.
-  # networking.firewall.allowedTCPPorts = [ ... ];
-  # networking.firewall.allowedUDPPorts = [ ... ];
-  # Or disable the firewall altogether.
   networking.firewall.enable = true;
-
-  # Copy the NixOS configuration file and link it from the resulting system
-  # (/run/current-system/configuration.nix). This is useful in case you
-  # accidentally delete configuration.nix.
-  # system.copySystemConfiguration = true;
-
-  # This option defines the first version of NixOS you have installed on this particular machine,
-  # and is used to maintain compatibility with application data (e.g. databases) created on older NixOS versions.
-  #
-  # Most users should NEVER change this value after the initial install, for any reason,
-  # even if you've upgraded your system to a new NixOS release.
-  #
-  # This value does NOT affect the Nixpkgs version your packages and OS are pulled from,
-  # so changing it will NOT upgrade your system - see https://nixos.org/manual/nixos/stable/#sec-upgrading for how
-  # to actually do that.
-  #
-  # This value being lower than the current NixOS release does NOT mean your system is
-  # out of date, out of support, or vulnerable.
-  #
-  # Do NOT change this value unless you have manually inspected all the changes it would make to your configuration,
-  # and migrated your data accordingly.
-  #
-  # For more information, see `man configuration.nix` or https://nixos.org/manual/nixos/stable/options#opt-system.stateVersion .
   system.stateVersion = "24.11"; # Did you read the comment?
 
 }
-

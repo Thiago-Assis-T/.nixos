@@ -7,7 +7,13 @@
     username = "thiago";
     homeDirectory = "/home/thiago";
     stateVersion = "23.11";
-    packages = [
+    packages = with pkgs; [
+
+      freecad
+      librecad
+      ani-cli
+      manga-cli
+      libreoffice-qt6-fresh
     ];
 
   };

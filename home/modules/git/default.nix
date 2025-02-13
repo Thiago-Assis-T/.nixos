@@ -1,28 +1,28 @@
-{ config, lib, ... }:
+{ ... }:
 {
-    programs.git = {
-      enable = true;
-      userName = "Thiago-Assis-T";
-      userEmail = "thiago.assisfernandes@gmail.com";
-      extraConfig = {
-        color = {
-          ui = "auto";
-        };
-        pull = {
-          rebase = true;
-        };
-        core = {
-          editor = "nvim";
-        };
+  programs.git = {
+    enable = true;
+    userName = "Thiago-Assis-T";
+    userEmail = "thiago.assisfernandes@gmail.com";
+    extraConfig = {
+      color = {
+        ui = "auto";
       };
-      includes = [
-        {
-          contents = {
-            init.defaultBranch = "main";
-            pull.rebase = true;
-            push.autoSetupRemote = true;
-          };
-        }
-      ];
+      pull = {
+        rebase = true;
+      };
+      core = {
+        editor = "nvim";
+      };
     };
+    includes = [
+      {
+        contents = {
+          init.defaultBranch = "main";
+          pull.rebase = true;
+          push.autoSetupRemote = true;
+        };
+      }
+    ];
+  };
 }
