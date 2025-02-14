@@ -16,6 +16,14 @@
     ./hardware-configuration.nix
   ];
 
+  programs.java.enable = true;
+  programs.steam = {
+    enable = true;
+    extraCompatPackages = [ pkgs.proton-ge-bin ];
+    protontricks.enable = true;
+
+  };
+
   services.fwupd.enable = true;
   nixpkgs = {
     config = {
@@ -100,6 +108,7 @@
       "networkmanager"
     ]; # Enable ‘sudo’ for the user.
     packages = with pkgs; [
+      kdePackages.isoimagewriter
     ];
   };
 
