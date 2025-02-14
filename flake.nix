@@ -65,7 +65,7 @@
             ./hosts/ThiagoLaptop/configuration.nix
             home-manager.nixosModules.home-manager
             #(import ./overlays)
-            #(import ./overrides)
+            (import ./overrides)
             {
               home-manager = {
                 useGlobalPkgs = true;

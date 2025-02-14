@@ -1,4 +1,4 @@
-{ ... }:
+{ pkgs, ... }:
 {
 
   imports = [ ./modules ];
@@ -7,7 +7,11 @@
     username = "thiago";
     homeDirectory = "/home/thiago";
     stateVersion = "23.11";
-    packages =  [
+    packages = with pkgs; [
+      freecad-wayland
+      librecad
+      thunderbird
+      libreoffice-qt6-fresh
     ];
 
   };

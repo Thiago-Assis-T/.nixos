@@ -2,16 +2,20 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ config, pkgs, ... }:
+{ pkgs, ... }:
 {
-  imports =
-    [ # Include the results of the hardware scan.
+  imports = [
+    # Include the results of the hardware scan.
     ../modules/bootloader
     ../modules/powerManagement
     ./hardware-configuration.nix
-    ];
+  ];
 
-  nix.settings.experimental-features = [ "nix-command" "flakes" ];
+  powerManagement.powertop.enable = true;
+  nix.settings.experimental-features = [
+    "nix-command"
+    "flakes"
+  ];
 
   zramSwap.enable = true;
 
@@ -38,7 +42,6 @@
     LC_TELEPHONE = "pt_BR.UTF-8";
     LC_TIME = "pt_BR.UTF-8";
   };
-
 
   fonts = {
     #packages = with pkgs; [ nerdfonts ];
@@ -68,7 +71,6 @@
     variant = "abnt2";
   };
 
-
   # Enable CUPS to print documents.
   services.printing.enable = true;
 
@@ -93,14 +95,11 @@
   users.users.thiago = {
     isNormalUser = true;
     description = "Thiago";
-    extraGroups = [ "networkmanager" "wheel" ];
-    packages = with pkgs; [
-      (freecad-wayland.override { ifcSupport = true; })
-      librecad
-      git
-      neovim
-      thunderbird
-      libreoffice-qt6-fresh
+    extraGroups = [
+      "networkmanager"
+      "wheel"
+    ];
+    packages = [
     ];
   };
 
@@ -113,8 +112,8 @@
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
-  #  vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
-  #  wget
+    #  vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
+    #  wget
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
@@ -149,4 +148,3 @@
 # Edit this configuration file to define what should be installed on
 # your system. Help is available in the configuration.nix(5) man page, on
 # https://search.nixos.org/options and in the NixOS manual (`nixos-help`).
-
