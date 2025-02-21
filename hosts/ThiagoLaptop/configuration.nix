@@ -11,6 +11,7 @@
     ./hardware-configuration.nix
   ];
 
+  services.fwupd.enable = true;
   powerManagement.powertop.enable = true;
   nix.settings.experimental-features = [
     "nix-command"
