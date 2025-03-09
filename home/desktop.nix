@@ -9,7 +9,7 @@
     stateVersion = "23.11";
     packages = with pkgs; [
       inputs.dwl.packages.${system}.default
-      freecad-wayland
+      #freecad-wayland
       librecad
       ani-cli
       manga-cli
