@@ -1,5 +1,17 @@
 { pkgs, ... }:
 {
+  environment.systemPackages = [
+    pkgs.kdePackages.skanlite
+    pkgs.kdePackages.skanpage
+  ];
+  services.udev.packages = [ pkgs.utsushi ];
+  hardware.sane = {
+    enable = true;
+    extraBackends = [
+      pkgs.utsushi
+      pkgs.epkowa
+    ];
+  };
   services.printing = {
     enable = true;
     webInterface = false;

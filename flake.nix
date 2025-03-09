@@ -7,6 +7,7 @@
       url = "github:nix-community/home-manager/master";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    dwl.url = "github:Thiago-Assis-T/dwl";
 
   };
   outputs =
@@ -24,7 +25,7 @@
           modules = [
             ./hosts/ThiagoDesktop/configuration.nix
             home-manager.nixosModules.home-manager
-            #(import ./overlays)
+            (import ./overlays)
             (import ./overrides)
             {
               home-manager = {

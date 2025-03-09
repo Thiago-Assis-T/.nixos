@@ -4,6 +4,7 @@
 
 {
   pkgs,
+  inputs,
   ...
 }:
 
@@ -16,6 +17,27 @@
     ./hardware-configuration.nix
   ];
 
+  programs.gamemode = {
+    enable = true;
+    enableRenice = true;
+    settings = {
+      general = {
+        renice = 10;
+      };
+      # Warning: GPU optimisations have the potential to damage hardware
+      gpu = {
+        apply_gpu_optimisations = "accept-responsibility";
+        gpu_device = 0;
+        amd_performance_level = "high";
+      };
+
+      custom = {
+        start = "${pkgs.libnotify}/bin/notify-send 'GameMode started'";
+        end = "${pkgs.libnotify}/bin/notify-send 'GameMode ended'";
+      };
+    };
+
+  };
   programs.java.enable = true;
   programs.steam = {
     enable = true;
@@ -79,7 +101,17 @@
   # Enable the X11 windowing system.
   services.xserver.enable = true;
   services.displayManager.sddm.enable = true;
+  services.displayManager.sddm.wayland.enable = true;
   services.desktopManager.plasma6.enable = true;
+  services.xserver.displayManager.session = [
+    {
+      manage = "desktop";
+      name = "dwl";
+      start = ''
+        ${inputs.dwl.packages.x86_64-linux.default}/bin/dwl -d
+      '';
+    }
+  ];
 
   # Configure keymap in X11
   services.xserver.xkb = {
@@ -106,6 +138,7 @@
     extraGroups = [
       "wheel"
       "networkmanager"
+      "gamemode"
     ]; # Enable ‘sudo’ for the user.
     packages = with pkgs; [
       kdePackages.isoimagewriter
