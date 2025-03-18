@@ -7,7 +7,13 @@
       url = "github:nix-community/home-manager/master";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    dwl.url = "github:Thiago-Assis-T/dwl";
+    stylix.url = "github:danth/stylix";
+    wallpaper = {
+      url = "https://images6.alphacoders.com/134/1346530.jpeg";
+      flake = false;
+
+    };
+    # dwl.url = "github:Thiago-Assis-T/dwl";
 
   };
   outputs =
@@ -29,7 +35,6 @@
             (import ./overrides)
             {
               home-manager = {
-                useGlobalPkgs = true;
                 extraSpecialArgs = {
                   inherit inputs;
                 };
@@ -49,7 +54,6 @@
             (import ./overrides)
             {
               home-manager = {
-                useGlobalPkgs = true;
                 extraSpecialArgs = {
                   inherit inputs;
                 };
@@ -69,7 +73,6 @@
             (import ./overrides)
             {
               home-manager = {
-                useGlobalPkgs = true;
                 extraSpecialArgs = {
                   inherit inputs;
                 };

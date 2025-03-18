@@ -8,9 +8,9 @@
     homeDirectory = "/home/thiago";
     stateVersion = "23.11";
     packages = with pkgs; [
-      inputs.dwl.packages.${system}.default
+      #inputs.dwl.packages.${system}.default
       #freecad-wayland
-      librecad
+      #librecad
       ani-cli
       manga-cli
       libreoffice-qt6-fresh

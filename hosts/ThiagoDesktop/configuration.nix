@@ -14,9 +14,23 @@
     ../modules/bootloader
     ../modules/powerManagement
     ../modules/printing
+    ../modules/hyprland
     ./hardware-configuration.nix
+    inputs.stylix.nixosModules.stylix
   ];
 
+  stylix = {
+    enable = true;
+    #autoEnable = false;
+    image = inputs.wallpaper;
+
+    ##	pkgs.fetchurl {
+    ##  url = "https://www.pixelstalk.net/wp-content/uploads/2016/05/Epic-Anime-Awesome-Wallpapers.jpg";
+    ##  sha256 = "enQo3wqhgf0FEPHj2coOCvo7DuZv+x5rL/WIo4qPI50=";
+    ##};
+
+    polarity = "dark";
+  };
   programs.gamemode = {
     enable = true;
     enableRenice = true;
@@ -104,13 +118,13 @@
   services.displayManager.sddm.wayland.enable = true;
   services.desktopManager.plasma6.enable = true;
   services.xserver.displayManager.session = [
-    {
-      manage = "desktop";
-      name = "dwl";
-      start = ''
-        ${inputs.dwl.packages.x86_64-linux.default}/bin/dwl -d
-      '';
-    }
+    #{
+    #  manage = "desktop";
+    #  name = "dwl";
+    #  start = ''
+    #    ${inputs.dwl.packages.x86_64-linux.default}/bin/dwl -d
+    #  '';
+    #}
   ];
 
   # Configure keymap in X11
@@ -142,6 +156,8 @@
     ]; # Enable ‘sudo’ for the user.
     packages = with pkgs; [
       kdePackages.isoimagewriter
+      #(pkgs.uutils-coreutils.override { prefix = ""; })
+      uutils-coreutils-noprefix
     ];
   };
 
