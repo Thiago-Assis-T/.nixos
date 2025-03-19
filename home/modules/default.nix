@@ -5,5 +5,7 @@
     ./git
     ./shell
     ./wezterm
+    ./hyprland
+    ./waybar
   ];
 }

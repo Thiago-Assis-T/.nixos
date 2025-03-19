@@ -116,16 +116,6 @@
   services.xserver.enable = true;
   services.displayManager.sddm.enable = true;
   services.displayManager.sddm.wayland.enable = true;
-  services.desktopManager.plasma6.enable = true;
-  services.xserver.displayManager.session = [
-    #{
-    #  manage = "desktop";
-    #  name = "dwl";
-    #  start = ''
-    #    ${inputs.dwl.packages.x86_64-linux.default}/bin/dwl -d
-    #  '';
-    #}
-  ];
 
   # Configure keymap in X11
   services.xserver.xkb = {
