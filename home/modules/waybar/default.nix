@@ -4,10 +4,9 @@
     enable = true;
     systemd = {
       enable = true;
+      #enableInspect = true;
     };
-    style = ''
-
-      			'';
+    style = '''';
 
     settings = {
       mainBar = {

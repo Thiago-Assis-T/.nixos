@@ -7,5 +7,6 @@
     ./wezterm
     ./hyprland
     ./waybar
+    ./stylix
   ];
 }

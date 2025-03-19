@@ -21,7 +21,7 @@
 
   stylix = {
     enable = true;
-    #autoEnable = false;
+    autoEnable = true;
     image = inputs.wallpaper;
 
     ##	pkgs.fetchurl {

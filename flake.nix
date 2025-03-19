@@ -33,6 +33,7 @@
             home-manager.nixosModules.home-manager
             (import ./overlays)
             (import ./overrides)
+            inputs.stylix.homeManagerModules.stylix
             {
               home-manager = {
                 extraSpecialArgs = {
