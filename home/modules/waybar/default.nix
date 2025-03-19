@@ -181,8 +181,8 @@
         network = {
           format-wifi = "   {essid} ({signalStrength}%)";
           format-ethernet = "Connected ";
-          tooltip-format = "{ifname} via {gwaddr} ";
-          format-linked = "{ifname} (No IP) ";
+          tooltip-format = "{ifname} via {gwaddr} 󰈀 ";
+          format-linked = "{ifname} (No IP)  ";
           format-disconnected = "Disconnected ⚠";
           on-click = "wezterm -e nmtui";
 
@@ -209,7 +209,7 @@
           };
           format = "{icon}  {capacity}%";
           format-full = "{icon}  {capacity}%";
-          format-charging = "  {capacity}%";
+          format-charging = "󱐋  {capacity}%";
           format-plugged = "  {capacity}%";
           format-alt = "{time}  {icon}";
           format-icons = [
