@@ -45,11 +45,9 @@
   };
 
   fonts = {
-    #packages = with pkgs; [ nerdfonts ];
     fontconfig = {
       enable = true;
       antialias = true;
-      #defaultFonts = { monospace = [ "JetBrainsMono" ]; };
     };
   };
   fonts.fontDir.enable = true;

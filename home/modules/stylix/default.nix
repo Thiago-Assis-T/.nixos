@@ -5,7 +5,5 @@
     autoEnable = true;
     image = inputs.wallpaper;
     polarity = "dark";
-
   };
-
 }
