@@ -20,6 +20,8 @@
     inputs.stylix.nixosModules.stylix
   ];
 
+  security.sudo-rs.enable = true;
+
   programs.gamemode = {
     enable = true;
     enableRenice = true;

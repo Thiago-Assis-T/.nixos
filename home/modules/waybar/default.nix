@@ -8,18 +8,11 @@
     style = ''
       * {
           /* `otf-font-awesome` and SpaceMono Nerd Font are required to be installed for icons */
-          font-family: "Fira Sans Semibold", FontAwesome, Roboto, Helvetica, Arial, sans-serif;
           font-size: 15px;
-          transition: background-color .3s ease-out;
       }
-
-      window#waybar {
-          background: rgba(26, 27, 38, 0.75);
-          color: #c0caf5;
-          font-family: 
-              SpaceMono Nerd Font,
-              feather;
-          transition: background-color .5s;
+      window#waybar.empty #window {
+      background-color: transparent;
+      background: transparent;
       }
 
       .modules-left,
@@ -84,9 +77,6 @@
 
       #workspaces button {
         background: transparent;
-        font-family:
-          SpaceMono Nerd Font,
-          feather;
         font-weight: 900;
         font-size: 13pt;
         color: #c0caf5;
@@ -113,14 +103,13 @@
       #custom-nixos:hover {
           color: #1793d1;
       }
-            		'';
+    '';
 
     settings = {
       mainBar = {
         layer = "top"; # Waybar at top layer
         position = "top"; # Waybar position (top|bottom|left|right)
-        height = 42; # Waybar height (to be removed for auto height)
-        spacing = 4; # Gaps between modules (4px)
+        #spacing = 4; # Gaps between modules (4px)
         # Choose the order of the modules
         modules-left = [
           "custom/nixos"
@@ -180,8 +169,8 @@
         };
         network = {
           format-wifi = "   {essid} ({signalStrength}%)";
-          format-ethernet = "Connected ";
-          tooltip-format = "{ifname} via {gwaddr} 󰈀 ";
+          format-ethernet = "Connected 󰌗";
+          tooltip-format = "{ifname} via {gwaddr}  ";
           format-linked = "{ifname} (No IP)  ";
           format-disconnected = "Disconnected ⚠";
           on-click = "wezterm -e nmtui";

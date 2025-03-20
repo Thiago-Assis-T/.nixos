@@ -18,12 +18,17 @@
 
       monospace = {
         package = pkgs.nerd-fonts.shure-tech-mono;
-        name = "ShureTechMono Nerd Font Mono";
+        name = "ShureTechMono Nerd Font Propo";
       };
+
       emoji = {
         package = pkgs.noto-fonts-emoji;
         name = "Noto Color Emoji";
       };
+    };
+    opacity = {
+      desktop = 0.0;
+      terminal = 0.9;
     };
 
   };
