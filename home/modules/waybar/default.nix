@@ -10,10 +10,6 @@
           /* `otf-font-awesome` and SpaceMono Nerd Font are required to be installed for icons */
           font-size: 15px;
       }
-      window#waybar.empty #window {
-      background-color: transparent;
-      background: transparent;
-      }
 
       .modules-left,
       .modules-center,
@@ -102,6 +98,13 @@
       }
       #custom-nixos:hover {
           color: #1793d1;
+      }
+
+      window#waybar.empty #window {
+        background-color: transparent;
+      }
+      window#waybar.empty {
+        background-color: transparent;
       }
     '';
 
