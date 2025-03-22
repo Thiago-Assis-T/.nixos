@@ -2,14 +2,20 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ pkgs, ... }:
+{ inputs, pkgs, ... }:
 {
   imports = [
     # Include the results of the hardware scan.
     ../modules/bootloader
     ../modules/powerManagement
     ./hardware-configuration.nix
+    ../modules/hyprland
+    ../modules/stylix
+    ./hardware-configuration.nix
+    inputs.stylix.nixosModules.stylix
   ];
+
+  security.sudo-rs.enable = true;
 
   services.fwupd.enable = true;
   powerManagement.powertop.enable = true;
@@ -63,7 +69,7 @@
 
   # Enable the KDE Plasma Desktop Environment.
   services.displayManager.sddm.enable = true;
-  services.desktopManager.plasma6.enable = true;
+  #services.desktopManager.plasma6.enable = true;
 
   # Configure keymap in X11
   services.xserver.xkb = {
@@ -100,6 +106,7 @@
       "wheel"
     ];
     packages = [
+
     ];
   };
 
@@ -111,6 +118,7 @@
   environment.systemPackages = with pkgs; [
     #  vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
     #  wget
+    uutils-coreutils-noprefix
   ];
 
   # Some programs need SUID wrappers, can be configured further or are

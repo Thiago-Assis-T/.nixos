@@ -1,4 +1,4 @@
-{ ... }:
+{ pkgs, ... }:
 {
   wayland.windowManager.hyprland = {
     enable = true;
@@ -7,6 +7,7 @@
       enable = true;
       enableXdgAutostart = true;
     };
+    portalPackage = pkgs.xdg-desktop-portal-hyprland;
     settings = {
       monitor = ",preferred,auto,auto";
 
@@ -95,7 +96,7 @@
         sensitivity = 0; # -1.0 - 1.0, 0 means no modification.
 
         touchpad = {
-          natural_scroll = true;
+          natural_scroll = false;
         };
       };
       gestures = {
@@ -103,7 +104,7 @@
       };
 
       "$terminal" = "wezterm";
-      "$browser" = "firefox";
+      "$browser" = "floorp";
       "$fileManager" = "dolphin";
       "$menu" = "wofi --show drun";
       "$mainMod" = "SUPER";

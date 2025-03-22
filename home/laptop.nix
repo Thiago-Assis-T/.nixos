@@ -9,7 +9,7 @@
     stateVersion = "23.11";
     packages = with pkgs; [
       floorp
-      freecad-wayland
+      #freecad-wayland
       librecad
       thunderbird
       libreoffice-qt6-fresh
