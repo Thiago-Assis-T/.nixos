@@ -24,6 +24,7 @@
 
   # Enable networking
   networking.networkmanager.enable = true;
+  networking.networkmanager.wifi.backend = "iwd";
   systemd.services.NetworkManager-wait-online.enable = false;
 
   # Set your time zone.
@@ -101,9 +102,6 @@
     packages = [
     ];
   };
-
-  # Install firefox.
-  programs.firefox.enable = true;
 
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
