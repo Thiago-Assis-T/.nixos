@@ -106,7 +106,7 @@
       "$terminal" = "wezterm";
       "$browser" = "floorp";
       "$fileManager" = "dolphin";
-      "$menu" = "wofi --show drun";
+      "$menu" = "wofi -m -G -I --show drun";
       "$mainMod" = "SUPER";
 
       bindm = [

@@ -14,6 +14,7 @@
       ani-cli
       manga-cli
       libreoffice-qt6-fresh
+      thunderbird
     ];
 
   };

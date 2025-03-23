@@ -22,6 +22,29 @@
 
   security.sudo-rs.enable = true;
 
+  environment.variables = {
+    # VAAPI and VDPAU config for accelerated video.
+    # See https://wiki.archlinux.org/index.php/Hardware_video_acceleration
+    "VDPAU_DRIVER" = "radeonsi";
+    "LIBVA_DRIVER_NAME" = "radeonsi";
+  };
+  hardware.graphics = {
+    # See also seat-configuration.nix for other OpenGL settings
+
+    extraPackages = with pkgs; [
+      # VA-API and VDPAU
+      vaapiVdpau
+
+      # AMD ROCm OpenCL runtime
+      rocmPackages.clr
+      rocmPackages.clr.icd
+
+      # AMDVLK drivers can be used in addition to the Mesa RADV drivers.
+      amdvlk
+    ];
+    extraPackages32 = with pkgs; [ driversi686Linux.amdvlk ];
+  };
+
   programs.gamemode = {
     enable = true;
     enableRenice = true;

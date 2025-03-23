@@ -13,7 +13,6 @@
       flake = false;
 
     };
-    # dwl.url = "github:Thiago-Assis-T/dwl";
 
   };
   outputs =

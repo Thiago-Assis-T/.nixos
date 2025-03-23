@@ -122,6 +122,7 @@
           "hyprland/window"
         ];
         modules-right = [
+          "power-profiles-daemon"
           "pulseaudio"
           "network"
           "cpu"
@@ -129,8 +130,20 @@
           "temperature"
           "battery"
           "clock"
+          "tray"
         ];
         # Modules configuration
+        power-profiles-daemon = {
+          format = "{icon}";
+          tooltip-format = "Power profile: {profile}\nDriver: {driver}";
+          tooltip = true;
+          format-icons = {
+            default = "";
+            performance = "";
+            balanced = "";
+            power-saver = "";
+          };
+        };
         "custom/nixos" = {
           format = " ";
           tooltip = true;
@@ -216,6 +229,7 @@
           format = "{:%H:%M | %e %B} ";
           tooltip-format = "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>";
           format-alt = "{:%Y-%m-%d}";
+          on-click = "thunderbird";
         };
       };
     };

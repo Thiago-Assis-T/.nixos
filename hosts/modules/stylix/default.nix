@@ -5,6 +5,12 @@
     autoEnable = true;
     image = inputs.wallpaper;
     polarity = "dark";
+    cursor = {
+      package = pkgs.qogir-icon-theme;
+      name = "Qogir Cursors";
+      size = 24;
+
+    };
     fonts = {
       serif = {
         package = pkgs.dejavu_fonts;
