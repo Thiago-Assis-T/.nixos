@@ -137,7 +137,6 @@
     ]; # Enable ‘sudo’ for the user.
     packages = with pkgs; [
       kdePackages.isoimagewriter
-      #(pkgs.uutils-coreutils.override { prefix = ""; })
       uutils-coreutils-noprefix
     ];
   };
