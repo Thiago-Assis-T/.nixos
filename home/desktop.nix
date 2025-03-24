@@ -11,6 +11,7 @@
       #inputs.dwl.packages.${system}.default
       #freecad-wayland
       #librecad
+      floorp
       ani-cli
       manga-cli
       libreoffice-qt6-fresh
