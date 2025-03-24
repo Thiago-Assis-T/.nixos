@@ -100,7 +100,7 @@
         };
       };
       gestures = {
-        workspace_swipe = false;
+        workspace_swipe = true;
       };
 
       "$terminal" = "wezterm";
