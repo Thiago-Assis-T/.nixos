@@ -119,6 +119,7 @@
 
       bind = [
         "$mainMod, Return, exec, $terminal"
+        "$mainMod, Escape, exec, wlogout"
         "$mainMod, E, exec, $fileManager"
         "$mainMod, Q, killactive"
         "$mainMod SHIFT, C, exit,"

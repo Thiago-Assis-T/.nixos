@@ -11,6 +11,7 @@
       #inputs.dwl.packages.${system}.default
       #freecad-wayland
       #librecad
+      wlogout
       floorp
       ani-cli
       manga-cli
