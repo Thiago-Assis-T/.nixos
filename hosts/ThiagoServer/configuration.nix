@@ -44,7 +44,10 @@
   users.users.thiago = {
     isNormalUser = true;
     extraGroups = [ "wheel" ]; # Enable ‘sudo’ for the user.
-    packages = with pkgs; [ htop ];
+    packages = with pkgs; [
+      cloudflared
+      htop
+    ];
   };
 
   # Enable the OpenSSH daemon.
