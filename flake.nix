@@ -69,7 +69,7 @@
           modules = [
             ./hosts/ThiagoLaptop/configuration.nix
             home-manager.nixosModules.home-manager
-            #(import ./overlays)
+            (import ./overlays)
             (import ./overrides)
             {
               home-manager = {

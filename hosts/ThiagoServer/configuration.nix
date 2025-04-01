@@ -10,15 +10,13 @@
 {
   imports = [
     ./hardware-configuration.nix
-    ./disk-config.nix
     ../modules/bootloader
-    ../modules/tailscale
     ../modules/powerManagement
-    ../modules/printing
-    ./modules/multimedia
-    ./modules/homepage-dashboard
+    ../modules/docs
+    ../modules/cloudflared
   ];
 
+  services.power-profiles-daemon.enable = lib.mkForce false;
   zramSwap.enable = true;
 
   systemd.services.NetworkManager-wait-online.enable = false;

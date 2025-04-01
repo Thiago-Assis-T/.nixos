@@ -6,6 +6,34 @@
 {
   imports = [ (modulesPath + "/installer/scan/not-detected.nix") ];
 
+  fileSystems."/" =
+    { device = "/dev/disk/by-uuid/618e370d-5bd7-44bd-81ed-fa9942414e0a";
+      fsType = "btrfs";
+      options = [ "compress=zstd:8" "subvol=root" ];
+    };
+
+  fileSystems."/home" =
+    { device = "/dev/disk/by-uuid/618e370d-5bd7-44bd-81ed-fa9942414e0a";
+      fsType = "btrfs";
+      options = [ "compress=zstd:8" "subvol=home" ];
+    };
+
+  fileSystems."/nix" =
+    { device = "/dev/disk/by-uuid/618e370d-5bd7-44bd-81ed-fa9942414e0a";
+      fsType = "btrfs";
+      options = ["compress=zstd:8" "noatime" "subvol=nix" ];
+    };
+
+  fileSystems."/boot" =
+    { device = "/dev/disk/by-uuid/12CE-A600";
+      fsType = "vfat";
+      options = [ "fmask=0022" "dmask=0022" ];
+    };
+
+  swapDevices =
+    [ { device = "/dev/disk/by-uuid/47d3c511-c2ab-4ab1-abd7-ff6d29572753"; }
+    ];
+
   boot.kernelPackages = pkgs.linuxPackages_zen;
   boot.initrd.availableKernelModules =
     [ "xhci_pci" "ahci" "usbhid" "usb_storage" "sd_mod" "rtsx_usb_sdmmc" ];
@@ -47,25 +75,8 @@
     hostPlatform = {
       system = "x86_64-linux";
       config = "x86_64-unknown-linux-gnu";
-      #config = "x86_64-unknown-linux-musl";
-      #gcc.arch = "skylake";
-      #gcc.tune = "skylake";
     };
   };
-
-  #services.xserver.videoDrivers = [ "nvidia" ];
-  #environment.noXlibs = true;
-  #hardware.nvidia = {
-  #  modesetting.enable = true;
-  #  powerManagement.enable = true;
-  #  open = false;
-  #  package = config.boot.kernelPackages.nvidiaPackages.beta;
-  #  prime = {
-  #    sync.enable = true;
-  #    intelBusId = "PCI:0:2:0";
-  #    nvidiaBusId = "PCI:01:0:0";
-  #  };
-  #};
 
   # Disabling Nvidia GPU:
   boot.blacklistedKernelModules =
