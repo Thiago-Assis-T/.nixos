@@ -14,6 +14,7 @@
     ../modules/powerManagement
     ../modules/docs
     ../modules/podman
+    ../modules/homarr
   ];
 
   services.power-profiles-daemon.enable = lib.mkForce false;
