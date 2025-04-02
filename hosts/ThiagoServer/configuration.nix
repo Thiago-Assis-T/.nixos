@@ -17,6 +17,7 @@
     ../modules/homarr
     ../modules/qbittorrent
     ../modules/prowlarr
+    ../modules/sonarr
   ];
 
   services.power-profiles-daemon.enable = lib.mkForce false;
