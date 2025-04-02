@@ -19,6 +19,7 @@
     ../modules/prowlarr
     ../modules/sonarr
     ../modules/radarr
+    ../modules/jellyseerr
   ];
 
   services.power-profiles-daemon.enable = lib.mkForce false;

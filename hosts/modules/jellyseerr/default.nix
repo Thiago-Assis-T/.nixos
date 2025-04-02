@@ -1,20 +1,19 @@
 { ... }:
 {
   virtualisation.oci-containers.containers = {
-    radarr = {
-      image = "lscr.io/linuxserver/radarr:latest";
+    jellyseerr = {
+      image = "ghcr.io/fallenbagel/jellyseerr:latest";
       ports = [
-        "7878:7878"
+        "5055:5055"
       ];
       volumes = [
-        "/home/thiago/radarr:/config"
-        "/home/thiago/data/movies:/movies"
-        "/home/thiago/data/downloads:/downloads"
+        "/home/thiago/jellyseerr:/config"
       ];
       environment = {
         PUID = "1000";
         GUID = "1000";
         TZ = "America/Sao_Paulo";
+        PORT = "5055";
       };
     };
   };
