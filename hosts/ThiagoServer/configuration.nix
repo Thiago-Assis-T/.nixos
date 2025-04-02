@@ -20,6 +20,7 @@
     ../modules/sonarr
     ../modules/radarr
     ../modules/jellyseerr
+    ../modules/jellyfin
   ];
 
   services.power-profiles-daemon.enable = lib.mkForce false;

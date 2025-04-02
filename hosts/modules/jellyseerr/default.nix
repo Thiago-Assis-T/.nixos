@@ -7,7 +7,7 @@
         "5055:5055"
       ];
       volumes = [
-        "/home/thiago/jellyseerr:/config"
+        "/home/thiago/jellyseerr:/app/config"
       ];
       environment = {
         PUID = "1000";
