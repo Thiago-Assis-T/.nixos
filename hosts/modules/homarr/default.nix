@@ -7,7 +7,7 @@
       ports = [ "7575:7575" ];
       volumes = [
         "/var/run/podman/podman.sock:/var/run/docker.sock"
-        "/home/thiago/appdata:/appdata"
+        "/home/thiago/homarr:/appdata"
 
       ];
       environment = {
