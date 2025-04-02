@@ -18,6 +18,7 @@
     ../modules/qbittorrent
     ../modules/prowlarr
     ../modules/sonarr
+    ../modules/radarr
   ];
 
   services.power-profiles-daemon.enable = lib.mkForce false;
