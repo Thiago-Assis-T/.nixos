@@ -8,6 +8,8 @@
       ];
       volumes = [
         "/home/thiago/jellyseerr:/app/config"
+        "/home/thiago/data/tvseries:/data/tvshows"
+        "/home/thiago/data/movies:/data/movies"
       ];
       environment = {
         PUID = "1000";

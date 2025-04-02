@@ -1,16 +1,13 @@
 { ... }:
 {
   virtualisation.oci-containers.containers = {
-    jellyfin = {
-      image = "lscr.io/linuxserver/jellyfin:latest";
+    bazarr = {
+      image = "ghcr.io/fallenbagel/bazarr:latest";
       ports = [
-        "8096:8096"
-        "8920:8920"
-        "7359:7359/udp"
-        "1900:1900/udp"
+        "6767:6767"
       ];
       volumes = [
-        "/home/thiago/jellyfin:/config"
+        "/home/thiago/bazarr:/app/config"
         "/home/thiago/data/tvseries:/data/tvshows"
         "/home/thiago/data/movies:/data/movies"
       ];
@@ -19,7 +16,6 @@
         GUID = "1000";
         TZ = "America/Sao_Paulo";
       };
-      extraOptions = [ "--device=/dev/dri/renderD128:/dev/dri/renderD128" ];
     };
   };
 }
