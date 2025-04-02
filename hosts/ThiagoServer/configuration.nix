@@ -13,7 +13,7 @@
     ../modules/bootloader
     ../modules/powerManagement
     ../modules/docs
-    ../modules/cloudflared
+    ../modules/podman
   ];
 
   services.power-profiles-daemon.enable = lib.mkForce false;
