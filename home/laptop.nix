@@ -8,6 +8,8 @@
     homeDirectory = "/home/thiago";
     stateVersion = "23.11";
     packages = with pkgs; [
+      gnome-disk-utility
+      kdePackages.dolphin
       floorp
       #freecad-wayland
       librecad
