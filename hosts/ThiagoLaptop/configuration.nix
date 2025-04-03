@@ -18,6 +18,13 @@
   security.sudo-rs.enable = true;
 
   services.fwupd.enable = true;
+  services.tailscale = {
+    enable = true;
+    extraUpFlags = [
+      "--accept-routes"
+
+    ];
+  };
   powerManagement.powertop.enable = true;
   nix.settings.experimental-features = [
     "nix-command"
