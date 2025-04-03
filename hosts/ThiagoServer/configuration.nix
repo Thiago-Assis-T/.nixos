@@ -22,7 +22,7 @@
     ../modules/bazarr
     ../modules/jellyseerr
     ../modules/jellyfin
-    ../modules/tdarr
+    ../modules/tdarr-server
   ];
 
   services.power-profiles-daemon.enable = lib.mkForce false;
