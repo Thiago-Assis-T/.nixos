@@ -15,7 +15,10 @@
         "/home/thiago/tdarr/transcode_cache:/temp"
 
       ];
-      extraOptions = [ "--device=/dev/dri:/dev/dri" ];
+      extraOptions = [
+        "--gpus=all"
+        "--device=/dev/dri:/dev/dri"
+      ];
       environment = {
         TZ = "America/Sao_Paulo";
         PUID = "1000";
