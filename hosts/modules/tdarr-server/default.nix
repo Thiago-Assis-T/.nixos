@@ -12,7 +12,7 @@
         "/home/thiago/tdarr/server:/app/server"
         "/home/thiago/tdarr/configs:/app/configs"
         "/home/thiago/tdarr/logs:/app/logs"
-        "/home/thiago/tdarr/transcode_cache:/temp"
+        "/home/thiago/data/transcode_cache:/temp"
 
       ];
       extraOptions = [
