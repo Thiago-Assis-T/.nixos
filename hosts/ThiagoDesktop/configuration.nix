@@ -20,6 +20,7 @@
     inputs.stylix.nixosModules.stylix
     #../modules/tdarr-node
   ];
+  services.gvfs.enable = true;
 
   services.tailscale = {
     enable = true;

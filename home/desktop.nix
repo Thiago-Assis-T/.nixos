@@ -17,6 +17,7 @@
       manga-cli
       libreoffice-qt6-fresh
       thunderbird
+      kdePackages.dolphin
     ];
 
   };
