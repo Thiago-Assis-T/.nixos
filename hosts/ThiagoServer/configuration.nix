@@ -34,6 +34,13 @@
   networking.firewall.enable = true;
   networking.networkmanager.wifi.powersave = false;
 
+  services.tailscale = {
+    enable = true;
+    extraUpFlags = [
+      "--accept-routes"
+    ];
+  };
+
   services.fwupd.enable = true;
 
   services.btrfs.autoScrub = {
