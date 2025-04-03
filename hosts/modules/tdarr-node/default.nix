@@ -8,7 +8,7 @@
         "8266:8266"
       ];
       volumes = [
-        "/home/thiago/data:/media"
+        #"/home/thiago/data:/media"
         "/home/thiago/tdarr/configs:/app/configs"
         "/home/thiago/tdarr/logs:/app/logs"
         "/home/thiago/tdarr/transcode_cache:/temp"
