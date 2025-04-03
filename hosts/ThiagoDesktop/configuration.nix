@@ -18,6 +18,7 @@
     ../modules/stylix
     ./hardware-configuration.nix
     inputs.stylix.nixosModules.stylix
+    ../modules/tdarr-node
   ];
 
   services.tailscale = {
