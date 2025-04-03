@@ -20,6 +20,13 @@
     inputs.stylix.nixosModules.stylix
   ];
 
+  services.tailscale = {
+    enable = true;
+    extraUpFlags = [
+      "--accept-routes"
+    ];
+  };
+
   security.sudo-rs.enable = true;
 
   environment.variables = {
