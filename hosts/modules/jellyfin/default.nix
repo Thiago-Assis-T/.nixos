@@ -19,7 +19,9 @@
         GUID = "1000";
         TZ = "America/Sao_Paulo";
       };
-      extraOptions = [ "--device=/dev/dri/renderD128:/dev/dri/renderD128" ];
+      extraOptions = [
+        "--device=/dev/dri/:/dev/dri/"
+      ];
     };
   };
 }

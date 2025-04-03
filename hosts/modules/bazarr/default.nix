@@ -7,7 +7,7 @@
         "6767:6767"
       ];
       volumes = [
-        "/home/thiago/bazarr:/app/config"
+        "/home/thiago/bazarr:/config"
         "/home/thiago/data/tvseries:/data/tvshows"
         "/home/thiago/data/movies:/data/movies"
       ];
