@@ -2,7 +2,7 @@
 {
   virtualisation.oci-containers.containers = {
     bazarr = {
-      image = "ghcr.io/fallenbagel/bazarr:latest";
+      image = "lscr.io/linuxserver/bazarr:latest";
       ports = [
         "6767:6767"
       ];

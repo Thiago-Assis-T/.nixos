@@ -19,6 +19,7 @@
     ../modules/prowlarr
     ../modules/sonarr
     ../modules/radarr
+    ../modules/bazarr
     ../modules/jellyseerr
     ../modules/jellyfin
   ];
