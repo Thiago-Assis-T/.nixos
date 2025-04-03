@@ -8,10 +8,10 @@
         "8266:8266"
       ];
       volumes = [
-        #"/home/thiago/data:/media"
-        "/home/thiago/tdarr/configs:/app/configs"
-        "/home/thiago/tdarr/logs:/app/logs"
-        "/home/thiago/data/transcode_cache:/temp"
+        "smb://thiagoserver.local/data:/media"
+        "smb://thiagoserver.local/data/tdarr/configs:/app/configs"
+        "smb://thiagoserver.local/data/tdarr/logs:/app/logs"
+        "smb://thiagoserver.local/data/transcode_cache:/temp"
 
       ];
       extraOptions = [ "--device=/dev/dri:/dev/dri" ];

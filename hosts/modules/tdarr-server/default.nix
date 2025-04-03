@@ -9,9 +9,9 @@
       ];
       volumes = [
         "/home/thiago/data:/media"
-        "/home/thiago/tdarr/server:/app/server"
-        "/home/thiago/tdarr/configs:/app/configs"
-        "/home/thiago/tdarr/logs:/app/logs"
+        "/home/thiago/data/tdarr/server:/app/server"
+        "/home/thiago/data/tdarr/configs:/app/configs"
+        "/home/thiago/data/tdarr/logs:/app/logs"
         "/home/thiago/data/transcode_cache:/temp"
 
       ];
