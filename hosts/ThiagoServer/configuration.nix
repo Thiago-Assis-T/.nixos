@@ -13,6 +13,7 @@
     ../modules/bootloader
     ../modules/powerManagement
     ../modules/docs
+    ../modules/samba
     ../modules/podman
     ../modules/homarr
     ../modules/qbittorrent
