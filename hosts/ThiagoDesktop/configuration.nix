@@ -16,6 +16,7 @@
     ../modules/printing
     ../modules/hyprland
     ../modules/stylix
+    ../modules/samba-client
     ./hardware-configuration.nix
     inputs.stylix.nixosModules.stylix
     #../modules/tdarr-node
