@@ -8,13 +8,15 @@
         "8266:8266"
       ];
       volumes = [
-        "smb://thiagoserver.local/data:/media"
-        "smb://thiagoserver.local/data/tdarr/configs:/app/configs"
-        "smb://thiagoserver.local/data/tdarr/logs:/app/logs"
-        "smb://thiagoserver.local/data/transcode_cache:/temp"
+        "/home/thiago/data:/media"
+        "/home/thiago/data/tdarr/configs:/app/configs"
+        "/home/thiago/data/tdarr/logs:/app/logs"
+        "/home/thiago/data/transcode_cache:/temp"
 
       ];
-      extraOptions = [ "--device=/dev/dri:/dev/dri" ];
+      extraOptions = [
+        "--device=/dev/dri:/dev/dri"
+      ];
       environment = {
         TZ = "America/Sao_Paulo";
         PUID = "1000";
