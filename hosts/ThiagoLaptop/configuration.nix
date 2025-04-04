@@ -13,6 +13,7 @@
     ../modules/stylix
     ./hardware-configuration.nix
     inputs.stylix.nixosModules.stylix
+    ../modules/samba-client
   ];
 
   security.sudo-rs.enable = true;

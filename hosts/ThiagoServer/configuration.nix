@@ -24,6 +24,7 @@
     ../modules/jellyseerr
     ../modules/jellyfin
     ../modules/tdarr-server
+    ../modules/dashdot
   ];
 
   services.power-profiles-daemon.enable = lib.mkForce false;
