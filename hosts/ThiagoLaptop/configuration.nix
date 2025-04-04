@@ -2,7 +2,12 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ inputs, pkgs, ... }:
+{
+  inputs,
+  pkgs,
+  lib,
+  ...
+}:
 {
   imports = [
     # Include the results of the hardware scan.
@@ -14,10 +19,12 @@
     ./hardware-configuration.nix
     inputs.stylix.nixosModules.stylix
     ../modules/samba-client
+    ../modules/tdarr-node
   ];
 
   security.sudo-rs.enable = true;
 
+  virtualisation.oci-containers.containers.tdarr-node.environment.nodeName = lib.mkForce "LaptopNode";
   services.fwupd.enable = true;
   services.tailscale = {
     enable = true;
