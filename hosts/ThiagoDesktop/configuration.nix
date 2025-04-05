@@ -39,6 +39,7 @@
     "LIBVA_DRIVER_NAME" = "radeonsi";
   };
   hardware.graphics = {
+    enable32Bit = true;
     # See also seat-configuration.nix for other OpenGL settings
 
     extraPackages = with pkgs; [
