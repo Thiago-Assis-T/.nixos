@@ -70,7 +70,13 @@ in
   boot.kernelModules = [ "kvm-intel" ];
   boot.extraModulePackages = [ ];
 
-  boot.kernelParams = [ "intal_pstate=active" ];
+  boot.modprobeConfig.enable = true;
+  boot.extraModprobeConfig = ''
+    options i915 enable_guc=3
+  '';
+  boot.kernelParams = [
+    "intal_pstate=active"
+  ];
   boot.kernel.sysctl = {
     "kernel.sched_cfs_bandwidth_slice_us" = 3000;
     "net.ipv4.tcp_fin_timeout" = 5;
