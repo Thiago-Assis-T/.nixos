@@ -33,12 +33,6 @@
 
   security.sudo-rs.enable = true;
 
-  environment.variables = {
-    # VAAPI and VDPAU config for accelerated video.
-    # See https://wiki.archlinux.org/index.php/Hardware_video_acceleration
-    "VDPAU_DRIVER" = "radeonsi";
-    "LIBVA_DRIVER_NAME" = "radeonsi";
-  };
   hardware.graphics = {
     enable32Bit = true;
     # See also seat-configuration.nix for other OpenGL settings
@@ -173,6 +167,7 @@
     packages = with pkgs; [
       kdePackages.isoimagewriter
       uutils-coreutils-noprefix
+      nvtopPackages.full
     ];
   };
 

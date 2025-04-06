@@ -24,7 +24,12 @@
     ../modules/jellyseerr
     ../modules/jellyfin
     ../modules/tdarr-server
-    #../modules/dashdot
+    ../modules/snowflake-proxy
+  ];
+
+  security.sudo-rs.enable = true;
+  environment.systemPackages = with pkgs; [
+    uutils-coreutils-noprefix
   ];
 
   services.power-profiles-daemon.enable = lib.mkForce false;

@@ -14,9 +14,10 @@
         "/home/thiago/data/transcode_cache:/temp"
 
       ];
-      extraOptions = [
-        "--device=/dev/dri:/dev/dri"
+      devices = [
+        "/dev/dri/renderD128:/dev/dri/renderD128"
       ];
+      privileged = false;
       environment = {
         TZ = "America/Sao_Paulo";
         PUID = "1000";
@@ -27,9 +28,7 @@
         inContainer = "true";
         ffmpegVersion = "7";
         nodeName = "DesktopNode";
-
       };
-
     };
   };
 }
