@@ -20,6 +20,7 @@
     ./hardware-configuration.nix
     inputs.stylix.nixosModules.stylix
     ../modules/tdarr-node
+    ../modules/snowflake-proxy
   ];
   services.gvfs.enable = true;
 
