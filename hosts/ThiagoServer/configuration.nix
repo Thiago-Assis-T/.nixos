@@ -25,6 +25,7 @@
     ../modules/jellyfin
     ../modules/tdarr-server
     ../modules/snowflake-proxy
+    ../modules/reverse-proxy
   ];
 
   security.sudo-rs.enable = true;
