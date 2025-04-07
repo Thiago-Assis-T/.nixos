@@ -26,9 +26,6 @@
 
   services.tailscale = {
     enable = true;
-    extraUpFlags = [
-      "--accept-routes"
-    ];
   };
 
   security.sudo-rs.enable = true;
