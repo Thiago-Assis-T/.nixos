@@ -3,6 +3,7 @@
   environment.systemPackages = [
     pkgs.kdePackages.skanlite
     pkgs.kdePackages.skanpage
+    pkgs.system-config-printer
   ];
   services.udev.packages = [ pkgs.utsushi ];
   hardware.sane = {

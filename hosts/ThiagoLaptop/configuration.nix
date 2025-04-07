@@ -13,6 +13,7 @@
     # Include the results of the hardware scan.
     ../modules/bootloader
     ../modules/powerManagement
+    ../modules/printing
     ./hardware-configuration.nix
     ../modules/hyprland
     ../modules/stylix
