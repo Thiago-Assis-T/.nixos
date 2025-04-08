@@ -20,6 +20,7 @@
       url = "github:nix-community/nixvim";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    nixos-hardware.url = "github:NixOS/nixos-hardware/master";
 
   };
   outputs =
@@ -39,7 +40,12 @@
             home-manager.nixosModules.home-manager
             (import ./overlays)
             (import ./overrides)
-            #inputs.stylix.homeManagerModules.stylix
+            inputs.nixos-hardware.nixosModules.gigabyte-b550
+            inputs.nixos-hardware.nixosModules.common-cpu-amd
+            inputs.nixos-hardware.nixosModules.common-gpu-amd
+            inputs.nixos-hardware.nixosModules.common-pc-ssd
+            inputs.nixos-hardware.nixosModules.common-cpu-amd-pstate
+            inputs.nixos-hardware.nixosModules.common-cpu-amd-zenpower
             {
               home-manager = {
                 extraSpecialArgs = {
