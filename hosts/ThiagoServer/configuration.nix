@@ -26,7 +26,7 @@
     ../modules/tdarr-server
     ../modules/snowflake-proxy
     ../modules/reverse-proxy
-    ../modules/noXLibs
+    #../modules/noXLibs
   ];
 
   security.sudo-rs.enable = true;
