@@ -1,7 +1,9 @@
-{ ... }:
+{ inputs, ... }:
 {
   imports = [
-    ./nvim
+    inputs.nixvim.homeManagerModules.nixvim
+    ./nixvim
+    #./nvim
     ./git
     ./shell
     ./wezterm

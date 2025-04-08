@@ -13,9 +13,12 @@
     };
     stylix.url = "github:danth/stylix";
     wallpaper = {
-      url = "https://images6.alphacoders.com/134/1346530.jpeg";
+      url = "https://gitlab.com/GasparVardanyan/solarized/-/raw/master/wallpapers-solarized/city-buildings.png";
       flake = false;
-
+    };
+    nixvim = {
+      url = "github:nix-community/nixvim";
+      inputs.nixpkgs.follows = "nixpkgs";
     };
 
   };
