@@ -19,6 +19,13 @@
       waybar = {
         enable = true;
       };
+
+      nixvim = {
+        transparentBackground = {
+          main = true;
+          signColumn = true;
+        };
+      };
     };
   };
 }
