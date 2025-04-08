@@ -8,11 +8,6 @@
   modulesPath,
   ...
 }:
-let
-  # nvidia package to patch
-  package = config.boot.kernelPackages.nvidiaPackages.beta;
-in
-
 {
   imports = [ (modulesPath + "/installer/scan/not-detected.nix") ];
 
@@ -115,20 +110,7 @@ in
     };
   };
 
-  services.xserver.videoDrivers = [ "nvidia" ];
   hardware = {
-    nvidia-container-toolkit.enable = true;
-    nvidia = {
-      modesetting.enable = true;
-      powerManagement.enable = true;
-      open = false;
-      package = pkgs.nvidia-patch.patch-nvenc (pkgs.nvidia-patch.patch-fbc package);
-      prime = {
-        sync.enable = true;
-        intelBusId = "PCI:0:2:0";
-        nvidiaBusId = "PCI:01:0:0";
-      };
-    };
     enableAllFirmware = true;
     graphics = {
       enable = true;
@@ -138,12 +120,8 @@ in
         intel-vaapi-driver
         vaapiVdpau
         intel-compute-runtime # OpenCL filter support (hardware tonemapping and subtitle burn-in)
-        # OpenCL support for intel CPUs before 12th gen
-        # see: https://github.com/NixOS/nixpkgs/issues/356535
-        #intel-compute-runtime-legacy1
         vpl-gpu-rt # QSV on 11th gen or newer
         intel-media-sdk # QSV up to 11th gen
-
       ];
     };
     cpu.intel.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
