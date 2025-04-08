@@ -23,7 +23,7 @@
         PUID = "1000";
         GUID = "1000";
         UMASK_SET = "002";
-        serverIP = "100.73.62.17";
+        serverIP = "192.168.8.233";
         serverPort = "8266";
         inContainer = "true";
         ffmpegVersion = "7";
