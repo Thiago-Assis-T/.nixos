@@ -48,7 +48,7 @@
         key = "<leader>fg";
       }
       {
-        action = "<cmd> Telescope fzy<CR>";
+        action = "<cmd> Telescope fzy_native<CR>";
         key = "<leader>ff";
       }
       {
