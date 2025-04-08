@@ -10,6 +10,7 @@
     packages = with pkgs; [
       gnome-disk-utility
       kdePackages.dolphin
+      jellyfin-media-player
       floorp
       #freecad-wayland
       librecad
