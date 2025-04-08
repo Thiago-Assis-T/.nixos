@@ -45,7 +45,7 @@
     keymaps = [
       {
         action = "<cmd> Telescope live_grep <CR>";
-        key = "<leader>ff";
+        key = "<leader>fg";
       }
       {
         action = "<cmd> Telescope fzy<CR>";
