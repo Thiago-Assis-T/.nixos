@@ -14,6 +14,8 @@
       tectonic
       texliveFull
       mermaid-cli
+      fzf
+      fzy
     ];
     extraConfigLua = "vim.deprecate = function() end";
     clipboard = {
@@ -42,7 +44,11 @@
     };
     keymaps = [
       {
-        action = "<cmd> Telescope find_files <CR>";
+        action = "<cmd> Telescope live_grep <CR>";
+        key = "<leader>ff";
+      }
+      {
+        action = "<cmd> Telescope fzy<CR>";
         key = "<leader>ff";
       }
       {
