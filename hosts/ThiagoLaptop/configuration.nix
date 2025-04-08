@@ -25,6 +25,7 @@
 
   security.sudo-rs.enable = true;
 
+  services.fstrim.enable = true;
   virtualisation.oci-containers.containers.tdarr-node.environment.nodeName = lib.mkForce "LaptopNode";
   services.fwupd.enable = true;
   services.tailscale = {
