@@ -45,10 +45,7 @@
   networking.networkmanager.wifi.powersave = false;
 
   services.tailscale = {
-    enable = true;
-    extraUpFlags = [
-      "--accept-routes"
-    ];
+    enable = false;
   };
 
   services.fwupd.enable = true;
