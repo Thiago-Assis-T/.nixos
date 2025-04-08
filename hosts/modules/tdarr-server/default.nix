@@ -16,7 +16,6 @@
 
       ];
       extraOptions = [
-        "--gpus=all"
         "--device=/dev/dri:/dev/dri"
       ];
       environment = {
