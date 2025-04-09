@@ -1,11 +1,13 @@
-{ ... }: {
+{ inputs, ... }:
+{
 
-  imports = [ 
-    ./modules/nvim
+  imports = [
+
+    inputs.nixvim.homeManagerModules.nixvim
+    ./modules/nixvim
     ./modules/git
     ./modules/shell
-    ];
-
+  ];
 
   home = {
     username = "thiago";

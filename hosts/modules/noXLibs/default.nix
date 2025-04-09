@@ -1,6 +1,6 @@
 # This module gets rid of all dependencies on X11 client libraries
 # (including fontconfig).
-{ lib, ... }:
+{ lib, pkgs, ... }:
 {
   programs.ssh.setXAuthLocation = false;
   security.pam.services.su.forwardXAuth = lib.mkForce false;
@@ -9,6 +9,24 @@
 
   nixpkgs.overlays = lib.singleton (
     lib.const (super: {
+      webkitgtk = super.webkitgtk.override {
+        systemdSupport = true;
+        enableGeoLocation = false;
+        enableExperimental = true;
+        withLibsecret = true;
+        clangStdenv.hostPlatform.isLinux = false;
+      };
+      gtk3 = super.gtk3.override {
+        xineramaSupport = false;
+        cupsSupport = false;
+        x11Support = false;
+        waylandSupport = false;
+        trackerSupport = false;
+
+      };
+      vulkan-loader = super.vulkan-loader.override {
+        enableX11 = false;
+      };
       beam = super.beam_nox;
       cairo = super.cairo.override { x11Support = false; };
       dbus = super.dbus.override { x11Support = false; };
@@ -17,10 +35,27 @@
         waylandSupport = false;
         x11Support = false;
       };
-      ffmpeg = super.ffmpeg.override { ffmpegVariant = "headless"; };
-      ffmpeg_4 = super.ffmpeg_4.override { ffmpegVariant = "headless"; };
-      ffmpeg_6 = super.ffmpeg_6.override { ffmpegVariant = "headless"; };
-      ffmpeg_7 = super.ffmpeg_7.override { ffmpegVariant = "headless"; };
+
+      ffmpeg-headless = super.ffmpeg-headless.override {
+        #ffmpegVariant = "headless";
+        withVulkan = false;
+      };
+      ffmpeg = super.ffmpeg.override {
+        ffmpegVariant = "headless";
+        withVulkan = false;
+      };
+      ffmpeg_4 = super.ffmpeg_4.override {
+        ffmpegVariant = "headless";
+        withVulkan = false;
+      };
+      ffmpeg_6 = super.ffmpeg_6.override {
+        ffmpegVariant = "headless";
+        withVulkan = false;
+      };
+      ffmpeg_7 = super.ffmpeg_7.override {
+        ffmpegVariant = "headless";
+        withVulkan = false;
+      };
       # dep of graphviz, libXpm is optional for Xpm support
       gd = super.gd.override { withXorg = false; };
       ghostscript = super.ghostscript.override {
@@ -94,7 +129,11 @@
       pythonPackagesExtensions = super.pythonPackagesExtensions ++ [
         (python-final: python-prev: {
           # tk feature requires wayland which fails to compile
-          matplotlib = python-prev.matplotlib.override { enableTk = false; };
+          matplotlib = python-prev.matplotlib.override {
+            enableTk = false;
+            enableGtk3 = false;
+            enableQt = false;
+          };
         })
       ];
       qemu = super.qemu.override {

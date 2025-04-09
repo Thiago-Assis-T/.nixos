@@ -11,8 +11,8 @@
   imports = [
     ./hardware-configuration.nix
     ../modules/bootloader
-    ../modules/powerManagement
-    ../modules/docs
+    #../modules/powerManagement
+    #../modules/docs
     ../modules/samba
     ../modules/podman
     ../modules/homarr
@@ -29,6 +29,20 @@
     #../modules/noXLibs
   ];
 
+  powerManagement = {
+    enable = true;
+    powertop.enable = true;
+  };
+  services = {
+    thermald.enable = true;
+    tlp.enable = true;
+    scx = {
+      enable = true;
+      scheduler = "scx_lavd";
+      extraArgs = [ "--autopilot" ];
+    };
+  };
+  boot.plymouth.enable = lib.mkForce false;
   security.sudo-rs.enable = true;
   environment.systemPackages = with pkgs; [
     uutils-coreutils-noprefix
@@ -40,6 +54,8 @@
   systemd.services.NetworkManager-wait-online.enable = false;
   networking.hostName = "ThiagoServer"; # Define your hostname.
   networking.networkmanager.enable = true; # Easiest to use and most distros use this by default.
+  networking.networkmanager.wifi.backend = "iwd";
+  networking.networkmanager.plugins = lib.mkForce [ ];
   networking.useDHCP = lib.mkDefault true;
   networking.firewall.enable = true;
   networking.networkmanager.wifi.powersave = false;
