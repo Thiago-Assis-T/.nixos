@@ -21,6 +21,7 @@
     inputs.stylix.nixosModules.stylix
     ../modules/tdarr-node
     ../modules/snowflake-proxy
+    ../modules/foldingAtHome
   ];
   services.gvfs.enable = true;
 
