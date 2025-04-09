@@ -79,8 +79,11 @@
     enable = true;
     extraCompatPackages = [ pkgs.proton-ge-bin ];
     protontricks.enable = true;
-
   };
+  environment.systemPackages = with pkgs; [
+    heroic
+    lutris
+  ];
 
   services.fwupd.enable = true;
   nixpkgs = {
