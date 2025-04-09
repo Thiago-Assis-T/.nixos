@@ -86,6 +86,10 @@
           modules = [
             ./hosts/ThiagoLaptop/configuration.nix
             home-manager.nixosModules.home-manager
+            inputs.nixos-hardware.nixosModules.common-gpu-intel
+            inputs.nixos-hardware.nixosModules.common-cpu-intel
+            inputs.nixos-hardware.nixosModules.common-pc-ssd
+            inputs.nixos-hardware.nixosModules.common-pc-laptop
             (import ./overlays)
             (import ./overrides)
             {
