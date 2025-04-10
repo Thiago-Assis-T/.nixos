@@ -1,27 +1,26 @@
-{ ... }:
+{ pkgs, lib, ... }:
 {
-  virtualisation.oci-containers.containers = {
-    jellyfin = {
-      image = "lscr.io/linuxserver/jellyfin:latest";
-      ports = [
-        "8096:8096"
-        "8920:8920"
-        "7359:7359/udp"
-        "1900:1900/udp"
-      ];
-      volumes = [
-        "/home/thiago/jellyfin:/config"
-        "/home/thiago/data/tvseries:/data/tvshows"
-        "/home/thiago/data/movies:/data/movies"
-      ];
-      environment = {
-        PUID = "1000";
-        GUID = "1000";
-        TZ = "America/Sao_Paulo";
+  nixpkgs.overlays = lib.singleton (
+    lib.const (super: {
+      jellyfin-ffmpeg = super.jellyfin-ffmpeg.override {
+        ffmpeg_7-full = super.ffmpeg_7-full.override {
+          withMfx = false; # This corresponds to the older media driver
+          withVpl = true; # This is the new driver
+          withUnfree = true;
+        };
+
       };
-      extraOptions = [
-        "--device=/dev/dri/:/dev/dri/"
-      ];
-    };
+    })
+  );
+  environment.systemPackages = with pkgs; [
+    jellyfin
+    jellyfin-web
+    jellyfin-ffmpeg
+  ];
+  services.jellyfin = {
+    enable = true;
+    openFirewall = true;
+    dataDir = "/home/thiago/jellyfin";
+    user = "thiago";
   };
 }
