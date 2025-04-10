@@ -36,22 +36,34 @@
 
   security.sudo-rs.enable = true;
 
-  hardware.graphics = {
-    enable32Bit = true;
-    # See also seat-configuration.nix for other OpenGL settings
+  hardware = {
 
-    extraPackages = with pkgs; [
-      # VA-API and VDPAU
-      vaapiVdpau
+    amdgpu = {
+      opencl.enable = true;
+      initrd.enable = true;
+      amdvlk = {
+        enable = true;
+        supportExperimental.enable = true;
+        support32Bit.enable = true;
+      };
+    };
+    graphics = {
+      enable32Bit = true;
+      # See also seat-configuration.nix for other OpenGL settings
 
-      # AMD ROCm OpenCL runtime
-      rocmPackages.clr
-      rocmPackages.clr.icd
+      extraPackages = with pkgs; [
+        # VA-API and VDPAU
+        vaapiVdpau
 
-      # AMDVLK drivers can be used in addition to the Mesa RADV drivers.
-      amdvlk
-    ];
-    extraPackages32 = with pkgs; [ driversi686Linux.amdvlk ];
+        # AMD ROCm OpenCL runtime
+        rocmPackages.clr
+        rocmPackages.clr.icd
+
+        # AMDVLK drivers can be used in addition to the Mesa RADV drivers.
+        amdvlk
+      ];
+      extraPackages32 = with pkgs; [ driversi686Linux.amdvlk ];
+    };
   };
 
   programs.gamemode = {
