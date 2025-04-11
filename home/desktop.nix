@@ -11,6 +11,7 @@
       #inputs.dwl.packages.${system}.default
       #freecad-wayland
       #librecad
+      jellyfin-media-player
       wlogout
       floorp
       ani-cli
