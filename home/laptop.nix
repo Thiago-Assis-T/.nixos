@@ -11,6 +11,7 @@
       gnome-disk-utility
       kdePackages.dolphin
       jellyfin-media-player
+      wlogout
       floorp
       #freecad-wayland
       librecad

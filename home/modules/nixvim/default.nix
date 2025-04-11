@@ -79,6 +79,16 @@
       tiny-devicons-auto-colors.enable = true;
       ts-context-commentstring.enable = true;
       headlines.enable = true;
+      csvview.enable = true;
+      cmp = {
+        autoEnableSources = true;
+        settings.sources = [
+          { name = "nvim_lsp"; }
+          { name = "path"; }
+          { name = "buffer"; }
+          { name = "treesitter"; }
+        ];
+      };
       noice = {
         enable = true;
         settings = {

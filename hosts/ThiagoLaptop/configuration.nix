@@ -19,14 +19,14 @@
     ../modules/stylix
     ./hardware-configuration.nix
     inputs.stylix.nixosModules.stylix
-    ../modules/samba-client
-    ../modules/tdarr-node
+    #../modules/samba-client
+    #../modules/tdarr-node
   ];
+  #virtualisation.oci-containers.containers.tdarr-node.environment.nodeName = lib.mkForce "LaptopNode";
 
   security.sudo-rs.enable = true;
 
   services.fstrim.enable = true;
-  virtualisation.oci-containers.containers.tdarr-node.environment.nodeName = lib.mkForce "LaptopNode";
   services.fwupd.enable = true;
   services.tailscale = {
     enable = false;
