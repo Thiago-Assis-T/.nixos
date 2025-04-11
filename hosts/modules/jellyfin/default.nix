@@ -20,7 +20,6 @@
   services.jellyfin = {
     enable = true;
     openFirewall = true;
-    dataDir = "/home/thiago/jellyfin";
     user = "thiago";
   };
 }
