@@ -46,7 +46,7 @@
       "compress=zstd:10"
       "subvol=data"
       "autodefrag"
-      "nossd"
+      "rw"
     ];
   };
   fileSystems."/boot" = {

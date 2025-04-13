@@ -6,16 +6,22 @@
   services = {
     # Network shares
     samba = {
+      enable = false;
+      openFirewall = true;
       package = pkgs.samba4Full;
       # ^^ `samba4Full` is compiled with avahi, ldap, AD etc support (compared to the default package, `samba`
       # Required for samba to register mDNS records for auto discovery
       # See https://github.com/NixOS/nixpkgs/blob/592047fc9e4f7b74a4dc85d1b9f5243dfe4899e3/pkgs/top-level/all-packages.nix#L27268
-      enable = true;
-      openFirewall = true;
+      settings.tdarr = {
+        path = "/home/thiago/tdarr";
+        writable = "true";
+        comment = "tdarr dirs for nodes";
+      };
+
       settings.data = {
         path = "/home/thiago/data";
         writable = "true";
-        comment = "Hello World!";
+        comment = "Data Library";
       };
     };
     avahi = {

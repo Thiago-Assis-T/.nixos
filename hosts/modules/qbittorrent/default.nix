@@ -11,7 +11,7 @@
       ];
       volumes = [
         "/home/thiago/qbittorrent:/config"
-        "/home/thiago/data/downloads:/downloads"
+        "/home/thiago/downloads:/downloads"
       ];
       environment = {
         PUID = "1000";

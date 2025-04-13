@@ -9,7 +9,7 @@
       volumes = [
         "/home/thiago/radarr:/config"
         "/home/thiago/data/movies:/movies"
-        "/home/thiago/data/downloads:/downloads"
+        "/home/thiago/downloads:/downloads"
       ];
       environment = {
         PUID = "1000";

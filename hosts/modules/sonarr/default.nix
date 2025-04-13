@@ -9,7 +9,7 @@
       volumes = [
         "/home/thiago/sonarr:/config"
         "/home/thiago/data/tvseries:/tv"
-        "/home/thiago/data/downloads:/downloads"
+        "/home/thiago/downloads:/downloads"
       ];
       environment = {
         PUID = "1000";

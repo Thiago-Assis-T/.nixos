@@ -9,10 +9,10 @@
       ];
       volumes = [
         "/home/thiago/data:/media"
-        "/home/thiago/data/tdarr/server:/app/server"
-        "/home/thiago/data/tdarr/configs:/app/configs"
-        "/home/thiago/data/tdarr/logs:/app/logs"
-        "/home/thiago/data/transcode_cache:/temp"
+        "/home/thiago/tdarr/server:/app/server"
+        "/home/thiago/tdarr/configs:/app/configs"
+        "/home/thiago/tdarr/logs:/app/logs"
+        "/home/thiago/tdarr/transcode_cache:/temp"
 
       ];
       extraOptions = [
@@ -26,7 +26,7 @@
         serverIP = "0.0.0.0";
         serverPort = "8266";
         webUIPort = "8265";
-        internalNode = "true";
+        internalNode = "false";
         inContainer = "true";
         ffmpegVersion = "7";
         nodeName = "ServerNode";
