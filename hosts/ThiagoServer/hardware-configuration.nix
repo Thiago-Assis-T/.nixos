@@ -39,6 +39,16 @@
     ];
   };
 
+  fileSystems."/home/thiago/data" = {
+    device = "/dev/disk/by-uuid/efce4027-8234-47f0-b35c-ec43d5ada034";
+    fsType = "btrfs";
+    options = [
+      "compress=zstd:10"
+      "subvol=data"
+      "autodefrag"
+      "nossd"
+    ];
+  };
   fileSystems."/boot" = {
     device = "/dev/disk/by-uuid/12CE-A600";
     fsType = "vfat";
