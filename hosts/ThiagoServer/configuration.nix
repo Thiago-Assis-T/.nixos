@@ -9,9 +9,10 @@
 
 {
   imports = [
+    inputs.stylix.nixosModules.stylix
     ./hardware-configuration.nix
     ../modules/bootloader
-    #../modules/powerManagement
+    ../modules/stylix
     ../modules/docs
     ../modules/smartmon
     ../modules/samba

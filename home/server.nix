@@ -2,9 +2,8 @@
 {
 
   imports = [
-
-    inputs.nixvim.homeManagerModules.nixvim
-    ./modules/nixvim
+    ./modules/neovim
+    ./modules/stylix
     ./modules/git
     ./modules/shell
   ];
