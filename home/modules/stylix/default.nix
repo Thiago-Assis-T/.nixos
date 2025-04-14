@@ -1,10 +1,13 @@
-{ inputs, pkgs, ... }:
 {
+  inputs,
+  pkgs,
+  ...
+}: {
   stylix = {
     enable = true;
     autoEnable = true;
     image = inputs.wallpaper;
-    base16Scheme = "${pkgs.base16-schemes}/share/themes/solarized-dark.yaml";
+    base16Scheme = "${pkgs.base16-schemes}/share/themes/sparky.yaml";
 
     polarity = "dark";
 
@@ -12,19 +15,16 @@
       enable = true;
       package = pkgs.qogir-icon-theme;
       dark = "Qogir";
-
     };
 
     targets = {
       waybar = {
         enable = true;
       };
-
-      nixvim = {
-        transparentBackground = {
-          main = true;
-          signColumn = true;
-        };
+      nvf = {
+        enable = true;
+        transparentBackground = true;
+        plugin = "mini-base16";
       };
     };
   };

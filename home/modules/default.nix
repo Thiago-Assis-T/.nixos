@@ -1,7 +1,7 @@
 { inputs, ... }:
 {
   imports = [
-    inputs.nixvim.homeManagerModules.nixvim
+    #inputs.nvf.homeManagerModules.default
     ./neovim
     #./nvim
     ./git

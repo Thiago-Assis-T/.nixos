@@ -1,5 +1,8 @@
-{ inputs, pkgs, ... }:
 {
+  inputs,
+  pkgs,
+  ...
+}: {
   stylix = {
     enable = true;
     autoEnable = true;
@@ -9,7 +12,6 @@
       package = pkgs.qogir-icon-theme;
       name = "Qogir Cursors";
       size = 24;
-
     };
     fonts = {
       serif = {
@@ -36,6 +38,5 @@
       desktop = 0.0;
       terminal = 0.9;
     };
-
   };
 }
