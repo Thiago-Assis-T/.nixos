@@ -6,7 +6,7 @@
   services = {
     # Network shares
     samba = {
-      enable = false;
+      enable = true;
       openFirewall = true;
       package = pkgs.samba4Full;
       # ^^ `samba4Full` is compiled with avahi, ldap, AD etc support (compared to the default package, `samba`
