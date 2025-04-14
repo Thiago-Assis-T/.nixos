@@ -28,6 +28,7 @@
   boot.modprobeConfig.enable = true;
   boot.extraModprobeConfig = ''
     options i915 enable_guc=3
+    options snd slots=snd_usb_audio,snd-hda-intel
   '';
 
   fileSystems."/" = {

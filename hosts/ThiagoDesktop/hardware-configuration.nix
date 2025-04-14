@@ -30,6 +30,9 @@
     "amd_pstate=active"
     "amdgpu"
   ];
+  boot.extraModprobeConfig = ''
+    options snd slots=snd_usb_audio,snd-hda-intel
+  '';
 
   fileSystems."/" = {
     device = "/dev/disk/by-uuid/db0a4425-5d2b-4e01-976b-9b93bd84d1a6";
@@ -37,6 +40,7 @@
     options = [
       "subvol=root"
       "compress=zstd"
+      "ssd"
     ];
   };
 
@@ -46,6 +50,7 @@
     options = [
       "subvol=home"
       "compress=zstd"
+      "ssd"
     ];
   };
 
@@ -56,6 +61,7 @@
       "subvol=nix"
       "compress=zstd"
       "noatime"
+      "ssd"
     ];
   };
 

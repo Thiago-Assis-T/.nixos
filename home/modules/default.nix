@@ -2,7 +2,7 @@
 {
   imports = [
     inputs.nixvim.homeManagerModules.nixvim
-    ./nixvim
+    ./neovim
     #./nvim
     ./git
     ./shell

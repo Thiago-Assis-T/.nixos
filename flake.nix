@@ -16,8 +16,12 @@
       url = "https://gitlab.com/GasparVardanyan/solarized/-/raw/master/wallpapers-solarized/city-buildings.png";
       flake = false;
     };
-    nixvim = {
-      url = "github:nix-community/nixvim";
+    #nixvim = {
+    #  url = "github:nix-community/nixvim";
+    #  inputs.nixpkgs.follows = "nixpkgs";
+    #};
+    nvf = {
+      url = "github:notashelf/nvf";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
