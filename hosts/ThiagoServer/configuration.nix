@@ -12,7 +12,8 @@
     ./hardware-configuration.nix
     ../modules/bootloader
     #../modules/powerManagement
-    #../modules/docs
+    ../modules/docs
+    ../modules/smartmon
     ../modules/samba
     ../modules/podman
     ../modules/homarr
