@@ -3,11 +3,8 @@
   config,
   pkgs,
   lib,
-
   ...
-}:
-
-{
+}: {
   imports = [
     inputs.stylix.nixosModules.stylix
     ./hardware-configuration.nix
@@ -28,22 +25,11 @@
     ../modules/tdarr-server
     ../modules/snowflake-proxy
     ../modules/reverse-proxy
+    ../modules/powerManagement
+    ../modules/netdata
     #../modules/noXLibs
   ];
 
-  powerManagement = {
-    enable = false;
-    powertop.enable = false;
-  };
-  services = {
-    thermald.enable = true;
-    tlp.enable = true;
-    scx = {
-      enable = true;
-      scheduler = "scx_lavd";
-      extraArgs = [ "--autopilot" ];
-    };
-  };
   boot.plymouth.enable = lib.mkForce false;
   security.sudo-rs.enable = true;
   environment.systemPackages = with pkgs; [
@@ -57,7 +43,7 @@
   networking.hostName = "ThiagoServer"; # Define your hostname.
   networking.networkmanager.enable = true; # Easiest to use and most distros use this by default.
   networking.networkmanager.wifi.backend = "iwd";
-  networking.networkmanager.plugins = lib.mkForce [ ];
+  networking.networkmanager.plugins = lib.mkForce [];
   networking.useDHCP = lib.mkDefault true;
   networking.firewall.enable = true;
   networking.networkmanager.wifi.powersave = false;
@@ -72,7 +58,7 @@
   services.btrfs.autoScrub = {
     enable = true;
     interval = "weekly";
-    fileSystems = [ "/" ];
+    fileSystems = ["/"];
   };
 
   # Set your time zone.
@@ -90,7 +76,7 @@
 
   users.users.thiago = {
     isNormalUser = true;
-    extraGroups = [ "wheel" ]; # Enable ‘sudo’ for the user.
+    extraGroups = ["wheel"]; # Enable ‘sudo’ for the user.
     packages = with pkgs; [
       htop
     ];
