@@ -26,7 +26,7 @@
     ../modules/snowflake-proxy
     ../modules/reverse-proxy
     ../modules/powerManagement
-    ../modules/netdata
+    #../modules/netdata
     #../modules/noXLibs
   ];
 
