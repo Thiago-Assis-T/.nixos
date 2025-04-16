@@ -1,5 +1,5 @@
-{_}: {
-  services.smartd.enable = true;
+{_, ...}: {
+  #services.smartd.enable = true;
   services.scrutiny = {
     enable = true;
     openFirewall = true;

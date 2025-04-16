@@ -1,5 +1,4 @@
-{ ... }:
-{
+{...}: {
   virtualisation.oci-containers.containers = {
     tdarr-node = {
       image = "ghcr.io/haveagitgat/tdarr_node:latest";
@@ -12,10 +11,10 @@
         "/home/thiago/tdarr/configs:/app/configs"
         "/home/thiago/tdarr/logs:/app/logs"
         "/home/thiago/tdarr/transcode_cache:/temp"
-
       ];
       devices = [
-        "/dev/dri/renderD128:/dev/dri/renderD128"
+        "/dev/dri/:/dev/dri/"
+        "/dev/kfd:/dev/kfd"
       ];
       privileged = false;
       environment = {

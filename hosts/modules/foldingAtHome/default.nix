@@ -1,14 +1,41 @@
-{ pkgs, lib, ... }:
 {
+  pkgs,
+  lib,
+  ...
+}: {
+  services.foldingathome = {
+    enable = false;
+    package = pkgs.fahclient.override {
+      extraPkgs = with pkgs; [
+        rocmPackages.llvm.libcxx
+        libcxx
+      ];
+    };
+  };
+  systemd.tmpfiles.rules = let
+    rocmEnv = pkgs.symlinkJoin {
+      name = "rocm-combined";
+      paths = with pkgs.rocmPackages; [
+        clr
+        hipblas
+        rocblas
+      ];
+    };
+  in [
+    "L+ /opt/rcom - - - - ${rocmEnv}"
+  ];
+
   virtualisation.oci-containers.containers = {
     foldingathome = {
-      image = "lscr.io/linuxserver/foldingathome:latest";
+      image = "docker.io/foldingathome/fah-gpu-amd:latest";
       ports = [
         "7396:7396"
       ];
+      extraOptions = ["--security-opt" "seccomp=unconfined" "--group-add" "video" "--group-add" "1001"];
       volumes = [
-        "/home/thiago/foldingathome:/config"
-        "/dev/:/dev/"
+        "/home/thiago/foldingathome:/fah"
+        "/dev/dri:/dev/dri"
+        "/dev/kfd:/dev/kfd"
       ];
       environment = {
         PUID = "1000";
@@ -19,5 +46,5 @@
     };
   };
 
-  environment.systemPackages = with pkgs; [ clinfo ];
+  environment.systemPackages = with pkgs; [clinfo];
 }

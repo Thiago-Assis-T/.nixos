@@ -1,7 +1,5 @@
-{ pkgs, ... }:
-{
-
-  imports = [ ./modules ];
+{pkgs, ...}: {
+  imports = [./modules];
 
   home = {
     username = "thiago";
@@ -20,6 +18,5 @@
       thunderbird
       kdePackages.dolphin
     ];
-
   };
 }

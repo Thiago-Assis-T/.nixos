@@ -1,19 +1,15 @@
 # Edit this configuration file to define what should be installed on
 # your system. Help is available in the configuration.nix(5) man page, on
 # https://search.nixos.org/options and in the NixOS manual (`nixos-help`).
-
 {
   pkgs,
   inputs,
   ...
-}:
-
-{
+}: {
   imports = [
     # Include the results of the hardware scan.
     ../modules/bootloader
     ../modules/powerManagement
-    ../modules/smartmon
     ../modules/printing
     ../modules/hyprland
     ../modules/stylix
@@ -38,7 +34,6 @@
   security.sudo-rs.enable = true;
 
   hardware = {
-
     amdgpu = {
       opencl.enable = true;
       initrd.enable = true;
@@ -59,11 +54,13 @@
         # AMD ROCm OpenCL runtime
         rocmPackages.clr
         rocmPackages.clr.icd
+        rocmPackages.rocminfo
+        rocmPackages.rocm-runtime
 
         # AMDVLK drivers can be used in addition to the Mesa RADV drivers.
         amdvlk
       ];
-      extraPackages32 = with pkgs; [ driversi686Linux.amdvlk ];
+      extraPackages32 = with pkgs; [driversi686Linux.amdvlk];
     };
   };
 
@@ -86,12 +83,11 @@
         end = "${pkgs.libnotify}/bin/notify-send 'GameMode ended'";
       };
     };
-
   };
   programs.java.enable = true;
   programs.steam = {
     enable = true;
-    extraCompatPackages = [ pkgs.proton-ge-bin ];
+    extraCompatPackages = [pkgs.proton-ge-bin];
     protontricks.enable = true;
   };
   environment.systemPackages = with pkgs; [
@@ -128,7 +124,7 @@
   services.btrfs.autoScrub = {
     enable = true;
     interval = "weekly";
-    fileSystems = [ "/" ];
+    fileSystems = ["/"];
   };
 
   networking.hostName = "ThiagoDesktop"; # Define your hostname.
@@ -193,5 +189,4 @@
 
   networking.firewall.enable = true;
   system.stateVersion = "24.11"; # Did you read the comment?
-
 }
