@@ -10,23 +10,23 @@
     ./hardware-configuration.nix
     ../modules/bootloader
     ../modules/stylix
+    ../modules/powerManagement
     ../modules/docs
     ../modules/smartmon
-    ../modules/samba
     ../modules/podman
-    ../modules/homarr
-    ../modules/qbittorrent
-    ../modules/prowlarr
-    ../modules/sonarr
-    ../modules/radarr
-    ../modules/bazarr
-    ../modules/jellyseerr
-    ../modules/jellyfin
-    ../modules/tdarr-server
-    ../modules/snowflake-proxy
-    ../modules/reverse-proxy
-    ../modules/powerManagement
-    #../modules/netdata
+    ./modules/samba
+    ./modules/homarr
+    ./modules/qbittorrent
+    ./modules/prowlarr
+    ./modules/sonarr
+    ./modules/radarr
+    ./modules/bazarr
+    ./modules/jellyseerr
+    ./modules/jellyfin
+    ./modules/tdarr-server
+    ./modules/snowflake-proxy
+    ./modules/reverse-proxy
+    ./modules/netdata
     #../modules/noXLibs
   ];
 

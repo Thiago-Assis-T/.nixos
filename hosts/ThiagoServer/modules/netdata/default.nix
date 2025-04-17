@@ -1,15 +1,15 @@
 {pkgs, ...}: {
   services.netdata = {
     enable = true;
-    #package = with pkgs;
-    #  netdata.override
-    #  {
-    #    withCups = true;
-    #    withCloudUi = true;
-    #    withCloud = true;
-    #    withEbpf = true;
-    #    withNdsudo = true;
-    #  };
+    package = with pkgs;
+      netdata.override
+      {
+        #    withCups = true;
+        #    withCloudUi = true;
+        #    withCloud = true;
+        #    withEbpf = true;
+        withNdsudo = true;
+      };
     python.enable = true;
     enableAnalyticsReporting = true;
     config = {
@@ -23,7 +23,7 @@
         "mode" = "dbengine";
       };
     };
-    #extraNdsudoPackages = with pkgs; [smartmontools nvme-cli];
+    extraNdsudoPackages = with pkgs; [smartmontools nvme-cli];
   };
   networking.firewall.allowedTCPPorts = [19999];
 }
