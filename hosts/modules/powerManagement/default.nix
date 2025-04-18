@@ -14,7 +14,7 @@
     scx = {
       enable = true;
       scheduler = "scx_bpfland";
-      extraArgs = ["--cpufreq"];
+      extraArgs = ["-f"];
     };
   };
 }

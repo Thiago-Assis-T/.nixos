@@ -1,12 +1,20 @@
-{_, ...}: {
+{pkgs, ...}: {
+  environment.systemPackages = with pkgs; [smartmontools];
   services.smartd = {
     enable = true;
+    autodetect = true;
     devices = [
       {
         device = "/dev/sda";
       }
       {
         device = "/dev/sdb";
+      }
+      {
+        device = "/dev/sdc";
+      }
+      {
+        device = "/dev/sdd";
       }
     ];
   };
@@ -17,6 +25,8 @@
     collector = {
       enable = true;
       schedule = "*:0/5";
+      settings = {
+      };
     };
     settings = {
       web = {

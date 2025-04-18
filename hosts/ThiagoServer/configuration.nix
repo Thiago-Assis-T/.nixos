@@ -27,6 +27,7 @@
     ./modules/snowflake-proxy
     ./modules/reverse-proxy
     ./modules/netdata
+    ./modules/homepage-dashboard
     #../modules/noXLibs
   ];
 
