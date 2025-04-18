@@ -118,7 +118,7 @@
       ];
     };
   };
-  zramSwap.enable = true;
+  zramSwap.enable = false;
 
   services.fstrim.enable = true;
   services.btrfs.autoScrub = {
