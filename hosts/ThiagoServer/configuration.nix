@@ -20,6 +20,7 @@
     ./modules/prowlarr
     ./modules/sonarr
     ./modules/radarr
+    ./modules/readarr
     ./modules/bazarr
     ./modules/jellyseerr
     ./modules/jellyfin
