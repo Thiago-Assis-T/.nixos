@@ -21,6 +21,7 @@
     ./modules/sonarr
     ./modules/radarr
     ./modules/readarr
+    ./modules/calibre
     ./modules/bazarr
     ./modules/jellyseerr
     ./modules/jellyfin
