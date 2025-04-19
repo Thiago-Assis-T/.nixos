@@ -16,13 +16,9 @@
       url = "file+https://raw.githubusercontent.com/orangci/walls-catppuccin-mocha/master/yohoho.jpg";
       flake = false;
     };
-    #nixvim = {
-    #  url = "github:nix-community/nixvim";
-    #  inputs.nixpkgs.follows = "nixpkgs";
-    #};
-    nvf = {
-      url = "github:notashelf/nvf";
-      #inputs.nixpkgs.follows = "nixpkgs";
+    nixvim = {
+      url = "github:nix-community/nixvim";
+      inputs.nixpkgs.follows = "nixpkgs";
     };
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
   };
