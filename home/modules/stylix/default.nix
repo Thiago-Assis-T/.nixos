@@ -21,10 +21,8 @@
       waybar = {
         enable = true;
       };
-      nvf = {
-        enable = true;
-        transparentBackground = true;
-        plugin = "mini-base16";
+      nixvim = {
+        enable = false;
       };
     };
   };
