@@ -1,110 +1,156 @@
-{ ... }:
-{
+{pkgs, ...}: let
+  scripts = {
+    update-checker = pkgs.writeShellScriptBin "update-checker" ''
+      #!/usr/bin/env bash
+
+      cd ~/.nixos || { echo "Failed to change directory"; exit 1; }
+
+      build_output=$(nix flake update nixpkgs && nix build --dry-run .#nixosConfigurations.$HOSTNAME.config.system.build.toplevel 2>&1)
+
+      # Extract information about fetched paths and count how many them
+      fetched_info=$(echo "$build_output" | awk '/will be fetched/ {flag=1; next} flag && /^[[:space:]]*\/nix\/store/ {print}'| wc -l)
+
+      # Extract the sizes of fetched paths
+      fetched_size=$(echo "$build_output" | grep -oP '\(\K[^)]+(?=\))' | tr '\n' '\n')
+
+      alt="has-updates"
+      if [[ $fetched_info -eq 0 ]]; then
+        alt="updated"
+        fetched_info=""
+      fi
+
+      # Output the result
+      echo "{ \"text\":\"$fetched_info\", \"alt\":\"$alt\", \"tooltip\":\"$fetched_size\" }"
+
+    '';
+  };
+in {
+  home.packages = [pkgs.nvd pkgs.networkmanagerapplet pkgs.pavucontrol scripts.update-checker];
+
+  services.swaync = {
+    enable = true;
+    settings = {
+      positionX = "right";
+      positionY = "top";
+      layer = "overlay";
+      control-center-layer = "top";
+      layer-shell = true;
+      cssPriority = "application";
+      control-center-margin-top = 0;
+      control-center-margin-bottom = 0;
+      control-center-margin-right = 0;
+      control-center-margin-left = 0;
+      notification-2fa-action = true;
+      notification-inline-replies = false;
+      notification-icon-size = 64;
+      notification-body-image-height = 100;
+      notification-body-image-width = 200;
+      timeout-critical = 60;
+    };
+  };
+
   programs.waybar = {
     enable = true;
-    systemd = {
-      enable = true;
-    };
     style = ''
-      * {
-          /* `otf-font-awesome` and SpaceMono Nerd Font are required to be installed for icons */
-          font-size: 15px;
+            * {
+          border: none;
+          border-radius: 0;
+          font-family: "Ubuntu Nerd Font";
+          font-size: 13px;
+          min-height: 0;
       }
 
-      .modules-left,
-      .modules-center,
-      .modules-right
-      {
-          background: rgba(0, 0, 8, .7);
-          margin: 5px 10px;
+      window#waybar {
+          background: transparent;
+          color: white;
+      }
+
+      #window {
+          font-weight: bold;
+          font-family: "Ubuntu";
+      }
+      /*
+      #workspaces {
           padding: 0 5px;
-          border-radius: 15px;
       }
-      .modules-left {
-          padding: 0;
-      }
-      .modules-center {
-          padding: 0 10px;
-      }
-
-      #clock,
-      #battery,
-      #cpu,
-      #memory,
-      #disk,
-      #temperature,
-      #backlight,
-      #network,
-      #pulseaudio,
-      #wireplumber,
-      #custom-media,
-      #tray,
-      #mode,
-      #idle_inhibitor,
-      #scratchpad,
-      #power-profiles-daemon,
-      #language,
-      #mpd {
-          padding: 0 10px;
-          border-radius: 15px;
-      }
-
-      #clock:hover,
-      #battery:hover,
-      #cpu:hover,
-      #memory:hover,
-      #disk:hover,
-      #temperature:hover,
-      #backlight:hover,
-      #network:hover,
-      #pulseaudio:hover,
-      #wireplumber:hover,
-      #custom-media:hover,
-      #tray:hover,
-      #mode:hover,
-      #idle_inhibitor:hover,
-      #scratchpad:hover,
-      #power-profiles-daemon:hover,
-      #language:hover,
-      #mpd:hover {
-          background: rgba(26, 27, 38, 0.9);
-      }
-
+      */
 
       #workspaces button {
-        background: transparent;
-        font-weight: 900;
-        font-size: 13pt;
-        color: #c0caf5;
-        border:none;
-        border-radius: 15px;
+          padding: 0 5px;
+          background: transparent;
+          color: white;
+          border-top: 2px solid transparent;
       }
 
-      #workspaces button.active {
-          background: #13131d; 
+      #workspaces button.focused {
+          color: #c9545d;
+          border-top: 2px solid #c9545d;
       }
 
-      #workspaces button:hover {
-        background: #11111b;
-        color: #cdd6f4;
-        box-shadow: none;
+      #mode {
+          background: #64727D;
+          border-bottom: 3px solid white;
       }
 
-      #custom-nixos{
-          margin-left: 5px;
-          padding: 0 10px;
-          font-size: 25px;
-          transition: color .5s;
-      }
-      #custom-nixos:hover {
-          color: #1793d1;
+      #clock, #battery, #cpu, #memory, #network, #pulseaudio, #custom-spotify, #tray, #mode {
+          padding: 0 3px;
+          margin: 0 2px;
       }
 
-      window#waybar.empty #window {
-        background-color: transparent;
+      #clock {
+          font-weight: bold;
       }
-      window#waybar.empty {
-        background-color: transparent;
+
+      #battery {
+      }
+
+      #battery icon {
+          color: red;
+      }
+
+      #battery.charging {
+      }
+
+      @keyframes blink {
+          to {
+              background-color: #ffffff;
+              color: black;
+          }
+      }
+
+      #battery.warning:not(.charging) {
+          color: white;
+          animation-name: blink;
+          animation-duration: 0.5s;
+          animation-timing-function: linear;
+          animation-iteration-count: infinite;
+          animation-direction: alternate;
+      }
+
+      #cpu {
+      }
+
+      #memory {
+      }
+
+      #network {
+      }
+
+      #network.disconnected {
+          background: #f53c3c;
+      }
+
+      #pulseaudio {
+      }
+
+      #pulseaudio.muted {
+      }
+
+      #custom-spotify {
+          color: rgb(102, 220, 105);
+      }
+
+      #tray {
       }
     '';
 
@@ -112,11 +158,13 @@
       mainBar = {
         layer = "top"; # Waybar at top layer
         position = "top"; # Waybar position (top|bottom|left|right)
+        heigh = 24;
         #spacing = 4; # Gaps between modules (4px)
         # Choose the order of the modules
         modules-left = [
           "custom/nixos"
           "hyprland/workspaces"
+          "custom/player"
         ];
         modules-center = [
           "hyprland/window"
@@ -127,11 +175,29 @@
           "network"
           "cpu"
           "memory"
-          "temperature"
           "battery"
-          "clock"
           "tray"
+          "clock"
+          "custom/notification"
         ];
+        "custom/notification" = {
+          tooltip = false;
+          format = "{} {icon}";
+          format-icons = {
+            dnd-notification = " ";
+            dnd-none = "󰂛";
+            inhibited-notification = " ";
+            inhibited-none = "";
+            dnd-inhibited-notification = " ";
+            dnd-inhibited-none = " ";
+          };
+          return-type = "json";
+          exec-if = "which swaync";
+          exec = "swaync-client -swb";
+          on-click = "sleep 0.1 && swaync-client -t -sw";
+          on-click-right = "sleep 0.1 && swaync-client -d -sw";
+          escape = true;
+        };
         # Modules configuration
         power-profiles-daemon = {
           format = "{icon}";
@@ -144,17 +210,30 @@
             power-saver = "";
           };
         };
+        "custom/player" = {
+          format = " 󰦚";
+          max-length = 40;
+          interval = 30;
+        };
+
         "custom/nixos" = {
-          format = " ";
+          exec = "update-checker";
+          on-click = "update-checker && notify-send 'The system has been updated'";
+          interval = 3600;
+          format = " {} {icon} ";
           tooltip = true;
-          tooltip-format = "btw";
+          return-type = "json";
+          format-icons = {
+            has-updates = "";
+            updated = "";
+          };
         };
 
         "hyprland/workspaces" = {
           disable-scroll = true;
           all-outputs = true;
           warp-on-scroll = false;
-          format = "{name}";
+          format = "{icon}";
           format-icons = {
             urgent = "";
             active = "";
@@ -162,10 +241,10 @@
           };
         };
         pulseaudio = {
-          format = "{icon}  {volume}%";
-          format-bluetooth = "{icon} {volume}%  {format_source}";
-          format-bluetooth-muted = " {icon} {format_source}";
-          format-muted = " {format_source}";
+          format = "{volume}% {icon}";
+          format-bluetooth = "{volume}% {icon}  {format_source}";
+          format-bluetooth-muted = "󰝟 {icon} {format_source}";
+          format-muted = "󰝟 {format_source}";
           format-source = " {volume}%";
           format-source-muted = "";
           format-icons = {
@@ -184,38 +263,37 @@
           on-click = "pavucontrol";
         };
         network = {
-          format-wifi = "   {essid} ({signalStrength}%)";
+          format-wifi = "{essid} ({signalStrength}%)  ";
           format-ethernet = "Connected 󰌗";
           tooltip-format = "{ifname} via {gwaddr}  ";
           format-linked = "{ifname} (No IP)  ";
           format-disconnected = "Disconnected ⚠";
-          on-click = "wezterm -e nmtui";
-
+          on-click = "nm-connection-editor";
         };
         cpu = {
-          format = "  {usage}%";
+          format = "{usage}% ";
           tooltip = true;
         };
         memory = {
-          format = "  {}%";
+          format = "{}%  ";
           tooltip = true;
         };
         temperature = {
           interval = 10;
           hwmon-path = "/sys/devices/platform/coretemp.0/hwmon/hwmon4/temp1_input";
           critical-threshold = 100;
-          format-critical = " {temperatureC}";
-          format = " {temperatureC}°C";
+          format-critical = "{temperatureC}  ";
+          format = "{temperatureC}°C  ";
         };
         battery = {
           states = {
             warning = 30;
             critical = 15;
           };
-          format = "{icon}  {capacity}%";
-          format-full = "{icon}  {capacity}%";
-          format-charging = "󱐋  {capacity}%";
-          format-plugged = "  {capacity}%";
+          format = "{capacity}% {icon} ";
+          format-full = "{capacity}% {icon} ";
+          format-charging = "{capacity}% 󱐋 ";
+          format-plugged = "{capacity}%  ";
           format-alt = "{time}  {icon}";
           format-icons = [
             ""

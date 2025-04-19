@@ -7,7 +7,7 @@
     enable = true;
     autoEnable = true;
     image = inputs.wallpaper;
-    base16Scheme = "${pkgs.base16-schemes}/share/themes/sparky.yaml";
+    base16Scheme = "${pkgs.base16-schemes}/share/themes/catppuccin-mocha.yaml";
 
     polarity = "dark";
 

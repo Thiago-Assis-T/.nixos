@@ -1,5 +1,4 @@
-{ pkgs, ... }:
-{
+{pkgs, ...}: {
   wayland.windowManager.hyprland = {
     enable = true;
     xwayland.enable = true;
@@ -11,6 +10,7 @@
     settings = {
       monitor = ",preferred,auto,auto";
 
+      exec-once = "waybar";
       general = {
         gaps_in = 5;
         gaps_out = 10;
@@ -26,7 +26,6 @@
         allow_tearing = false;
 
         layout = "dwindle";
-
       };
 
       decoration = {
@@ -107,14 +106,25 @@
       "$browser" = "floorp";
       "$fileManager" = "dolphin";
       "$menu" = "wofi -m -G -I --show drun";
+      "$notifications" = "sleep 0.1 && swaync-client -t -sw";
       "$mainMod" = "SUPER";
+
+      windowrule = [
+        "float, class:^(org.pulseaudio.pavucontrol)$"
+        "float, title:^(blueman-manager)$"
+        "float, class:^(nm-connection-editor)$"
+
+        # Browser Picture in Picture
+        "float, title:^(Picture-in-Picture)$"
+        "pin, title:^(Picture-in-Picture)$"
+        "move 69.5% 4%, title:^(Picture-in-Picture)$"
+      ];
 
       bindm = [
         # mouse movements
         "$mainMod, mouse:272, movewindow"
         "$mainMod, mouse:273, resizewindow"
         "$mainMod ALT, mouse:272, resizewindow"
-
       ];
 
       bind = [
@@ -122,6 +132,7 @@
         "$mainMod, Escape, exec, wlogout"
         "$mainMod, E, exec, $fileManager"
         "$mainMod, Q, killactive"
+        "$mainMod, N, exec, $notifications"
         "$mainMod SHIFT, C, exit,"
         "$mainMod, W, exec, $browser"
         "$mainMod, V, togglefloating,"
@@ -174,6 +185,5 @@
         ",XF86AudioPrev, exec, playerctl previous"
       ];
     };
-
   };
 }
