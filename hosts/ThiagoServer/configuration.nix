@@ -15,7 +15,6 @@
     ../modules/smartmon
     ../modules/podman
     ./modules/samba
-    ./modules/homarr
     ./modules/qbittorrent
     ./modules/prowlarr
     ./modules/sonarr
