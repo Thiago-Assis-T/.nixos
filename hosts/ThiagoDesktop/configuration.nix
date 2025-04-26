@@ -1,11 +1,10 @@
 # Edit this configuration file to define what should be installed on
 # your system. Help is available in the configuration.nix(5) man page, on
 # https://search.nixos.org/options and in the NixOS manual (`nixos-help`).
-{
-  lib,
-  pkgs,
-  inputs,
-  ...
+{ lib
+, pkgs
+, inputs
+, ...
 }: {
   imports = [
     # Include the results of the hardware scan.
@@ -61,40 +60,9 @@
         # AMDVLK drivers can be used in addition to the Mesa RADV drivers.
         amdvlk
       ];
-      extraPackages32 = with pkgs; [driversi686Linux.amdvlk];
+      extraPackages32 = with pkgs; [ driversi686Linux.amdvlk ];
     };
   };
-
-  programs.gamemode = {
-    enable = true;
-    enableRenice = true;
-    settings = {
-      general = {
-        renice = 10;
-      };
-      # Warning: GPU optimisations have the potential to damage hardware
-      gpu = {
-        apply_gpu_optimisations = "accept-responsibility";
-        gpu_device = 0;
-        amd_performance_level = "high";
-      };
-
-      custom = {
-        start = "${pkgs.libnotify}/bin/notify-send 'GameMode started'";
-        end = "${pkgs.libnotify}/bin/notify-send 'GameMode ended'";
-      };
-    };
-  };
-  programs.java.enable = true;
-  programs.steam = {
-    enable = true;
-    extraCompatPackages = [pkgs.proton-ge-bin];
-    protontricks.enable = true;
-  };
-  environment.systemPackages = with pkgs; [
-    heroic
-    lutris
-  ];
 
   services.fwupd.enable = true;
   nixpkgs = {
@@ -125,7 +93,7 @@
   services.btrfs.autoScrub = {
     enable = true;
     interval = "weekly";
-    fileSystems = ["/"];
+    fileSystems = [ "/" ];
   };
 
   networking.hostName = "ThiagoDesktop"; # Define your hostname.

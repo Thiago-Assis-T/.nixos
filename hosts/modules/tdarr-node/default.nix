@@ -1,6 +1,6 @@
-{...}: {
+{ ... }: {
   virtualisation.oci-containers.containers = {
-    tdarr-node = {
+    tdarr = {
       image = "ghcr.io/haveagitgat/tdarr_node:latest";
       ports = [
         "8265:8265"
@@ -16,13 +16,13 @@
         "/dev/dri/:/dev/dri/"
         "/dev/kfd:/dev/kfd"
       ];
-      privileged = false;
       environment = {
         TZ = "America/Sao_Paulo";
         PUID = "1000";
         GUID = "1000";
         UMASK_SET = "002";
-        serverIP = "192.168.8.233";
+        #serverIP = "192.168.1.183";
+        serverIP = "thiagohome.com";
         serverPort = "8266";
         inContainer = "true";
         ffmpegVersion = "7";

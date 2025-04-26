@@ -1,5 +1,4 @@
-{ ... }:
-{
+{ ... }: {
   virtualisation.oci-containers.containers = {
     tdarr-server = {
       image = "ghcr.io/haveagitgat/tdarr:latest";
@@ -13,7 +12,6 @@
         "/home/thiago/tdarr/configs:/app/configs"
         "/home/thiago/tdarr/logs:/app/logs"
         "/home/thiago/tdarr/transcode_cache:/temp"
-
       ];
       extraOptions = [
         "--device=/dev/dri:/dev/dri"
@@ -29,10 +27,8 @@
         internalNode = "false";
         inContainer = "true";
         ffmpegVersion = "7";
-        nodeName = "ServerNode";
-
+        nodeName = "DesktopNode";
       };
-
     };
   };
 }
