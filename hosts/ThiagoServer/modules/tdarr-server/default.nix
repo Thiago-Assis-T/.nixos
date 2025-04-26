@@ -27,7 +27,7 @@
         internalNode = "true";
         inContainer = "true";
         ffmpegVersion = "7";
-        nodeName = "DesktopNode";
+        nodeName = "ServerNode";
       };
     };
   };
