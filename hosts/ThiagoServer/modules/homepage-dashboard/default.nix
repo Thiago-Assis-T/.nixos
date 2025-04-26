@@ -32,9 +32,10 @@
       {
         resources = {
           cpu = true;
+          cputemp = true;
           memory = true;
-          disk = "/home/thiago/data/";
-          uptime = true;
+          disk = "/dev/sdb";
+          units = "metric";
         };
       }
       {

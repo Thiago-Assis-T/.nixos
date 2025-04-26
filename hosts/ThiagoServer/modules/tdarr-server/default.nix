@@ -24,7 +24,7 @@
         serverIP = "0.0.0.0";
         serverPort = "8266";
         webUIPort = "8265";
-        internalNode = "false";
+        internalNode = "true";
         inContainer = "true";
         ffmpegVersion = "7";
         nodeName = "DesktopNode";
