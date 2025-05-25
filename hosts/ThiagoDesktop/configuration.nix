@@ -8,15 +8,15 @@
 }: {
   imports = [
     # Include the results of the hardware scan.
+    inputs.stylix.nixosModules.stylix
     ../modules/bootloader
     ../modules/powerManagement
     ../modules/printing
     ../modules/hyprland
     ../modules/stylix
-    #../modules/samba-client
+    ../modules/samba-client
     ./hardware-configuration.nix
-    inputs.stylix.nixosModules.stylix
-    #../modules/tdarr-node
+    ../modules/tdarr-node
     ../modules/foldingAtHome
   ];
   services.gvfs.enable = true;
