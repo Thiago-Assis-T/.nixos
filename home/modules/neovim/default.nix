@@ -101,7 +101,12 @@
         enable = true;
         settings = {
           auto_install = true;
-          ensure_installed = "all";
+          ensure_installed = [
+            "c"
+            "nix"
+            "lua"
+            "python"
+          ];
           ignore_install = [
             "norg"
           ];
