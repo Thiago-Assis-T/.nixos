@@ -1,4 +1,4 @@
-{...}: {
+{ ... }: {
   #virtualisation.oci-containers.containers = {
   #  prowlarr = {
   #    image = "lscr.io/linuxserver/prowlarr:latest";
